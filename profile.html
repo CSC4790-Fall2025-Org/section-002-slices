@@ -12,6 +12,15 @@
     <p class="placeholder">This is where the user profile details will go...</p>
   </main>
 
+  <h2 id="authHeader">Log in/Sign Up</h2>
+  <input type="email" id="email" placeholder="Email: " >
+  <input type="password" id="password" placeholder="Password: " >
+  <button id="signInButton">Log In</button>
+  <button id="signUpButton">Sign Up</button>
+  <button id="signOutButton" style="display:none;">Sign Out</button>
+  <p id="userStatus">Not signed in</p>
+
+
   <nav class="bottom-nav" aria-label="Main navigation">
     <a href="index.html">
       <img src="assets/polygon.png" alt="Home" class="nav-icon home-icon">
@@ -23,5 +32,54 @@
       <img src="assets/icon.png" alt="Profile" class="nav-icon profile-icon active">
     </a>
   </nav>
+  <script type="module">
+      import {auth} from './firebase.js'
+
+      import {createUserWithEmailAndPassword,
+              signInWithEmailAndPassword,
+              signOut,
+              onAuthStateChanged,} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+      import {getFirestore, doc, setDoc} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    window.addEventListener('DOMContentLoaded', () => {
+    const db = getFirestore();
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const signUpBtn = document.getElementById('signUpButton');
+    const signInBtn = document.getElementById('signInButton');
+    const signOutBtn = document.getElementById('signOutButton');
+    const userStatus = document.getElementById('userStatus');
+    signUpBtn.addEventListener('click', async () => {
+      try{
+        const email = emailInput.value
+        const password = passwordInput.value
+
+        const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+        const account = userCredentials
+
+        await setDoc(doc(db, "UserAccounts", account.user.uid), {
+          email: auth.currentUser.email,
+          Score: 0,
+          createdAt: new Date()
+
+        });
+        console.log("User signed up:", userCredentials.user);
+
+        signUpButton.style.display = 'none';
+        signInButton.style.display = 'none';
+        signOutButton.style.display = 'inline';
+        userStatus.textContent = `Signed in as: ${userCredentials.user.email}`;
+        document.getElementById('authHeader').style.display = 'none';
+        document.getElementById('email').style.display = 'none';
+        document.getElementById('password').style.display = 'none';
+      }catch (error) {
+      console.error("Error signing up:", error);
+      
+    } 
+  
+    });
+    });
+
+  </script>
 </body>
 </html>
+    
