@@ -1,27 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profile - Daily Slice</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile – Daily Slice</title>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <main class="app-screen">
-    <h1 class="page-title">Profile</h1>
-    <p class="placeholder">This is where the user profile details will go...</p>
-  </main>
 
-  <nav class="bottom-nav" aria-label="Main navigation">
-    <a href="index.html">
-      <img src="assets/polygon.png" alt="Home" class="nav-icon home-icon">
-    </a>
-    <a href="explore.html">
-      <img src="assets/search.png" alt="Search" class="nav-icon search-icon">
-    </a>
-    <a href="profile.html">
-      <img src="assets/icon.png" alt="Profile" class="nav-icon profile-icon active">
-    </a>
-  </nav>
+  <!-- same wrapper as Explore/Home -->
+  <main class="phone phone--white profile-screen">
+
+    <section class="profile-card" aria-labelledby="profile-username">
+      <div class="profile-avatar">
+        <img src="assets/icon.png" alt="User avatar" />
+      </div>
+
+      <h1 id="profile-username" class="profile-username">HUNGRY-OWL-2908</h1>
+
+      <div class="profile-streak" aria-label="Daily streak">
+        <span class="streak-emoji" role="img" aria-label="fire">🔥</span>
+        <span class="streak-count">26</span>
+      </div>
+
+      <!-- leaderboard placeholder -->
+      <div class="leaderboard-placeholder" aria-hidden="true"></div>
+    </section>
+
+    <!-- bottom nav belongs inside the phone frame -->
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <a href="index.html">
+        <img src="assets/polygon.png" alt="Home" class="nav-icon home-icon">
+      </a>
+      <a href="explore.html">
+        <img src="assets/search.png" alt="Search" class="nav-icon search-icon">
+      </a>
+      <a href="profile.html" aria-current="page">
+        <img src="assets/icon.png" alt="Profile" class="nav-icon profile-icon active">
+      </a>
+    </nav>
+
+  </main>
 </body>
 </html>
