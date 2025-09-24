@@ -168,15 +168,16 @@ body{
   align-items: center;
 }
 
-/* Avatar */
 .profile-avatar img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  background: #f2f2f2;
-  border: 2px solid rgba(0,0,0,0.05);
   margin-bottom: 12px;
+
+  /* Remove extra layers */
+  background: transparent;
+  border: none;
 }
 
 /* Username (Blinker, 22px, regular) */
