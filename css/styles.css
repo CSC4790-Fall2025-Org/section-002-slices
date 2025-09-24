@@ -190,6 +190,18 @@ body{
   color: var(--title, #000);
 }
 
+.profile-username {
+  display: inline-flex;    /* username + icon sit in one row */
+  align-items: center;     /* align text + icon baseline */
+  gap: 6px;                /* space between name and pencil */
+}
+
+.pencil-icon {
+  width: 18px;             /* adjust size */
+  height: 18px;
+  cursor: pointer;         /* make it clickable */
+}
+
 /* Streak */
 .profile-streak {
   display: flex;
