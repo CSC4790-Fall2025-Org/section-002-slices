@@ -9,22 +9,27 @@
 <body>
     
   
- 
+    
   <!-- same wrapper as Explore/Home -->
   <main class="phone phone--white profile-screen">
-    <h1 id="accountSettings" class="profile-username2">Account Settings</h1>
-    <p id="userStatus">Not signed in</p>
-    <p id="SignInError" style="color: red; display:none;"></p>
-  <!-- User authentication buttons -->
-  <div class="auth-container">
-  <input type="email" id="email" class="loginInput" placeholder="Email: ">
-  <input type="password" id="password" class="loginInput" placeholder="Password: ">
-  <button id="signInButton">Log In</button>
-  <button id="signUpButton">Sign Up</button>
-  <button id="signOutButton" style="display:none;">Sign Out</button>
+    <div class="status/errors" aria-live="polite">
+        <h1 id="accountSettings" class="profile-username2">Account Settings</h1>
+        <p id="userStatus" style="text-align: center;">Not signed in</p>
+        <p id="SignInError" style="color: red; display:none; text-align: center;"></p>
+    </div>
+    <div class ="settingsWrapper">
+         <div id="settings" style="display: none;">
+                <h3 id="hey">placeholder for user settings</h3>
+        </div>
+        <!-- User authentication buttons -->
+        <div class="auth-container">
+            <input type="email" id="email" class="loginInput" placeholder="Email: ">
+            <input type="password" id="password" class="loginInput" placeholder="Password: ">
+            <button id="signInButton">Log In</button>
+            <button id="signUpButton">Sign Up</button>
+            <button id="signOutButton" style="display:none;">Sign Out</button>
+        </div>
 </div>
-
- 
 
 
 
@@ -44,6 +49,7 @@
     const signOutBtn = document.getElementById('signOutButton');
     const userStatus = document.getElementById('userStatus');
     const SignInError = document.getElementById('SignInError');
+    const settings = document.getElementById('settings');
     signUpBtn.addEventListener('click', async () => {
       try{
         const email = emailInput.value
@@ -61,14 +67,16 @@
         console.log("User signed up:", userCredentials.user);
 
         signUpButton.style.display = 'none';
+        document.getElementById('settings').style.display = 'block';
         signInButton.style.display = 'none';
         signOutButton.style.display = 'inline';
         userStatus.textContent = `Signed in as: ${userCredentials.user.email}`;
-        document.getElementById('authHeader').style.display = 'none';
         document.getElementById('email').style.display = 'none';
         document.getElementById('password').style.display = 'none';
         SignInError.style.display = 'none';
+       
          signOutBtn.style.display = 'block';
+            
       }catch (error) {
         console.error("Error signing up:", error);
         let message = "Sign up failed. ";
@@ -97,12 +105,14 @@
 
         signUpButton.style.display = 'none';
         signInButton.style.display = 'none';
-        signOutButton.style.display = 'inline';
+        document.getElementById('settings').style.display = 'block';
         userStatus.textContent = `Signed in as: ${userCredentials.user.email}`;
         document.getElementById('email').style.display = 'none';
         document.getElementById('password').style.display = 'none';
         SignInError.style.display = 'none';
+        settings.style.display = 'block';
         signOutBtn.style.display = 'block';
+        
       }catch (error) {
         console.error("Error signing in:", error);
         let message = "Sign in failed. ";
@@ -144,7 +154,6 @@
         signInButton.style.display = 'none';
         signOutButton.style.display = 'inline';
         userStatus.textContent = `Signed in as: ${user.email}`;
-        document.getElementById('authHeader').style.display = 'none';
         document.getElementById('email').style.display = 'none';
         document.getElementById('password').style.display = 'none';
         SignInError.style.display = 'none';
@@ -156,7 +165,6 @@
         signInButton.style.display = 'inline';
         signOutButton.style.display = 'none';
         userStatus.textContent = 'Not signed in';
-        document.getElementById('authHeader').style.display = 'block';
         document.getElementById('email').style.display = 'inline';
         document.getElementById('password').style.display = 'inline';
         SignInError.style.display = 'none';

@@ -246,14 +246,10 @@ body{
 /* Sign In / Sign Up */
 
 .auth-container {
-  position: absolute;
-  top: 270px;           /* distance from top */
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;             /* spacing between inputs/buttons */
+  gap: 5px;             /* spacing between inputs/buttons */
 }
 
 .loginInput {
@@ -272,10 +268,28 @@ body{
   font-size: 29px;
   font-weight: 600;
   line-height: 1;
-  margin: 0;                /* reset margins so it sticks to the top */
+  margin-bottom: 0;                /* reset margins so it sticks to the top */
   color: var(--title, #e90808);
   display: block;           /* ensure it acts like a block element */
   width: 100%;              /* span full width of container */
   padding: 15px;            /* gives height to the bar */
   text-align: center;       /* optional: center the text */
+}
+.settingsWrapper {
+  position: absolute;
+  top: 150px;       /* distance from the top of .phone */
+  left: 50%;       /* horizontal center */
+  transform: translateX(-50%); /* perfect horizontal centering */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;       /* spacing between children */
+}
+#settings {
+  font-family: 'Blinker', sans-serif;
+  font-size: 10px;
+  line-height: 1; /* 100% from Figma */
+  text-align: left;
+  margin: px;
+  color: var(--title, #000);
 }
