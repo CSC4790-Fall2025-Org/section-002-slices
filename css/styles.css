@@ -242,3 +242,39 @@ body{
   margin-bottom: 12px;
 }
 
+/* Sign In / Sign Up */
+
+.auth-container {
+  position: absolute;
+  top: 270px;           /* distance from top */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;             /* spacing between inputs/buttons */
+}
+
+.loginInput {
+  width: 80%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 0px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  display: block;
+}
+#accountSettings {
+  font-family: 'Blinker', sans-serif;
+  background-color: #CAF975; /* bar color */
+  font-size: 29px;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0;                /* reset margins so it sticks to the top */
+  color: var(--title, #e90808);
+  display: block;           /* ensure it acts like a block element */
+  width: 100%;              /* span full width of container */
+  padding: 15px;            /* gives height to the bar */
+  text-align: center;       /* optional: center the text */
+}
