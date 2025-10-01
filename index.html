@@ -16,8 +16,12 @@
     <h1 class="title">THE DAILY<br>SLICE</h1>
 
     <!-- button -->
-    <button class="btn btn--primary" type="button">BEGIN</button>
+    <button onclick="document.getElementById('game-frame').style.display='block'" class="btn btn--primary" type="button">BEGIN</button>
 
+    <iframe id="game-frame" 
+        src="https://your-game-url.vercel.app" 
+        style="display:none; width: 100vw; height: 100vh; border:none;">
+</iframe>
     <!-- bottom nav bar -->
     <nav class="bottom-nav" aria-label="Main navigation">
       <img src="assets/polygon.png" alt="Home" class="nav-icon home-icon">

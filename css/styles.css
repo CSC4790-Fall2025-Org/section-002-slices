@@ -282,7 +282,7 @@ body{
   transform: translateX(-50%); /* perfect horizontal centering */
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   gap: 20px;       /* spacing between children */
 }
 #settings {
@@ -292,4 +292,20 @@ body{
   text-align: left;
   margin: px;
   color: var(--title, #000);
+}
+.settingsInput {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px;
+  margin: 0;                 /* reset margin */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 10px;
+  position: absolute;        /* position relative to .phone */
+  left: 0;                   /* stick to left edge */
+  top: -50px;                /* adjust vertical position as needed */
+  
+}
+#signOutButton{
+  top: 50px;
 }

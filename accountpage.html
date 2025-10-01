@@ -19,7 +19,9 @@
     </div>
     <div class ="settingsWrapper">
          <div id="settings" style="display: none;">
-                <h3 id="hey">placeholder for user settings</h3>
+            <input type="text" id="username" class="settingsInput" placeholder="Username: ">
+            <input type="text" id="birthday" class="settingsInput" placeholder="Birthday: ">
+
         </div>
         <!-- User authentication buttons -->
         <div class="auth-container">
@@ -139,6 +141,7 @@
         userStatus.textContent = 'Not signed in';
         document.getElementById('email').style.display = 'inline';
         document.getElementById('password').style.display = 'inline';
+        document.getElementById('settings').style.display = 'none';
         SignInError.style.display = 'none';
       }catch (error) {
         console.error("Error signing out:", error);
@@ -156,6 +159,7 @@
         userStatus.textContent = `Signed in as: ${user.email}`;
         document.getElementById('email').style.display = 'none';
         document.getElementById('password').style.display = 'none';
+        document.getElementById('settings').style.display = 'block';
         SignInError.style.display = 'none';
       } else {
         console.log("No user is signed in.");
