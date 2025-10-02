@@ -1,21 +1,31 @@
-/* ========== Base & Tokens ========== */
+/* ========== Base Styling ========== */
 @import url('https://fonts.googleapis.com/css2?family=Blinker:wght@400;600;700&display=swap');
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
+/* reset */
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
-:root{
+/* full height + allow scrolling if taller */
+html, body { 
+  height: 100%; 
+  min-height: 100%; 
+}
 
+:root {
+  /* Brand & UI */
   --frame-bg: #CAF975;     
   --white:    #FFFFFF;
   --title:    #000000;
   --text:     #000000;
 
-
+  /* Button */
   --btn-bg:   #318C4C;
   --btn-text: #FFFFFF;
 
- 
+  /* Phone frame + radii */
   --phone-w:  402px;
   --phone-h:  874px;
   --nav-h:    130px;
@@ -23,30 +33,57 @@ html, body { height: 100%; }
   --r-btn:    8px;
 }
 
-body{
+/* base body */
+body {
   font-family: "Blinker", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   display: grid;
-  place-items: center;
+  place-items: center;    /* centers the .phone frame */
   background: #f5f5f5;
   color: var(--text);
 }
 
-/* ========== Phone Frame ========== */
-.phone{
-  width: var(--phone-w);
-  height: var(--phone-h);
-  background: var(--frame-bg);           
+/* ========== Phone Frame (Responsive) ========== */
+.phone {
+  width: 100%;
+  max-width: var(--phone-w);   /* never grow wider than your design */
+  height: 100%;
+  max-height: var(--phone-h);  /* cap the height */
+  
+  background: var(--frame-bg);
   border-radius: var(--r-frame);
   position: relative;
-  padding: 24px 20px var(--nav-h);       
+
+  padding: 24px 20px var(--nav-h);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+
   overflow: hidden;
+  margin: auto; /* center in parent */
 }
 
-.phone--white { background: var(--white); }
+.phone--white { 
+  background: var(--white); 
+}
+
+/* ========== Phone Frame (updated) ========== */
+.phone {
+  width: 100%;
+  max-width: var(--phone-w);
+  height: 100%;
+  max-height: var(--phone-h);   /* caps the height so it doesn’t stretch too tall */
+  background: var(--frame-bg);
+  border-radius: var(--r-frame);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;   /* <--- lets explore scroll if it’s longer */
+}
+
+.phone--white { 
+  background: var(--white); 
+}
 
 /* ========== Common UI ========== */
 .logo{
@@ -104,38 +141,66 @@ body{
 .profile-icon{ width: 82px; height: 82px; }
 
 /* ========== Explore Page ========== */
-/* Search bar (360 × 56, r=28, gap 4, #E9E0EB) */
-.search-wrap{ width: 100%; display: flex; justify-content: center; margin-top: 14px; }
+/* Search bar */
+.search-wrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
 .search-bar{
-  width: 360px; height: 56px; border-radius: 28px;
+  width: 360px;
+  height: 56px;
+  border-radius: 28px;
   background: #E9E0EB;
   display: flex; align-items: center; gap: 4px;
   padding: 0 16px;
 }
 .search-bar input{
-  flex: 1; border: 0; outline: none; background: transparent;
-  font-size: 14px; color: #000;
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #000;
 }
-.search-icon-inline{ width: 20px; height: 20px; opacity: .6; }
+.search-icon-inline{
+  width: 20px;
+  height: 20px;
+  opacity: .6;
+}
 
 /* Featured header */
 .explore-header{
-  font-weight: 600; font-size: 22px; color: #000;
-  width: 100%; text-align: left;
-  margin: 12px 16px 8px;
+  font-weight: 600;
+  font-size: 22px;
+  color: #000;
+  width: 100%;
+  text-align: left;
+  margin: 12px 0 8px;
+  padding: 0 16px;
 }
 
-/* Category grid: two columns, card 167 × 137 */
+/* SCROLL CONTAINER: only grid scrolls */
+.explore-scroll{
+  flex: 1;                           /* take remaining height */
+  min-height: 0;                     /* required for flex scroll */
+  overflow-y: auto;                  /* scroll only here */
+  -webkit-overflow-scrolling: touch; /* smooth mobile scroll */
+  padding-bottom: calc(var(--nav-h) + 12px); /* keep clear of nav */
+}
+
+/* Category grid: two columns */
 .category-grid{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  padding: 0 16px calc(var(--nav-h) - 40px); 
-  justify-items: center;                     
+  padding: 0 16px;                   /* side padding only */
+  justify-items: center;
 }
 .category-card{
-  width: 167px;                                
-  height: 137px;                              
+  width: 167px;
+  height: 137px;
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   text-decoration: none; text-align: center;
@@ -152,6 +217,7 @@ body{
 .cat-yellow{      background: linear-gradient(145deg, #FFF3A2 0%, #FFF9D1 100%); }
 .cat-yellow-soft{ background: #F6EEA8; }
 .cat-green-soft { background: #9BE39B; }
+
 
 /* ========== Profile Page ========== */
 /* Profile screen container */
