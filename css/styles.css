@@ -43,6 +43,7 @@ body{
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  overflow: hidden;
 }
 
 .phone--white { background: var(--white); }
@@ -87,6 +88,7 @@ body{
   border-bottom-right-radius: var(--r-frame);
   display: flex; justify-content: space-around; align-items: center;
   padding: 0 24px;
+  z-index: 2000;
 }
 .bottom-nav a{
   flex: 1; display: flex; justify-content: center; align-items: center;
@@ -309,3 +311,8 @@ body{
 #signOutButton{
   top: 50px;
 }
+body.noscroll {
+  overflow: hidden;
+  height: 100%;
+}
+

@@ -16,12 +16,11 @@
     <h1 class="title">THE DAILY<br>SLICE</h1>
 
     <!-- button -->
-    <button onclick="document.getElementById('game-frame').style.display='block'" class="btn btn--primary" type="button">BEGIN</button>
+    <button onclick="document.getElementById('game-frame').style.display='block';" class="btn btn--primary" type="button">BEGIN</button>
 
     <iframe id="game-frame" 
         src="http://localhost:5173/" 
-        style="display:none; width: 100%; height: 100%; border:none;">
-</iframe>
+        style="display:none; position: fixed; width: 29.5vw; height: calc(100vh - 130px); border:none; z-index: 1000; top: 0; left: 50%; transform: translateX(-50%);" scrolling="yes"></iframe>
     <!-- bottom nav bar -->
     <nav class="bottom-nav" aria-label="Main navigation">
       <img src="assets/polygon.png" alt="Home" class="nav-icon home-icon">
