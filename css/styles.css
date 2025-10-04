@@ -42,48 +42,39 @@ body {
   color: var(--text);
 }
 
-/* ========== Phone Frame (Responsive) ========== */
+/* ========== Phone Frame (single, merged) ========== */
 .phone {
   width: 100%;
-  max-width: var(--phone-w);   /* never grow wider than your design */
+  max-width: var(--phone-w);     /* never grow wider than design */
   height: 100%;
-  max-height: var(--phone-h);  /* cap the height */
-  
+  max-height: var(--phone-h);    /* cap the height */
+
   background: var(--frame-bg);
   border-radius: var(--r-frame);
   position: relative;
 
-  padding: 24px 20px var(--nav-h);
+  padding: 24px 20px var(--nav-h);   /* bottom space for fixed nav */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
 
-  overflow: hidden;
-  margin: auto; /* center in parent */
+  overflow: hidden;                 /* lock scroll to inner areas */
+  margin: auto;
 }
 
-.phone--white { 
-  background: var(--white); 
+/* Home (start) page layout tweak */
+.phone.start-page {
+  padding-top: 165px;   /* bump this up/down to taste */
 }
 
-/* ========== Phone Frame (updated) ========== */
-.phone {
-  width: 100%;
-  max-width: var(--phone-w);
-  height: 100%;
-  max-height: var(--phone-h);   /* caps the height so it doesn’t stretch too tall */
-  background: var(--frame-bg);
-  border-radius: var(--r-frame);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;   /* <--- lets explore scroll if it’s longer */
-}
+.phone--white { background: var(--white); }
 
-.phone--white { 
-  background: var(--white); 
+/* Home (start) page layout tweak */
+.start-page {
+  padding-top: 100px;              /* shift logo/title/button down */
 }
+.start-page .logo { margin: 0 auto 20px; }
 
 /* ========== Common UI ========== */
 .logo{
@@ -218,7 +209,6 @@ body {
 .cat-yellow-soft{ background: #F6EEA8; }
 .cat-green-soft { background: #9BE39B; }
 
-
 /* ========== Profile Page ========== */
 /* Profile screen container */
 .profile-screen {
@@ -296,9 +286,6 @@ body {
   border-radius: 15px;
 }
 
-/* Give all phone pages breathing room for the fixed bottom nav (same as Explore/Home) */
-.phone { padding-bottom: var(--nav-h); }
-
 /* Support either <div class="profile-avatar"><img …></div> OR <img class="profile-avatar"> */
 .profile-avatar,
 .profile-avatar img {
@@ -312,7 +299,6 @@ body {
 }
 
 /* Sign In / Sign Up */
-
 .auth-container {
   display: flex;
   flex-direction: column;
@@ -330,55 +316,57 @@ body {
   font-size: 16px;
   display: block;
 }
+
 #accountSettings {
   font-family: 'Blinker', sans-serif;
   background-color: #CAF975; /* bar color */
   font-size: 29px;
   font-weight: 600;
   line-height: 1;
-  margin-bottom: 0;                /* reset margins so it sticks to the top */
+  margin-bottom: 0;
   color: var(--title, #e90808);
-  display: block;           /* ensure it acts like a block element */
-  width: 100%;              /* span full width of container */
-  padding: 15px;            /* gives height to the bar */
-  text-align: center;       /* optional: center the text */
+  display: block;
+  width: 100%;
+  padding: 15px;
+  text-align: center;
 }
+
 .settingsWrapper {
   position: absolute;
-  top: 150px;       /* distance from the top of .phone */
-  left: 50%;       /* horizontal center */
-  transform: translateX(-50%); /* perfect horizontal centering */
+  top: 150px;       
+  left: 50%;       
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: left;
-  gap: 20px;       /* spacing between children */
+  gap: 20px;
 }
+
 #settings {
   font-family: 'Blinker', sans-serif;
   font-size: 10px;
-  line-height: 1; /* 100% from Figma */
+  line-height: 1;
   text-align: left;
   margin: px;
   color: var(--title, #000);
 }
+
 .settingsInput {
   width: 100%;
   max-width: 300px;
   padding: 10px;
-  margin: 0;                 /* reset margin */
+  margin: 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 10px;
-  position: absolute;        /* position relative to .phone */
-  left: 0;                   /* stick to left edge */
-  top: -50px;                /* adjust vertical position as needed */
-  
+  position: absolute;
+  left: 0;
+  top: -50px;
 }
-#signOutButton{
-  top: 50px;
-}
+
+#signOutButton{ top: 50px; }
+
 body.noscroll {
   overflow: hidden;
   height: 100%;
 }
-
