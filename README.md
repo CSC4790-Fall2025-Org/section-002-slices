@@ -2,7 +2,7 @@
 Senior Project repo for Ava Drewer, Ryan Loftus, and Turner Inge.
 
 To Run game on local device Follow these steps.
-  1. Once repo is cloned locally cd into the directory "game1"
+  1. Once repo is cloned locally cd into the directory "games"
   2. Afterwards enter into the command line "npm install"
   3. Followed by "npm run dev"
   4. within the index.html file on line 30 following the "src=" replace the http link with the one given after you run dev.
