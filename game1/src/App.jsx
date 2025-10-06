@@ -1,25 +1,27 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
-import Home from "./pages/Home.jsx"
+import { useState } from "react"
 import WordGame from "./games/WordDef/WordDef.jsx"
-import { useGameStore } from "./store.jsx"
+import TestGame from "./games/testGame/TestGame.jsx"
+import "./App.css"
+
+const games = [WordGame, TestGame]
 
 export default function App() {
-  const score = useGameStore((s) => s.score)
+  const [gameIndex, setGameIndex] = useState(0)
+
+  function nextGame() {
+    let next = gameIndex
+    while (next === gameIndex && games.length > 1) {
+      next = Math.floor(Math.random() * games.length)
+    }
+    setGameIndex(next)
+  }
+
+  const CurrentGame = games[gameIndex] || (() => <div>Loading next game...</div>)
 
   return (
-    <Router>
-      <div className="p-4">
-        <h1>slices</h1>
-        <div style={{ marginBottom: "1rem" }}>Total Score: {score}</div>
-        <nav style={{ marginBottom: "1rem" }}>
-          <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
-          <Link to="/word">Word-Definition Match</Link>
-        </nav>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/word" element={<WordGame />} />
-        </Routes>
-      </div>
-    </Router>
+    <div className="p-4 centered">
+      <h1>The Daily Slice</h1>
+      <CurrentGame key={gameIndex} onComplete={nextGame} />
+    </div>
   )
 }
