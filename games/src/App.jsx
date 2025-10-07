@@ -1,9 +1,10 @@
 import { useState } from "react"
 import WordGame from "./games/WordDef/WordDef.jsx"
 import TestGame from "./games/testGame/TestGame.jsx"
+import MathGame from "./games/mathGame/MathGame.jsx"
 import "./App.css"
 
-const games = [WordGame, TestGame]
+const games = [WordGame, TestGame, MathGame]
 
 export default function App() {
   const [gameIndex, setGameIndex] = useState(0)

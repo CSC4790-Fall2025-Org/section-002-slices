@@ -7,7 +7,7 @@ export default function TestGame({ onComplete }) {
   return (
     <div className="centered">
       <h2>Click Test</h2>
-      <p>Click 5 times to finish!</p>
+      <p>Click 5 times to advance:</p>
       <h3>{count}</h3>
       <button onClick={() => {
         const newCount = count + 1
