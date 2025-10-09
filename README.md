@@ -1,13 +1,10 @@
 # section-002-Slices
 Senior Project repo for Ava Drewer, Ryan Loftus, and Turner Inge.
 
-To Run game on local device Follow these steps.
-  1. Once repo is cloned locally cd into the directory "games"
-  2. Afterwards enter into the command line "npm install"
-  3. Followed by "npm run dev"
-  4. within the index.html file on line 30 following the "src=" replace the http link with the one given after you run dev.
-  5. The begin functionality on the html should take to the game now!
-
+To Run game on device Follow these steps.
+  1. Open the index.html on a live server.
+  2. That's it! Press begin to start the daily slice or use the nav bar to look at explore page or sign in!
+ 
 --DEV--
 
 To Add a Game:
