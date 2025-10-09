@@ -15,14 +15,22 @@
     <div class="status/errors" aria-live="polite">
         <h1 id="accountSettings" class="profile-username2">Account Settings</h1>
         <p id="userStatus" style="text-align: center;">Not signed in</p>
+        <p id="displayname" style="text-align: center;"></p>
         <p id="SignInError" style="color: red; display:none; text-align: center;"></p>
     </div>
     <div class ="settingsWrapper">
-         <div id="settings" style="display: none;">
-            <input type="text" id="username" class="settingsInput" placeholder="Username: ">
-            <input type="text" id="birthday" class="settingsInput" placeholder="Birthday: ">
+         <div id="settings" style="display:none;">
+          <div class="input-with-button">
+            <input type="text" id="username" class="settingsInput" placeholder="Username">
+            <button class="inputButton">Save</button>
+          </div>
 
+          <div class="input-with-button">
+            <input type="text" id="birthday" class="settingsInput" placeholder="Birthday">
+            <button class="inputButton">Save</button>
+          </div>
         </div>
+
         <!-- User authentication buttons -->
         <div class="auth-container">
             <input type="email" id="email" class="loginInput" placeholder="Email: ">
@@ -41,7 +49,7 @@
               signInWithEmailAndPassword,
               signOut,
               onAuthStateChanged,} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-      import {getFirestore, doc, setDoc} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+      import {getFirestore, doc, setDoc, getDoc} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
     window.addEventListener('DOMContentLoaded', () => {
     const db = getFirestore();
     const emailInput = document.getElementById('email');
@@ -51,7 +59,32 @@
     const signOutBtn = document.getElementById('signOutButton');
     const userStatus = document.getElementById('userStatus');
     const SignInError = document.getElementById('SignInError');
+    const username = document.getElementById('username');
+    const birthday = document.getElementById('birthday');
+    const saveButtons = document.querySelectorAll('.inputButton');
     const settings = document.getElementById('settings');
+    
+    
+    
+
+    saveButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const input = button.previousElementSibling;
+        const value = input.value;
+        if (input.id === 'username') {
+          console.log('Username saved:', value);
+          await setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
+            username: value
+          }, { merge: true });
+          document.getElementById('displayname').textContent = `${value}`;
+        } else if (input.id === 'birthday') {
+          console.log('Birthday saved:', value);
+          await setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
+            birthday: value
+          }, { merge: true });
+        }
+      });
+    });
     signUpBtn.addEventListener('click', async () => {
       try{
         const email = emailInput.value
@@ -142,15 +175,15 @@
         document.getElementById('email').style.display = 'inline';
         document.getElementById('password').style.display = 'inline';
         document.getElementById('settings').style.display = 'none';
+        document.getElementById("displayname").textContent = '';
         SignInError.style.display = 'none';
       }catch (error) {
         console.error("Error signing out:", error);
       };
     });
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log("User is signed in:", user);
         emailInput.style.display = 'none';
         passwordInput.style.display = 'none';
         signUpButton.style.display = 'none';
@@ -161,6 +194,26 @@
         document.getElementById('password').style.display = 'none';
         document.getElementById('settings').style.display = 'block';
         SignInError.style.display = 'none';
+        console.log("User is signed in:", user);
+        const uid = user.uid;
+        const userDocRef = doc(db, "UserAccounts", uid);
+        const userSnap = await getDoc(userDocRef);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          if (userData.username) {
+            username.value = userData.username;
+            document.getElementById('displayname').textContent = `${userData.username}`;
+            document.getElementById('username').placeholder = `${userData.username}`;
+
+          }
+          if (userData.birthday) {
+            birthday.value = userData.birthday;
+          }
+        } else {
+          console.log("No such document!");
+        }
+
+        
       } else {
         console.log("No user is signed in.");
         emailInput.style.display = 'inline';
@@ -171,6 +224,8 @@
         userStatus.textContent = 'Not signed in';
         document.getElementById('email').style.display = 'inline';
         document.getElementById('password').style.display = 'inline';
+        document.getElementById('username').placeholder = 'HUNGRY-OWL-2908';
+        
         SignInError.style.display = 'none';
       }
     });
