@@ -31,7 +31,7 @@
     <!-- ONLY THIS PART SCROLLS -->
     <div class="profile-scroll">
       <!-- leaderboard placeholder -->
-      <div class="leaderboard-placeholder" aria-hidden="true"></div>
+      <div class="leaderboard-placeholder" id="leaderboard"></div>
       <!-- add more sections here; they'll scroll within this area -->
     </div>
 
@@ -47,7 +47,25 @@
         <img src="assets/icon.png" alt="Profile" class="nav-icon profile-icon active">
       </a>
     </nav>
+    <script type="module">
+      import {getFirestore, doc, collection, query, getDoc, onSnapshot, orderBy} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+      import {db} from "./firebase.js";
 
+      
+      
+      const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
+      onSnapshot(q,(snapshot) => {
+        const leaderboard = document.getElementById("leaderboard");
+        leaderboard.innerHTML = "";
+        snapshot.docs.forEach((doc, index) => {
+          const userData = doc.data();
+          const entry = document.createElement('div');
+
+          entry.textContent = `${index + 1}. ${userData.username} --- ${userData.Score} pts\n`;
+          leaderboard.appendChild(entry);
+        });
+      });
+    </script>
   </main>
   
 </body>

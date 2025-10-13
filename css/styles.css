@@ -292,7 +292,11 @@ img.profile-avatar {
   border-radius: 15px;
   margin: 10px auto;                       /* centers the block */
 }
-
+#leaderboard{
+  color: black;
+  padding: 10px;
+  font-size: 30px;
+}
 /* (Optional) Remove the old layered avatar rule if it still exists in your file:
    .profile-avatar, .profile-avatar img { background:#f2f2f2; border:2px solid ... } */
 .settingsWrapper {

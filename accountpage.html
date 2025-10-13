@@ -26,7 +26,7 @@
           </div>
 
           <div class="input-with-button">
-            <input type="text" id="birthday" class="settingsInput" placeholder="Birthday">
+            <input type="text" id="birthday" class="settingsInput" placeholder="Birthday(00/00/0000)">
             <button class="inputButton">Save</button>
           </div>
         </div>
@@ -77,11 +77,14 @@
             username: value
           }, { merge: true });
           document.getElementById('displayname').textContent = `${value}`;
+          document.getElementById('username').placeholder = `${value}`;
         } else if (input.id === 'birthday') {
           console.log('Birthday saved:', value);
           await setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
             birthday: value
           }, { merge: true });
+          document.getElementById('birthday').placeholder = `${value}`;
+          document.getElementById('birthday').textContent = `${value}`;
         }
       });
     });
@@ -204,6 +207,7 @@
             username.value = userData.username;
             document.getElementById('displayname').textContent = `${userData.username}`;
             document.getElementById('username').placeholder = `${userData.username}`;
+            document.getElementById('birthday').placeholder = `${userData.birthday}`;
 
           }
           if (userData.birthday) {
