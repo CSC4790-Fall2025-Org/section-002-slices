@@ -17,14 +17,14 @@
       </div>
 
       <h1 id="profile-username" class="profile-username">
-        HUNGRY-OWL-2908
+        <p id="profile-username-text">HUNGRY-OWL-2908</p>
         <a href="accountpage.html">
           <img src="assets/pencilicon.png" class="pencil-icon" alt="Edit username">
         </a>
       </h1>
 
       <div class="profile-streak" aria-label="Daily streak">
-        <span class="streak-count">26🔥</span>
+        <span class="streak-count" id="scores">26🔥</span>
       </div>
     </section>
 
@@ -49,10 +49,29 @@
     </nav>
     <script type="module">
       import {getFirestore, doc, collection, query, getDoc, onSnapshot, orderBy} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+      import {onAuthStateChanged, getAuth} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
       import {db} from "./firebase.js";
 
-      
-      
+      const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const userDocRef = doc(db, "UserAccounts", user.uid);
+        onSnapshot(userDocRef, (doc) => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            if (userData.username) {
+              document.getElementById('profile-username-text').textContent = `${userData.username}`;
+            }
+            if (userData.Score !== null) {
+              document.getElementById('scores').textContent = `${userData.Score}🔥`;
+            }
+          }
+        });
+      } else {
+        console.log("No user is signed in.");
+      }
+    });
+    
       const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
       onSnapshot(q,(snapshot) => {
         const leaderboard = document.getElementById("leaderboard");

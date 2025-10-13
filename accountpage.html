@@ -207,11 +207,12 @@
             username.value = userData.username;
             document.getElementById('displayname').textContent = `${userData.username}`;
             document.getElementById('username').placeholder = `${userData.username}`;
-            document.getElementById('birthday').placeholder = `${userData.birthday}`;
 
           }
           if (userData.birthday) {
             birthday.value = userData.birthday;
+            document.getElementById('birthday').placeholder = `${userData.birthday}`;
+            
           }
         } else {
           console.log("No such document!");
