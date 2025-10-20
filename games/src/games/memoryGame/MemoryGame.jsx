@@ -36,10 +36,12 @@ export default function MemoryGame({ onComplete }) {
 
   // When all pairs are matched
   useEffect(() => {
-    if (matched.length === cards.length && cards.length > 0) {
-      setTimeout(() => onComplete?.(), 800)
-    }
-  }, [matched])
+  if (matched.length === cards.length && cards.length > 0) {
+    const t = setTimeout(() => onComplete?.(), 800)
+    return () => clearTimeout(t)
+  }
+}, [matched, cards])
+
 
   return (
     <div className="centered">
