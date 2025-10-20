@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import { getWordWithDefinition, checkGuess } from "./logic.js"
 
 export default function WordGame({ onComplete }) {
   const [word, setWord] = useState("")
@@ -10,10 +9,10 @@ export default function WordGame({ onComplete }) {
   const [cursorIndex, setCursorIndex] = useState(0)
 
   useEffect(() => {
-    fetchWord()
+    loadWord()
   }, [])
 
-  async function fetchWord() {
+  async function loadWord() {
     setDefinition("Loading...")
     setLocked(Array(5).fill(null))
     setCurrent(Array(5).fill(null))
@@ -21,11 +20,17 @@ export default function WordGame({ onComplete }) {
     setCursorIndex(0)
 
     try {
-      const { word, definition } = await getWordWithDefinition()
-      setWord(word.toLowerCase())
-      setDefinition(definition)
+      const text = await fetch("/words.txt").then(r => r.text())
+      const lines = text.trim().split("\n").filter(Boolean)
+      const randomLine = lines[Math.floor(Math.random() * lines.length)]
+      const [w, def] = randomLine.split(";").map(s => s.trim())
+
+      if (!w || w.length !== 5 || !def) throw new Error("Invalid format")
+
+      setWord(w.toLowerCase())
+      setDefinition(def)
     } catch {
-      setDefinition("Could not fetch a word")
+      setDefinition("Failed to load word list")
     }
   }
 
@@ -78,13 +83,22 @@ export default function WordGame({ onComplete }) {
   }
 
   function handleCheck() {
-    const { newLocked, newCurrent, isCorrect } = checkGuess(word, current, locked)
+    const newLocked = [...locked]
+    const newCurrent = [...current]
+
+    for (let i = 0; i < 5; i++) {
+      const guessLetter = current[i]?.toLowerCase()
+      if (!locked[i] && guessLetter === word[i]) newLocked[i] = word[i].toUpperCase()
+      if (!locked[i]) newCurrent[i] = null
+    }
+
+    const isCorrect = newLocked.every((l, i) => l?.toLowerCase() === word[i])
     setLocked(newLocked)
     setCurrent(newCurrent)
     setResult(isCorrect ? "Correct!" : "Try again")
 
     if (isCorrect) {
-      setTimeout(() => onComplete?.(), 500) 
+      setTimeout(() => onComplete?.(), 500)
     } else {
       setCursorIndex(nextUnlockedIndex(-1))
     }
@@ -92,9 +106,8 @@ export default function WordGame({ onComplete }) {
 
   function handleReveal() {
     setResult(`The word was: ${word}`)
-    setTimeout(() => onComplete?.(), 500) 
+    setTimeout(() => onComplete?.(), 500)
   }
-
 
   return (
     <div className="centered">
