@@ -3,9 +3,10 @@ import WordGame from "./games/WordDef/WordDef.jsx"
 import MathGame from "./games/mathGame/MathGame.jsx"
 import MemoryGame from "./games/memoryGame/MemoryGame.jsx"
 import SportsTrivia from "./games/SportsTrivia/SportsTrivia.jsx"
+import GeographyTrivia from "./games/GeographyTrivia/GeographyTrivia.jsx"
 import "./App.css"
 
-const games = [WordGame, MathGame, MemoryGame, SportsTrivia]
+const games = [WordGame, MathGame, MemoryGame, SportsTrivia, GeographyTrivia]
 
 export default function App() {
   const [gameIndex, setGameIndex] = useState(0)
