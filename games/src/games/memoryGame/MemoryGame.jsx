@@ -1,26 +1,30 @@
 import { useState, useEffect } from "react"
 
 export default function MemoryGame({ onComplete }) {
-  const allCards = ["🍎", "🍌", "🍇", "🍓", "🍒", "🍍"]
-  const [cards, setCards] = useState([])
-  const [flipped, setFlipped] = useState([])
-  const [matched, setMatched] = useState([])
+  // Use only 5 items to create 5 matching pairs (10 cards total)
+  const allCards = ["🍎", "🍌", "🍇", "🍓", "🍒"].slice(0, 5)
 
-  // Shuffle and initialize deck
+  const [cards, setCards] = useState([])       // Full deck of shuffled cards
+  const [flipped, setFlipped] = useState([])   // Currently flipped card IDs
+  const [matched, setMatched] = useState([])   // IDs of matched cards
+
+  // Shuffle and initialize the deck on first render
   useEffect(() => {
-    const shuffled = [...allCards, ...allCards]
-      .sort(() => Math.random() - 0.5)
-      .map((emoji, index) => ({ id: index, emoji }))
+    const shuffled = [...allCards, ...allCards] // Duplicate for pairs
+      .sort(() => Math.random() - 0.5)          // Shuffle randomly
+      .map((emoji, index) => ({ id: index, emoji })) // Assign unique IDs
     setCards(shuffled)
   }, [])
 
-  // Handle flip logic
+  // Handle card flip logic
   function handleFlip(id) {
+    // Ignore clicks on already flipped or matched cards
     if (flipped.includes(id) || matched.includes(id)) return
 
     const newFlipped = [...flipped, id]
     setFlipped(newFlipped)
 
+    // If two cards are flipped, check for match
     if (newFlipped.length === 2) {
       const [first, second] = newFlipped.map(i => cards[i])
       if (first.emoji === second.emoji) {
@@ -28,26 +32,26 @@ export default function MemoryGame({ onComplete }) {
         setMatched([...matched, first.id, second.id])
         setFlipped([])
       } else {
-        // Flip back after short delay
+        // No match — flip back after short delay
         setTimeout(() => setFlipped([]), 800)
       }
     }
   }
 
-  // When all pairs are matched
+  // Trigger completion callback when all pairs are matched
   useEffect(() => {
-  if (matched.length === cards.length && cards.length > 0) {
-    const t = setTimeout(() => onComplete?.(), 800)
-    return () => clearTimeout(t)
-  }
-}, [matched, cards])
-
+    if (matched.length === cards.length && cards.length > 0) {
+      const t = setTimeout(() => onComplete?.(), 800)
+      return () => clearTimeout(t)
+    }
+  }, [matched, cards])
 
   return (
     <div className="centered">
       <h2>Memory Match</h2>
       <p>Find all the pairs!</p>
 
+      {/* Grid of cards */}
       <div
         style={{
           display: "grid",
@@ -72,6 +76,9 @@ export default function MemoryGame({ onComplete }) {
                 border: "2px solid #999",
                 backgroundColor: isFlipped ? "#fef08a" : "#e5e7eb",
                 transition: "background-color 0.3s ease",
+                display: "flex",              // Center content horizontally
+                alignItems: "center",         // Center content vertically
+                justifyContent: "center",     // Center content horizontally
               }}
             >
               {isFlipped ? card.emoji : "?"}
@@ -80,6 +87,7 @@ export default function MemoryGame({ onComplete }) {
         })}
       </div>
 
+      {/* Match progress */}
       <p style={{ marginTop: 8 }}>
         {matched.length / 2} / {cards.length / 2} pairs matched
       </p>
