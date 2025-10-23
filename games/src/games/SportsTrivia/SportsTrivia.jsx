@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, use} from "react";
 import { fetchTriviaQuestions } from "./api.js";
 
 export default function SportsTrivia({onComplete}){
@@ -39,6 +39,12 @@ export default function SportsTrivia({onComplete}){
       return () => clearTimeout(timer);
     }
   }, [selectedAnswer, onComplete]);
+        useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => onComplete?.(), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, onComplete]);
     function handleAnswerClick(answer) {
         setSelectedAnswer(answer);
         setIsCorrect(answer === question.correctAnswer);
@@ -48,7 +54,8 @@ export default function SportsTrivia({onComplete}){
             return <div>Loading...</div>;
         }
         if (error) {
-            setTimeout(() => onComplete?.(), 1000);
+            console.log("could not fetch sports question");
+
 
             return <div>{error}</div>;
             

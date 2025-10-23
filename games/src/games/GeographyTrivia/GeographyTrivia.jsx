@@ -20,9 +20,10 @@ export default function GeographyTrivia({onComplete}){
             const q = await fetchTriviaQuestions("https://opentdb.com/api.php?amount=1&category=22&difficulty=easy&type=multiple");
             setquestion (q);
             setRightAnswer (q.correctAnswer);
+            console.log("Fetched Question:", q);
         } catch (error) {
             console.error(error);
-            setError("Failed to fetch question");
+            setError("Failed to fetch question switching games...");
         } finally {
             setLoading(false);
         }
@@ -36,13 +37,24 @@ export default function GeographyTrivia({onComplete}){
       return () => clearTimeout(timer);
     }
   }, [selectedAnswer, onComplete]);
+          useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => onComplete?.(), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, onComplete]);
+
     function handleAnswerClick(answer) {
         setSelectedAnswer(answer);
         setIsCorrect(answer === question.correctAnswer);
         console.log("Selected Answer:", answer);
     }
+        if (loading) {
+            return <div>Loading...</div>;
+        }
+
         if (error) {
-            setTimeout(() => onComplete?.(), 1000);
+            console.log("could not fetch geography question changing games...");
             return <div>{error}</div>;
         }
         return(
