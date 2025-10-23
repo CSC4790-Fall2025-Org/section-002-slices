@@ -41,10 +41,8 @@ export default function GeographyTrivia({onComplete}){
         setIsCorrect(answer === question.correctAnswer);
         console.log("Selected Answer:", answer);
     }
-        if (loading) {
-            return <div>Loading...</div>;
-        }
         if (error) {
+            setTimeout(() => onComplete?.(), 1000);
             return <div>{error}</div>;
         }
         return(

@@ -22,8 +22,11 @@ export default function SportsTrivia({onComplete}){
             setRightAnswer (q.correctAnswer);
         } catch (error) {
             console.error(error);
+            
+
             setError("Failed to fetch question");
         } finally {
+            
             setLoading(false);
         }
     }
@@ -45,7 +48,10 @@ export default function SportsTrivia({onComplete}){
             return <div>Loading...</div>;
         }
         if (error) {
+            setTimeout(() => onComplete?.(), 1000);
+
             return <div>{error}</div>;
+            
         }
         return(
         <div>

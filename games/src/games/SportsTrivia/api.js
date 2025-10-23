@@ -3,8 +3,11 @@ export async function fetchTriviaQuestions(url) {
     const res = await fetch(
       url
     );
-
-    if (!res.ok) throw new Error("Network response was not ok");
+      
+    if (!res.ok) {
+      console.error("Network response was not ok:", res.statusText, res.status);
+      throw new Error("Network response was not ok");
+    }
 
     const data = await res.json();
     console.log("Fetched Trivia Data:", data);
