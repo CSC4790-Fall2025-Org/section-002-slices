@@ -4,6 +4,11 @@ import MathGame from "./games/mathGame/MathGame.jsx"
 import MemoryGame from "./games/memoryGame/MemoryGame.jsx"
 import SportsTrivia from "./games/SportsTrivia/SportsTrivia.jsx"
 import GeographyTrivia from "./games/GeographyTrivia/GeographyTrivia.jsx"
+import bubbleTapGame from "./games/bubbleTapGame/bubbleTapGame.jsx"
+import sortingGame from "./games/sortingGame/sortingGame.jsx"
+import timerGame from "./games/timerGame/timerGame.jsx"
+import wordTrickGame from "./games/wordTrickGame/wordTrickGame.jsx"
+
 import "./App.css"
 
 const games = [WordGame, MathGame, MemoryGame, SportsTrivia, GeographyTrivia]
