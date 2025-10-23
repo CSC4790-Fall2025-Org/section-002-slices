@@ -1,7 +1,7 @@
-export async function fetchTriviaQuestions() {
+export async function fetchTriviaQuestions(url) {
   try {
     const res = await fetch(
-      "https://opentdb.com/api.php?amount=1&category=21&difficulty=easy&type=multiple"
+      url
     );
 
     if (!res.ok) throw new Error("Network response was not ok");

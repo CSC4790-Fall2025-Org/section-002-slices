@@ -17,7 +17,7 @@ export default function SportsTrivia({onComplete}){
         setRightAnswer(null);
 
         try{
-            const q = await fetchTriviaQuestions();
+            const q = await fetchTriviaQuestions("https://opentdb.com/api.php?amount=1&category=21&difficulty=easy&type=multiple");
             setquestion (q);
             setRightAnswer (q.correctAnswer);
         } catch (error) {

@@ -1,5 +1,5 @@
 import { useState, useEffect} from "react";
-import { fetchTriviaQuestions } from "./geographyAPI.js";
+import { fetchTriviaQuestions } from "../SportsTrivia/api.js";
 
 export default function GeographyTrivia({onComplete}){
     const[question , setquestion] = useState(null);
@@ -17,7 +17,7 @@ export default function GeographyTrivia({onComplete}){
         setRightAnswer(null);
 
         try{
-            const q = await fetchTriviaQuestions();
+            const q = await fetchTriviaQuestions("https://opentdb.com/api.php?amount=1&category=22&difficulty=easy&type=multiple");
             setquestion (q);
             setRightAnswer (q.correctAnswer);
         } catch (error) {
