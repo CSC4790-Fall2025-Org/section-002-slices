@@ -11,6 +11,7 @@ export async function fetchTriviaQuestions() {
 
     // If OpenTDB sends an invalid response (e.g. rate limited or empty)
     if (data.response_code !== 0 || !data.results?.length) {
+      console.warn("OpenTDB returned invalid data:", data);
       throw new Error("Invalid API response");
     }
 
