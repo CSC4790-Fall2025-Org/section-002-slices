@@ -1,0 +1,195 @@
+/* ========== Profile Page ========== */
+
+/* Outer wrapper */
+.profile-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--nav-h) * 0.2) 5% 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Profile card (header area) */
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Avatar */
+.profile-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  background: transparent;
+  border: none;
+}
+.profile-avatar img,
+img.profile-avatar {
+  width: clamp(72px, 18vw, 100px);
+  height: clamp(72px, 18vw, 100px);
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  background: transparent;
+}
+
+/* Username + edit */
+.profile-username {
+  font-family: 'Blinker', sans-serif;
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  margin: 0 0 6px;
+  color: var(--title, #000);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.pencil-icon {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Streak section */
+.profile-streak {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.streak-emoji { font-size: 22px; line-height: 1; }
+.streak-count { font-size: 22px; font-weight: 500; color: var(--text, #000); }
+
+/* Scrollable body */
+.profile-scroll {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 12px calc(var(--nav-h) + 14px);
+  box-sizing: border-box;
+}
+
+/* Leaderboard placeholder (optional) */
+.leaderboard-placeholder {
+  width: 100%;
+  max-width: 395px;
+  height: 578px;
+  background: #d9d9d9;
+  border-radius: 15px;
+  margin: 10px auto;
+}
+#leaderboard {
+  color: black;
+  padding: 10px;
+  font-size: 30px;
+}
+
+/* Settings */
+.settingsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+#settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs and buttons */
+.settingsInput,
+.loginInput {
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 12px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.input-with-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leaderboard {
+  text-align:left;
+}
+.inputButton,
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #006f16;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.inputButton:hover,
+button:hover {
+  opacity: 0.8;
+}
+
+.leaderboard-container {
+  position: relative;
+  width: 100%;
+  max-width: 395px;
+  margin: 12px auto;
+  background: #e5e5e5;
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.leaderboard-container.blurred .leaderboard-list {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.leaderboard-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column; /* stack lock above text */
+  justify-content: center;
+  align-items: center;
+  background: rgba(240, 240, 240, 0.7);
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  z-index: 1;
+  color: #333;
+  padding: 12px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lock {
+  width: 30px;
+  height: 30px;
+}

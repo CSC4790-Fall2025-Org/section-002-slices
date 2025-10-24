@@ -1,0 +1,74 @@
+:root {
+  --color-nav-bg: #fff;
+  --color-icon-active: brightness(0.8);
+  --color-icon-inactive: 0.5;
+
+  --nav-height: 64px;
+  --nav-padding: 0.75rem;
+  --nav-radius: 16px;
+
+  --icon-size-home: 8vw;
+  --icon-size-default: 7vw;
+}
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--nav-height);
+  background: var(--color-nav-bg);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 var(--nav-padding);
+  z-index: 2000;
+  border-top: 1px solid #ddd;
+}
+
+.bottom-nav a {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-icon {
+  object-fit: contain;
+  display: block;
+  opacity: var(--color-icon-inactive);
+  transition: opacity 0.2s, filter 0.2s;
+  width: var(--icon-size-default);
+}
+
+.nav-icon.active {
+  opacity: 1;
+  filter: var(--color-icon-active);
+}
+
+.nav-icon:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.home-icon {
+  width: var(--icon-size-home);
+}
+
+
+@media (min-width: 600px) {
+  :root {
+    --nav-height: 72px;
+    --icon-size-home: 48px;
+    --icon-size-default: 44px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-height: 80px;
+    --nav-radius: 20px;
+    --icon-size-home: 56px;
+    --icon-size-default: 52px;
+  }
+}

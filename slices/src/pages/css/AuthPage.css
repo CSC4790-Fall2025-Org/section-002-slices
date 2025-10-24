@@ -1,0 +1,72 @@
+/* AuthPage.css */
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.auth-page h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+}
+
+.auth-page p {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.auth-page input {
+  width: 100%;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.auth-page input:focus {
+  border-color: #007bff;
+}
+
+.auth-page button {
+  width: 100%;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 12px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.auth-page button:hover {
+  background-color: #0056b3;
+}
+
+.auth-page button:last-child {
+  background-color: #28a745;
+}
+
+.auth-page button:last-child:hover {
+  background-color: #1e7e34;
+}
+
+@media (max-width: 400px) {
+  .auth-page input,
+  .auth-page button {
+    max-width: 90%;
+  }
+}

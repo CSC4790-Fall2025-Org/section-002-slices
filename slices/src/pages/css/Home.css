@@ -1,0 +1,120 @@
+:root {
+  --color-bg: #d2f78d;
+  --color-text: #000;
+  --color-primary: #006f16;
+  --color-primary-hover: #002908;
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-title: 2.5rem;
+  --spacing-base: 1rem;
+  --radius: 8px;
+}
+
+/* Dark mode fallback (currently same colors) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #d2f78d;
+    --color-text: #000;
+    --color-primary: #006f16;
+    --color-primary-hover: #002908;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+}
+
+/* Container */
+.phone.start-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--spacing-base);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Logo - maintain aspect ratio */
+.logo {
+  width: 60%;
+  max-width: 250px;
+  height: auto;
+  margin-bottom: calc(var(--spacing-base) * 1.5);
+  object-fit: contain;
+}
+
+/* Title */
+.title {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: bold;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-bottom: calc(var(--spacing-base) * 2);
+}
+
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.5rem;
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 260px;
+  margin-bottom: var(--spacing-base);
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Responsive iframe */
+#game-frame {
+  width: 100%;
+  height: 80vh;
+  max-height: 90vh;
+  border: none;
+}
+
+/* Scaling for larger screens */
+@media (min-width: 600px) {
+  :root {
+    --spacing-base: 1.25rem;
+  }
+
+  .logo {
+    max-width: 300px;
+  }
+
+  #game-frame {
+    height: 85vh;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --spacing-base: 1.5rem;
+  }
+
+  .logo {
+    max-width: 350px;
+  }
+
+  #game-frame {
+    height: 90vh;
+  }
+}
