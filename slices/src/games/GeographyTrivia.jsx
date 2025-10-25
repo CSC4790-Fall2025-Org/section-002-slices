@@ -34,7 +34,7 @@ export default function GeographyTrivia({ onComplete }) {
 
   useEffect(() => {
     if (selectedAnswer !== null) {
-      const t = setTimeout(() => onComplete?.(), 1000)
+      const t = setTimeout(() => onComplete?.(), 500)
       return () => clearTimeout(t)
     }
   }, [selectedAnswer, onComplete])
