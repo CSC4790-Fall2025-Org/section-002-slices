@@ -42,6 +42,7 @@ body {
   width: 100%;
   max-width: 360px;
   gap: 1rem;
+  align-items: center;
 }
 
 input {
@@ -85,7 +86,9 @@ button {
 .settingsWrapper button:last-of-type:hover {
   background-color: #a71d2a;
 }
-
+.settingsWrapper input {
+  width: 90%;
+}
 .auth-container button:first-of-type {
   background-color: #007bff;
   color: #fff;

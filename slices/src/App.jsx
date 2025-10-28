@@ -27,7 +27,7 @@ function BodyClassController() {
     else if (location.pathname.startsWith("/explore"))
       body.classList.add("explore-bg", "no-scroll");
     else if (location.pathname.startsWith("/profile"))
-      body.classList.add("profile-bg", "no-scroll");
+      body.classList.add("profile-bg");
     else if (location.pathname.startsWith("/game"))
       body.classList.add("game-bg", "no-scroll");
   }, [location.pathname]);
