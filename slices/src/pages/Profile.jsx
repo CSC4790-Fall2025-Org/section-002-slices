@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../scripts/firebase.js";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, onSnapshot, collection, query, orderBy } from "firebase/firestore";
+import { doc, onSnapshot, collection, query, orderBy, setDoc, updateDoc, getDoc } from "firebase/firestore";
+import { where, getDocs, arrayUnion } from "firebase/firestore";
 import "./css/Profile.css";
 
 function generateRandomUsername() {
@@ -21,6 +22,13 @@ export default function Profile() {
   const [username, setUsername] = useState("HUNGRY-OWL-2908");
   const [score, setScore] = useState(0);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [addfriend, setAddFriend] = useState(true);
+  const [friendUsername, setFriendUsername] = useState("");
+  const [error, setError] = useState("");
+  const [friendAdded, setFriendAdded] = useState("");
+  const [friendEmail, setFriendEmail] = useState("");
+  const [Friends, setFriends] = useState(null);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +43,7 @@ export default function Profile() {
             const data = snap.data();
             if (data.username) setUsername(data.username);
             if (data.Score !== undefined) setScore(data.Score);
+            if (data.friends) setFriends(data.friends);
           }
         });
       } else {
@@ -60,6 +69,47 @@ export default function Profile() {
       unsubscribeLeaderboard();
     };
   }, []);
+  async function handleAddFriend(emails){
+    if (!user) return;
+    try {
+      const data = collection(db, "UserAccounts");
+      const q = query(data, where("email", "==", emails));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.empty) { // The email is not in the database
+        setError("User's email not found."); 
+        return;
+      }
+
+      const email = (querySnapshot.docs[0].data().email);
+      setAddFriend(false);
+
+      await updateDoc(doc(db, "UserAccounts", user.uid), {
+        friends: arrayUnion(email),
+      });
+      setFriendAdded("Friend added!");
+      setAddFriend(true);
+    } catch (err) {
+      console.error("Error adding friend:", err);
+    }
+    }
+    
+  
+  async function filterLeaderboard() {
+    if (!user) return;
+    const ref = doc(db, "UserAccounts", user.uid);
+    const snap = await getDoc(ref);
+    const friendslist = snap.data().friends || [];
+    console.log("friendslist:", friendslist);
+
+    const filtered = query(collection(db, "UserAccounts"), where("email", "in", friendslist), orderBy("Score", "desc"));
+    const querySnapshot = await getDocs(filtered);
+    const filteredleaderboard = querySnapshot.docs.map((d, i) => ({
+          rank: i + 1,
+          username: d.data().username,
+          score: d.data().Score,
+    }));
+    setLeaderboard(filteredleaderboard);
+  }
 
   function handleAuthClick() {
     if (user) {
@@ -85,11 +135,29 @@ export default function Profile() {
                 style={{ width: "15px", height: "15px" }}
               />
             </Link>
-          )}
+          )}                 
+
         </h1>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <div className="profile-streak">
           <span>{score}🔥</span>
         </div>
+        {addfriend ? (
+          <button onClick={() => { setAddFriend(false); setError(""); }}>Add Friend</button>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Friend's Email"
+              value={friendEmail}
+              onChange={(e) => setFriendEmail(e.target.value)}
+            />
+            <button onClick={() => { setAddFriend(true); handleAddFriend(friendEmail); }}>Add</button>
+
+          </>
+        )}
+
         <button onClick={handleAuthClick} className="authButton">
           {user ? "Sign Out" : "Sign In"}
         </button>
@@ -97,6 +165,7 @@ export default function Profile() {
 
       <div className="profile-scroll">
    <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
+   <button style={{ padding: "0.25rem", width: "90%" }} onClick={filterLeaderboard}>Sort by Friends</button>
 <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
   {!user && (
     <div className="leaderboard-overlay">

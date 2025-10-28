@@ -93,7 +93,6 @@ export default function EditAccount() {
       setError("Failed to save changes.");
     }
   }
-
   return (
     <main className="phone phone--white profile-screen">
       <div className="status-errors">
