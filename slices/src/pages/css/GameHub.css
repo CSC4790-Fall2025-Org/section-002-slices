@@ -9,6 +9,10 @@
     font-size: 80px;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
+
 .time-remaining {
     font-size: 40px;
     color: #3e3e3e;

@@ -29,6 +29,10 @@ body {
   line-height: 1.5;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
+
 /* Container */
 .phone.start-page {
   display: flex;

@@ -10,6 +10,9 @@ body.no-scroll {
   height: 100vh;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
 
 body.home-bg {
   background-color: #d2f78d;

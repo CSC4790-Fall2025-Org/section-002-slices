@@ -116,6 +116,10 @@
   color: #000;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
+
 /* Category gradients/colors */
 .cat-purple { background: linear-gradient(145deg, #8e92f9 0%, #b2b7ff 100%); }
 .cat-pink { background: linear-gradient(145deg, #ff6f86 0%, #ffc1c7 100%); }

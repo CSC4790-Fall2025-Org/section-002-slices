@@ -59,6 +59,10 @@ img.profile-avatar {
   cursor: pointer;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
+
 /* Streak section */
 .profile-streak {
   display: flex;

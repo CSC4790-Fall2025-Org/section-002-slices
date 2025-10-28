@@ -17,6 +17,10 @@
   color: #333;
 }
 
+body {
+  font-family: "Rubik", sans-serif;
+}
+
 .auth-page p {
   margin-bottom: 1rem;
   text-align: center;
