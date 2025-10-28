@@ -30,9 +30,7 @@ const useStyles = createUseStyles({
     background: "#fff",
     borderRadius: 8,
     transition: "transform 0.14s ease, background 0.14s ease",
-    "&:active": {
-      transform: "scale(0.96)",
-    },
+    "&:active": { transform: "scale(0.96)" },
   },
   flash: {
     background: "#ef4444 !important",
@@ -49,17 +47,18 @@ const useStyles = createUseStyles({
   },
 })
 
-export default function EmojiGridGame({ onComplete }) {
+export default function DifferentEmoji({ onComplete }) {
   const css = useStyles()
   const rows = 3
   const cols = 4
   const total = rows * cols
-  const [grid, setGrid] = useState(Array(total).fill("🙂"))
+  const [grid, setGrid] = useState([])
   const [oddIndex, setOddIndex] = useState(null)
   const [score, setScore] = useState(0)
   const [flashIndex, setFlashIndex] = useState(null)
-  const [round, setRound] = useState(0)
+  const [round, setRound] = useState(1)
   const [solved, setSolved] = useState(false)
+  const [startTime, setStartTime] = useState(Date.now())
 
   useEffect(() => {
     generateGrid()
@@ -69,30 +68,33 @@ export default function EmojiGridGame({ onComplete }) {
     const emojis = ["🙂", "😎", "🥶", "🤓", "😬", "😇", "🤠", "🥳"]
     const normal = emojis[Math.floor(Math.random() * emojis.length)]
     let diff
-    do {
-      diff = emojis[Math.floor(Math.random() * emojis.length)]
-    } while (diff === normal)
+    do diff = emojis[Math.floor(Math.random() * emojis.length)]
+    while (diff === normal)
 
     const cells = Array(total).fill(normal)
     const oddPos = Math.floor(Math.random() * total)
     cells[oddPos] = diff
+
     setGrid(cells)
     setOddIndex(oddPos)
     setFlashIndex(null)
-    setRound(prev => prev + 1)
     setSolved(false)
+    setStartTime(Date.now())
   }
 
   function handleTap(index) {
-    if (solved) return
+    if (solved || flashIndex !== null) return
+
     if (index === oddIndex) {
       const newScore = score + 1
       setScore(newScore)
       setSolved(true)
       setFlashIndex(index)
+      const elapsed = (Date.now() - startTime) / 1000
+
       setTimeout(() => {
-        onComplete?.({ score: newScore, round })
-      }, 250)
+        onComplete?.({ score: newScore, round, elapsed })
+      }, 400)
     } else {
       setScore(prev => Math.max(0, prev - 1))
       setFlashIndex(index)
@@ -114,18 +116,17 @@ export default function EmojiGridGame({ onComplete }) {
 
       <div className={css.stage}>
         {grid.map((emoji, i) => {
-          const cls =
-            flashIndex === i ? css.flash : solved && i === oddIndex ? css.success : css.cell
+          const className = [
+            css.cell,
+            flashIndex === i ? css.flash : "",
+            solved && i === oddIndex ? css.success : "",
+          ].join(" ")
           return (
-            <div key={i} className={cls} onClick={() => handleTap(i)}>
+            <div key={i} className={className} onClick={() => handleTap(i)}>
               {emoji}
             </div>
           )
         })}
-      </div>
-
-      <div className={css.info}>
-        Score: {score} • Round {round} {solved ? "• Solved" : ""}
       </div>
     </div>
   )
