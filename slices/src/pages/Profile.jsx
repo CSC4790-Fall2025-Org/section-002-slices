@@ -54,20 +54,10 @@ export default function Profile() {
     });
 
     // Leaderboard updates
-    const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
-    const unsubscribeLeaderboard = onSnapshot(q, (snap) => {
-      setLeaderboard(
-        snap.docs.map((d, i) => ({
-          rank: i + 1,
-          username: d.data().username,
-          score: d.data().Score,
-        }))
-      );
-    });
+    showAllLeaderboard();
 
     return () => {
       unsubscribeAuth();
-      unsubscribeLeaderboard();
     };
   }, []);
   async function handleAddFriend(emails){
@@ -94,6 +84,17 @@ export default function Profile() {
     }
     }
     
+async function showAllLeaderboard() {
+  const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
+  const querySnapshot = await getDocs(q);
+  const fullLeaderboard = querySnapshot.docs.map((d, i) => ({
+    rank: i + 1,
+    username: d.data().username,
+    score: d.data().Score,
+  }));
+  setLeaderboard(fullLeaderboard);
+  setFiltered(false);
+}
   
   async function filterLeaderboard() {
     if (!user) return;
@@ -168,7 +169,7 @@ export default function Profile() {
       <div className="profile-scroll">
    <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
    {filtered ?    
-   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={() => window.location.reload()}>Show All</button>
+   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={showAllLeaderboard}>Show All</button>
  : 
  <button style={{ padding: "0.25rem", width: "90%" }} onClick={filterLeaderboard}>Sort by Friends</button>}
 <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
