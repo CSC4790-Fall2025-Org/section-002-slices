@@ -8,6 +8,7 @@ import SortGame from "../games/SortGame.jsx";
 import SportsTrivia from "../games/SportsTrivia.jsx";
 import GeographyTrivia from "../games/GeographyTrivia.jsx";
 import BubbleGame from "../games/BubbleGame.jsx";
+import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
 
 const categoryGames = {
@@ -17,6 +18,7 @@ const categoryGames = {
   sports: [SportsTrivia],
   geography: [GeographyTrivia],
   trivia: [SportsTrivia, GeographyTrivia],
+  reaction: [BubbleGame, DifferentEmoji, ColorNameGame],
 };
 
 export default function GameHub() {
