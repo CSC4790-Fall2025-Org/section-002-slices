@@ -19,6 +19,7 @@ const categoryGames = {
   geography: [GeographyTrivia],
   trivia: [SportsTrivia, GeographyTrivia],
   reaction: [BubbleGame, DifferentEmoji, ColorNameGame],
+  debug: [DifferentEmoji],
 };
 
 export default function GameHub() {
