@@ -28,6 +28,7 @@ export default function Profile() {
   const [friendAdded, setFriendAdded] = useState("");
   const [friendEmail, setFriendEmail] = useState("");
   const [Friends, setFriends] = useState(null);
+  const [filtered, setFiltered] = useState(false);
 
   const navigate = useNavigate();
 
@@ -109,6 +110,7 @@ export default function Profile() {
           score: d.data().Score,
     }));
     setLeaderboard(filteredleaderboard);
+    setFiltered(true);
   }
 
   function handleAuthClick() {
@@ -165,7 +167,10 @@ export default function Profile() {
 
       <div className="profile-scroll">
    <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
-   <button style={{ padding: "0.25rem", width: "90%" }} onClick={filterLeaderboard}>Sort by Friends</button>
+   {filtered ?    
+   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={() => window.location.reload()}>Show All</button>
+ : 
+ <button style={{ padding: "0.25rem", width: "90%" }} onClick={filterLeaderboard}>Sort by Friends</button>}
 <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
   {!user && (
     <div className="leaderboard-overlay">
