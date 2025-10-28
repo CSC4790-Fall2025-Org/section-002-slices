@@ -12,7 +12,7 @@ const categories = [
   // { name: "SPORTS", color: "cat-green", route: "/game/sports" },
   { name: "GEOGRAPHY", color: "cat-purple", route: "/game/geography" },
   { name: "REACTION", color: "cat-pink", route: "/game/reaction" },
-  { name: "debug", color: "cat-green", route: "/game/debug" },
+  //{ name: "debug", color: "cat-green", route: "/game/debug" },
 ];
 
 
