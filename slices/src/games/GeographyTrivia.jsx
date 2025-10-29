@@ -8,6 +8,7 @@ export default function GeographyTrivia({ onComplete }) {
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [isCorrect, setIsCorrect] = useState(null)
   const [rightAnswer, setRightAnswer] = useState(null)
+  const [answers, setAnswers] = useState([])
 
   async function fetchQuestion() {
     setLoading(true)
@@ -20,9 +21,10 @@ export default function GeographyTrivia({ onComplete }) {
       if (!q || !q.answers || !q.correctAnswer) throw new Error("Invalid question format")
       setQuestion(q)
       setRightAnswer(q.correctAnswer)
+      setAnswers(q.answers)
     } catch (err) {
       console.warn("Auto-skipping bad question:", err.message)
-      onComplete?.({ autoSkip: true }) // not a user skip
+      onComplete?.({ autoSkip: true })
     } finally {
       setLoading(false)
     }
@@ -32,25 +34,27 @@ export default function GeographyTrivia({ onComplete }) {
     fetchQuestion()
   }, [])
 
-  useEffect(() => {
-    if (selectedAnswer !== null) {
-      const t = setTimeout(() => onComplete?.(), 500)
-      return () => clearTimeout(t)
-    }
-  }, [selectedAnswer, onComplete])
-
   function handleAnswerClick(answer) {
     setSelectedAnswer(answer)
-    setIsCorrect(answer === question.correctAnswer)
+    const correct = answer === question.correctAnswer
+    setIsCorrect(correct)
+
+    if (correct) {
+      const t = setTimeout(() => onComplete?.({ correct: true }), 600)
+      return () => clearTimeout(t)
+    } else {
+      // remove the wrong answer from available options
+      setAnswers(prev => prev.filter(a => a !== answer))
+      setSelectedAnswer(null)
+    }
   }
 
   function handleCheck() {
-    if (selectedAnswer === null) return
-    onComplete?.({ checked: true })
+    if (isCorrect) onComplete?.({ checked: true })
   }
 
   function handleSkip() {
-    onComplete?.({ skipped: true }) // this one triggers penalty
+    onComplete?.({ skipped: true })
   }
 
   if (loading) return <div>Loading...</div>
@@ -66,16 +70,19 @@ export default function GeographyTrivia({ onComplete }) {
       <p>{question.Questions}</p>
 
       <div>
-        {question.answers.map((answer, i) => (
+        {answers.map((answer, i) => (
           <button
             key={i}
             onClick={() => handleAnswerClick(answer)}
-            disabled={selectedAnswer !== null}
+            disabled={isCorrect}
             style={{
               margin: 4,
               padding: "8px 16px",
               borderRadius: 8,
-              background: selectedAnswer === answer ? "#006f16" : "#626262ff",
+              background:
+                selectedAnswer === answer
+                  ? "#006f16"
+                  : "#626262ff",
             }}
           >
             {answer}
@@ -83,12 +90,12 @@ export default function GeographyTrivia({ onComplete }) {
         ))}
       </div>
 
-      {selectedAnswer && (
+      {isCorrect !== null && (
         <div style={{ marginTop: 12 }}>
           <h3>
             {isCorrect
               ? "Correct!"
-              : `Incorrect! The correct answer was ${rightAnswer}`}
+              : "Incorrect! Try again."}
           </h3>
         </div>
       )}
