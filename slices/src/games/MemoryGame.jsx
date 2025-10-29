@@ -18,7 +18,7 @@ export default function MemoryGame({ onComplete }) {
     setCards(shuffled)
     setShowAll(true)
 
-    const timer = setTimeout(() => setShowAll(false), 750)
+    const timer = setTimeout(() => setShowAll(false), 650)
     return () => clearTimeout(timer)
   }, [])
 
