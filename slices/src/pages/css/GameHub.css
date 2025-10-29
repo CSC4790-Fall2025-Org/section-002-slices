@@ -19,13 +19,14 @@ body {
 }
 .back-button {
   position: fixed;
-  margin-top: 20px;
-  margin-right: 200px;
+  top: 50px;
+  right: 200px;
   font-size: clamp(24px, 3vw, 32px);
   background: none;
   border: none;
   cursor: pointer;
-  color: #000;
+  color: #00440e;
   z-index: 1000;
   padding: 4px;
 }
+
