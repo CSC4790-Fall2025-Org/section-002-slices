@@ -5,8 +5,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  deleteUser,
 } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./css/EditAccount.css";
 
@@ -57,6 +58,20 @@ export default function EditAccount() {
       setError(err.message);
     }
   }
+  async function handleDeleteAccount() {
+    if (!user) return;
+    const confirm = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    if (!confirm) return;
+    try {
+      await deleteDoc(doc(db, "UserAccounts", user.uid));
+      await deleteUser(user);
+      handleSignOut();
+    } catch (err) {
+        console.error("Error deleting account:", err);
+        setError("Failed to delete account.");
+      }
+  
+}
 
   async function handleSignIn() {
     setError("");
@@ -117,6 +132,7 @@ export default function EditAccount() {
           />
           <button onClick={handleConfirm}>Confirm</button>
           <button onClick={handleSignOut}>Sign Out</button>
+          <button onClick={handleDeleteAccount}>Delete Account</button>
         </div>
       ) : (
         <div className="auth-container">
@@ -134,6 +150,7 @@ export default function EditAccount() {
           />
           <button onClick={handleSignIn}>Log In</button>
           <button onClick={handleSignUp}>Sign Up</button>
+
         </div>
       )}
     </main>

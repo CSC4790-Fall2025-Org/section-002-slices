@@ -98,11 +98,14 @@ button {
   background-color: #0056b3;
 }
 
-.auth-container button:last-of-type {
+.auth-container button:nth-of-type(2) {
   background-color: #28a745;
   color: #fff;
 }
-
+.auth-container button:last-of-type {
+  background-color: #ee1505;
+  color: #fff;
+}
 .auth-container button:last-of-type:hover {
   background-color: #1e7e34;
 }
