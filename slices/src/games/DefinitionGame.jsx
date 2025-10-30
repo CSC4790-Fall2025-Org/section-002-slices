@@ -109,25 +109,6 @@ export default function DefinitionGame({ onComplete }) {
     setResult(`The word was: ${word}`)
     setTimeout(() => onComplete?.({ skipped: true }), 500)
   }
-  <input
-  id="mobile-input"
-  type="text"
-  autoCapitalize="characters"
-  autoFocus
-  style={{
-    position: "absolute",
-    opacity: 0,
-    pointerEvents: "none",
-  }}
-  onChange={(e) => {
-    const letter = e.target.value.slice(-1).toUpperCase();
-    e.target.value = ""; // clear the field immediately
-    if (/^[A-Z]$/.test(letter)) {
-      updateLetter(letter, cursorIndex);
-      setCursorIndex(nextUnlockedIndex(cursorIndex));
-    }
-  }}
-/>
 
   return (
     <div className="centered">
@@ -136,19 +117,42 @@ export default function DefinitionGame({ onComplete }) {
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
       <p>{definition}</p>
-
-      <div
-        id="word-input-container"
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        onClick={() => document.getElementById("mobile-input")?.focus()}
+        {/* 🔹 Hidden input for mobile keyboard support */}
+      <input
+        id="mobile-input"
+        type="text"
+        autoCapitalize="characters"
+        autoFocus
         style={{
-          display: "flex",
-          gap: 8,
-          marginBottom: 16,
-          outline: "none",
+          position: "absolute",
+          opacity: 0,
+          pointerEvents: "none",
         }}
-      >
+        onChange={(e) => {
+          const letter = e.target.value.slice(-1).toUpperCase()
+          e.target.value = "" // clear immediately
+          if (/^[A-Z]$/.test(letter)) {
+            updateLetter(letter, cursorIndex)
+            setCursorIndex(nextUnlockedIndex(cursorIndex))
+          }
+        }}
+      />
+
+      {/* Your visible input boxes */}
+
+        <div
+          id="word-input-container"
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+          onClick={() => document.getElementById("mobile-input")?.focus()}
+          style={{
+            display: "flex",
+            gap: 8,
+            marginBottom: 16,
+            outline: "none",
+          }}
+          
+        >
         {locked.map((l, i) => (
           <input
             key={i}
