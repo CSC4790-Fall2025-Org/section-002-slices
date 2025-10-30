@@ -111,6 +111,7 @@ async function showAllLeaderboard() {
     const ref = doc(db, "UserAccounts", user.uid);
     const snap = await getDoc(ref);
     const friendslist = snap.data().friends || [];
+    friendslist.push(snap.data().email); // Include self
     console.log("friendslist:", friendslist);
 
     const filtered = query(collection(db, "UserAccounts"), where("email", "in", friendslist), orderBy("Score", "desc"));
