@@ -54,10 +54,20 @@ export default function Profile() {
     });
 
     // Leaderboard updates
-    showAllLeaderboard();
+   const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
+    const unsubscribeLeaderboard = onSnapshot(q, (snap) => {
+      setLeaderboard(
+        snap.docs.map((d, i) => ({
+          rank: i + 1,
+          username: d.data().username,
+          score: d.data().Score,
+        }))
+      );
+    });
 
     return () => {
       unsubscribeAuth();
+      unsubscribeLeaderboard();
     };
   }, []);
   async function handleAddFriend(emails){

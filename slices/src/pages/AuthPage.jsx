@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../scripts/firebase.js";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import "./css/AuthPage.css";
+import { setDoc } from "firebase/firestore";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
@@ -16,6 +17,11 @@ export default function AuthPage() {
     setError("");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
+        email: auth.currentUser.email,
+        Score: 0,
+        createdAt: new Date(),
+      });
       navigate(redirect);
     } catch (err) {
       setError(err.message);
