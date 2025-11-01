@@ -83,31 +83,34 @@ export default function BubbleGame({ onComplete }) {
     setStartTime(Date.now())
   }
 
-  function handleTap(id) {
-    if (id === expected) {
-      setScore(prev => prev + 1)
+function handleTap(id) {
+  if (id === expected) {
+    setScore(prev => prev + 1);
 
-      if (id === count) {
-        const elapsed = Date.now() - startTime
-        const bonus = Math.max(0, 5000 - elapsed) / 1000
-        const finalScore = score + 1 + Math.floor(bonus)
-        setScore(finalScore)
-        onComplete?.({ score: finalScore })
-      } else {
-        setExpected(prev => prev + 1)
-      }
+    // Remove the tapped bubble
+    setBubbles(prev => prev.filter(b => b.id !== id));
+
+    if (id === count) {
+      const elapsed = Date.now() - startTime;
+      const bonus = Math.max(0, 5000 - elapsed) / 1000;
+      const finalScore = score + 1 + Math.floor(bonus);
+      setScore(finalScore);
+      onComplete?.({ score: finalScore });
     } else {
-      setScore(prev => prev - 1)
-      setBubbles(prev =>
-        prev.map(b => (b.id === id ? { ...b, flash: true } : b))
-      )
-      setTimeout(() => {
-        setBubbles(prev =>
-          prev.map(b => (b.id === id ? { ...b, flash: false } : b))
-        )
-      }, 300)
+      setExpected(prev => prev + 1);
     }
+  } else {
+    setScore(prev => prev - 1);
+    setBubbles(prev =>
+      prev.map(b => (b.id === id ? { ...b, flash: true } : b))
+    );
+    setTimeout(() => {
+      setBubbles(prev =>
+        prev.map(b => (b.id === id ? { ...b, flash: false } : b))
+      );
+    }, 300);
   }
+}
 
   function handleCheck() {}
 
