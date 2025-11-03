@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <main className="phone start-page" role="main">
-      <img src="../assets/logo.png" alt="SLICES logo" className="logo" />
+      <img src="../assets/logo.png" alt="SLICES logo" className="main-logo" />
 
       <h1 className="title">
         THE DAILY<br />SLICE
