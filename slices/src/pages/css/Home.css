@@ -100,11 +100,7 @@ body {
   :root {
     --spacing-base: 1.25rem;
   }
-
-  .logo {
-    max-width: 300px;
-  }
-
+  
   #game-frame {
     height: 85vh;
   }
@@ -114,11 +110,6 @@ body {
   :root {
     --spacing-base: 1.5rem;
   }
-
-  .logo {
-    max-width: 350px;
-  }
-
   #game-frame {
     height: 90vh;
   }
