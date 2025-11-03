@@ -47,14 +47,13 @@ body {
 
 /* Responsive logo scaling */
 .logo {
-  width: clamp(120px, 18vw, 420px);
+  width: clamp(120px, 35vw, 600px);
   height: auto;
   object-fit: contain;
-  margin-inline: auto;
-  margin-bottom: clamp(0.5rem, 2vw, 2rem);
   display: block;
+  margin-inline: auto;
+  margin-bottom: clamp(0.5rem, 3vw, 3rem);
 }
-
 
 /* Title */
 .title {
