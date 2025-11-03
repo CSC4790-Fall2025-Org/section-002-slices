@@ -45,13 +45,16 @@ body {
   text-align: center;
 }
 
-/* Logo - maintain aspect ratio */
+/* Responsive logo scaling */
 .logo {
-  width: clamp(150px, 25vw, 350px);
+  width: clamp(120px, 18vw, 420px);
   height: auto;
-  margin-bottom: calc(var(--spacing-base) * 1.5);
   object-fit: contain;
+  margin-inline: auto;
+  margin-bottom: clamp(0.5rem, 2vw, 2rem);
+  display: block;
 }
+
 
 /* Title */
 .title {
