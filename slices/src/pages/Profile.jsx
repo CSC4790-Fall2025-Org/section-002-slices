@@ -157,32 +157,15 @@ async function showAllLeaderboard() {
         <div className="profile-streak">
           <span>{score}🔥</span>
         </div>
-        {addfriend ? (
-          <button onClick={() => { setAddFriend(false); setError(""); }}>Add Friend</button>
-        ) : (
-          <>
-            <input
-              type="text"
-              placeholder="Friend's Email"
-              value={friendEmail}
-              onChange={(e) => setFriendEmail(e.target.value)}
-            />
-            <button onClick={() => { setAddFriend(true); handleAddFriend(friendEmail); }}>Add</button>
-
-          </>
-        )}
-
         <button onClick={handleAuthClick} className="authButton">
           {user ? "Sign Out" : "Sign In"}
         </button>
+
       </section>
 
       <div className="profile-scroll">
    <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
-   {filtered ?    
-   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={showAllLeaderboard}>Show All</button>
- : 
- <button style={{ padding: "0.25rem", width: "90%" }} onClick={filterLeaderboard}>Sort by Friends</button>}
+   
 <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
   {!user && (
     <div className="leaderboard-overlay">
@@ -199,8 +182,26 @@ async function showAllLeaderboard() {
     ))}
   </div>
 </div>
+{addfriend ? (
+          <button className = "friend-button" onClick={() => { setAddFriend(false); setError(""); }}>Add Friend</button>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Friend's Email"
+              value={friendEmail}
+              onChange={(e) => setFriendEmail(e.target.value)}
+            />
+            <button onClick={() => { setAddFriend(true); handleAddFriend(friendEmail); }}>Add</button>
 
+          </>
+        )}
+ {filtered ?    
+   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={showAllLeaderboard}>Show All</button>
+ : 
+ <button className = "sort-button" onClick={filterLeaderboard}>Sort by Friends</button>}
       </div>
+
     </main>
   );
 }
