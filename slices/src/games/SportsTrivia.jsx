@@ -1,29 +1,36 @@
 import { useState, useEffect } from "react"
-import { fetchTriviaQuestions } from "../scripts/sports-api.js"
-import GameControls from "../components/GameControls.jsx"
 
 export default function SportsTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
+  const [answers, setAnswers] = useState([])
+  const [rightAnswer, setRightAnswer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [isCorrect, setIsCorrect] = useState(null)
-  const [rightAnswer, setRightAnswer] = useState(null)
-  const [answers, setAnswers] = useState([])
 
-  async function fetchQuestion() {
+  async function loadTrivia() {
     setLoading(true)
     setSelectedAnswer(null)
     setIsCorrect(null)
     setRightAnswer(null)
 
     try {
-      const q = await fetchTriviaQuestions()
-      if (!q || !q.answers || !q.correctAnswer) throw new Error("Invalid question format")
-      setQuestion(q)
-      setRightAnswer(q.correctAnswer)
-      setAnswers(q.answers)
+      const text = await fetch("/sports-trivia.txt").then(r => r.text())
+      const lines = text.trim().split("\n").filter(Boolean)
+
+      const randomLine = lines[Math.floor(Math.random() * lines.length)]
+      const parts = randomLine.split(";").map(p => p.trim())
+
+      if (parts.length < 3) throw new Error("Invalid line format")
+
+      const [questionText, correct, ...wrong] = parts
+      const allAnswers = [correct, ...wrong].sort(() => Math.random() - 0.5)
+
+      setQuestion(questionText)
+      setRightAnswer(correct)
+      setAnswers(allAnswers)
     } catch (err) {
-      console.warn("Auto-skipping bad sports question:", err.message)
+      console.warn("Failed to load trivia:", err.message)
       onComplete?.({ autoSkip: true })
     } finally {
       setLoading(false)
@@ -31,26 +38,21 @@ export default function SportsTrivia({ onComplete }) {
   }
 
   useEffect(() => {
-    fetchQuestion()
+    loadTrivia()
   }, [])
 
   function handleAnswerClick(answer) {
     setSelectedAnswer(answer)
-    const correct = answer === question.correctAnswer
+    const correct = answer === rightAnswer
     setIsCorrect(correct)
 
     if (correct) {
       const t = setTimeout(() => onComplete?.({ correct: true }), 600)
       return () => clearTimeout(t)
     } else {
-      // remove the wrong answer and let user try again
       setAnswers(prev => prev.filter(a => a !== answer))
       setSelectedAnswer(null)
     }
-  }
-
-  function handleCheck() {
-    if (isCorrect) onComplete?.({ checked: true })
   }
 
   function handleSkip() {
@@ -65,9 +67,11 @@ export default function SportsTrivia({ onComplete }) {
       <h2>Sports Trivia</h2>
       <p>Can you score a win on this one?</p>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
+      <button onClick={handleSkip} style={{ marginBottom: 8 }}>
+        Skip
+      </button>
 
-      <p>{question.Questions}</p>
+      <p>{question}</p>
 
       <div>
         {answers.map((answer, i) => (
@@ -80,9 +84,7 @@ export default function SportsTrivia({ onComplete }) {
               padding: "8px 16px",
               borderRadius: 8,
               background:
-                selectedAnswer === answer
-                  ? "#006f16"
-                  : "#626262ff",
+                selectedAnswer === answer ? "#006f16" : "#626262ff",
             }}
           >
             {answer}
@@ -92,11 +94,7 @@ export default function SportsTrivia({ onComplete }) {
 
       {isCorrect !== null && (
         <div style={{ marginTop: 12 }}>
-          <h3>
-            {isCorrect
-              ? "Correct!"
-              : "Incorrect! Try again."}
-          </h3>
+          <h3>{isCorrect ? "Correct!" : "Incorrect! Try again."}</h3>
         </div>
       )}
     </div>
