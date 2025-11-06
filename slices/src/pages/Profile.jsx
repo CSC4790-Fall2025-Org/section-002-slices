@@ -43,7 +43,7 @@ export default function Profile() {
           if (snap.exists()) {
             const data = snap.data();
             if (data.username) setUsername(data.username);
-            if (data.Score !== undefined) setScore(data.Score);
+            if (data.Streak !== undefined) setScore(data.Streak);
             if (data.friends) setFriends(data.friends);
           }
         });
