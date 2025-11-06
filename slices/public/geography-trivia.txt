@@ -28,3 +28,33 @@ Which country has pyramids and the Sphinx?; Egypt; Sudan; Morocco
 What is the capital of Germany?; Berlin; Munich; Frankfurt
 Which ocean lies between Africa and Australia?; Indian Ocean; Atlantic Ocean; Pacific Ocean
 What is the largest country in South America?; Brazil; Argentina; Colombia
+What is the capital of Australia?; Canberra; Sydney; Melbourne
+Which country has the most islands in the world?; Sweden; Indonesia; Philippines
+What continent is the Sahara Desert located on?; Africa; Asia; Australia
+What is the capital of Brazil?; Brasília; Rio de Janeiro; São Paulo
+Which country is both in Europe and Asia?; Turkey; Russia; Greece
+What is the largest country in the world by area?; Russia; Canada; China
+Which country’s flag has a red circle on a white background?; Japan; Indonesia; Bangladesh
+What is the capital of South Korea?; Seoul; Busan; Tokyo
+Which U.S. state has the most people?; California; Texas; Florida
+What is the capital of Spain?; Madrid; Barcelona; Seville
+Which country has the Great Wall?; China; Mongolia; Japan
+What continent is Argentina on?; South America; Europe; Africa
+Which U.S. state is known as the Lone Star State?; Texas; Arizona; New Mexico
+What is the capital of India?; New Delhi; Mumbai; Kolkata
+Which African country has Cape Town as one of its cities?; South Africa; Kenya; Nigeria
+What is the capital of Russia?; Moscow; St. Petersburg; Kiev
+Which country is known for its maple leaves?; Canada; Norway; Finland
+What U.S. city is famous for the Space Needle?; Seattle; Houston; San Francisco
+What is the capital of Italy?; Rome; Milan; Venice
+Which continent is the Amazon Rainforest located on?; South America; Africa; Asia
+What is the capital of China?; Beijing; Shanghai; Hong Kong
+Which country is known as the Land of the Rising Sun?; Japan; South Korea; China
+What is the capital of Greece?; Athens; Rome; Istanbul
+Which desert covers much of northern Africa?; Sahara; Kalahari; Gobi
+What is the capital of Egypt?; Cairo; Alexandria; Giza
+Which country borders the United States to the north?; Canada; Mexico; Greenland
+What is the capital of South Africa?; Pretoria; Johannesburg; Cape Town
+Which country has the city of Dubai?; United Arab Emirates; Saudi Arabia; Qatar
+What mountain range separates Europe and Asia?; Ural Mountains; Alps; Andes
+Which country is home to Mount Fuji?; Japan; China; Nepal
