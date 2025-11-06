@@ -10,6 +10,9 @@ import GeographyTrivia from "../games/GeographyTrivia.jsx";
 import BubbleGame from "../games/BubbleGame.jsx";
 import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../scripts/firebase.js";
+
 
 const categoryGames = {
   memory: [MemoryGame],
@@ -70,10 +73,25 @@ export default function GameHub() {
     return () => clearTimeout(timer);
   }, [penaltyCountdown]);
 
+  useEffect(() => {
+    if (gameOver) {
+      getScore();
+      console.log("Game over! Final score:", gamesCompleted);
+    }
+  }, [gameOver]);
+
   function nextGame(skipped = false) {
     if (gameOver) return;
     if (!skipped) setGamesCompleted(prev => prev + 1);
     setGameIndex(prev => (prev + 1) % games.length);
+  }
+
+  async function getScore() {
+    if (!auth.currentUser) return null;
+    setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
+      Score: gamesCompleted * 10,
+    }, { merge: true });
+    
   }
 
   function handleGameComplete(data) {
@@ -95,6 +113,7 @@ export default function GameHub() {
         <p>{gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!</p>
         <button onClick={() => navigate("/")}>Home</button>
       </div>
+      
     );
   }
 
