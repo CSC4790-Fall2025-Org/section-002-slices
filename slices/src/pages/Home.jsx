@@ -78,7 +78,7 @@ export default function Home() {
           {const allowed = await canPlay();
           console.log("Can play today:", allowed);
           if (allowed) {
-            navigate("/game");
+            navigate("/game", { state: { from: "daily" } } );
           }
           else {
             alert("You have already played today's game. Come back tomorrow for a new challenge!");

@@ -36,6 +36,7 @@ export default function GameHub() {
   const [gameOver, setGameOver] = useState(false);
   const [penaltyCountdown, setPenaltyCountdown] = useState(null);
   const [gameIndex, setGameIndex] = useState(0);
+  const [fromDaily, setFromDaily] = useState(false);
 
   const allGames = Object.values(categoryGames).flat();
 
@@ -45,7 +46,7 @@ export default function GameHub() {
     }
     return [...allGames].sort(() => Math.random() - 0.5);
   });
-
+  
   useEffect(() => {
     if (gameOver || penaltyCountdown != null) return;
     const timer = setInterval(() => {
@@ -80,6 +81,16 @@ export default function GameHub() {
     }
   }, [gameOver]);
 
+  function fromDailyCheck() {
+    if (location.state?.from === "daily") {
+      setFromDaily(true);
+    }
+  }
+
+  useEffect(() => {
+    fromDailyCheck();
+  }, []);
+
   function nextGame(skipped = false) {
     if (gameOver) return;
     if (!skipped) setGamesCompleted(prev => prev + 1);
@@ -88,6 +99,10 @@ export default function GameHub() {
 
   async function getScore() {
     if (!auth.currentUser) return null;
+    if(!fromDaily) {
+      console.log("Not from daily, score not recorded.");
+      return;
+    }
     setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
       Score: gamesCompleted * 10,
     }, { merge: true });
