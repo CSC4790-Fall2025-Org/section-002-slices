@@ -144,23 +144,20 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
 
   return (
-    <div className="gamehub centered" style={{ position: "relative" }}>
-      <button
-        className="back-button"
-        onClick={handleBack}
-        aria-label="Back"
-      >
-        ⬅
-      </button>
+<div className="gamehub centered" style={{ position: "relative" }}>
+  <button className="back-button" onClick={handleBack} aria-label="Back">
+    ⬅
+  </button>
 
-      <div className="game-header">
-        <p className="time-left">{timeLeft}</p>
-        <p className="score">Score: {gamesCompleted}</p>
-      </div>
+  <div className="timer-top-right">{timeLeft}</div>
 
-      <div className="game-container">
-        <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />
-      </div>
-    </div>
+  <div className="game-header">
+    <p className="score">Score: {gamesCompleted}</p>
+  </div>
+
+  <div className="game-container">
+    <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />
+  </div>
+</div>
   );
 }
