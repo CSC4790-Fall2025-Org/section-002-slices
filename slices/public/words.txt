@@ -1,57 +1,9 @@
+acorn; nut from an oak tree
+angel; spiritual being or messenger
 apple; a round fruit with red or green skin and crisp flesh
-bread; baked food made from flour, water, and yeast
-chair; furniture with a seat and back for one person
-table; flat surface on legs used for eating or working
-river; a large stream of flowing water
-beach; sandy shore beside the sea
-plant; living thing that grows in soil and uses sunlight
-flame; burning gas seen as light and heat
-grass; green plant covering fields or lawns
-storm; violent weather with wind and rain
-cloud; visible mass of water vapor in the sky
-stone; hard solid material from the earth
-heart; organ that pumps blood through the body
-brain; organ that controls thought and movement
-blood; red liquid that circulates in the body
-house; building for people to live in
-light; natural or artificial brightness that lets you see
-sound; vibrations that travel through air and can be heard
-music; organized sound that expresses feeling or rhythm
-smile; facial expression showing happiness
-dream; thoughts and images during sleep
-sleep; state of rest when the body and mind are inactive
-horse; large animal with hooves used for riding
-tiger; large striped cat from Asia
-eagle; large bird of prey with strong wings
-sheep; farm animal with woolly coat
-grass; green plants that grow on lawns or fields
-flour; powder made by grinding grain, used in baking
-sugar; sweet white or brown crystals used in food
-water; clear liquid needed by all living things
-earth; the planet we live on
-stone; small piece of rock or mineral
-metal; solid material that conducts heat and electricity
-paper; thin material made from wood pulp, used for writing
-glass; hard clear material made by melting sand
-brush; tool with bristles used for cleaning or painting
-spoon; small utensil for eating or stirring
-clock; device that measures and shows time
-knife; tool with a sharp blade used for cutting
-plant; living organism that grows from soil
-candy; sweet food made mostly from sugar
-lemon; yellow sour fruit
-grape; small round fruit used to make wine
-pearl; smooth round gem formed inside an oyster
-flute; musical instrument you blow across
-ghost; spirit of a dead person believed to appear
-crown; ornament worn on the head by royalty
-queen; female ruler of a country or kingdom
-robot; machine designed to perform tasks automatically
-piano; large musical instrument with black and white keys
-train; series of connected vehicles running on rails
-angel; spiritual being often seen as a messenger of God
 arrow; thin pointed shaft shot from a bow
 baker; person who makes bread or cakes
+beach; sandy shore beside the sea
 beard; hair that grows on the chin and cheeks
 bench; long seat for several people
 berry; small juicy fruit without a stone
@@ -60,82 +12,173 @@ blink; close and open the eyes quickly
 block; solid piece of hard material, usually rectangular
 bloom; to produce flowers
 board; flat piece of wood
-bloom; flower or state of flowering
 booth; small enclosed space for a specific use
-brain; organ that controls thoughts and actions
+brain; organ that controls thought and movement
+bread; baked food made from flour, water, and yeast
+brick; small block used to build walls
 bride; woman on her wedding day
+brink; edge or border of something
 brush; tool with bristles for cleaning or painting
 cabin; small wooden house or shelter
 camel; desert animal with humps on its back
-candy; sweet food made of sugar
+candy; sweet food made mostly from sugar
+cargo; goods carried by ship or plane
 chain; series of linked metal rings
+chair; furniture with a seat and back for one person
+charm; quality that attracts or delights
 chess; board game with kings, queens, and pawns
 chill; cold feeling or drop in temperature
 cider; drink made from pressed apples
+cliff; steep face of rock or earth
 cloak; long outer garment worn over clothes
-clock; device that shows the time
+clock; device that measures and shows time
+cloud; visible mass of water vapor in the sky
 clown; performer who wears makeup and does funny acts
 coast; land beside the sea
-crane; tall machine for lifting heavy objects
+cocoa; powder made from roasted cacao beans
+coral; hard substance formed by sea animals
+crane; tall machine used for lifting heavy objects
 creek; small narrow stream
-dance; rhythmic movement to music
+crown; ornament worn on the head by royalty
+dairy; place where milk and cheese are made
 daisy; small white flower with yellow center
-dream; series of images or thoughts during sleep
+dance; rhythmic movement to music
+delta; land formed where a river meets the sea
+diner; small restaurant
+ditch; narrow channel dug to carry water
+dream; thoughts and images during sleep
 dress; item of clothing for women or girls
-drink; liquid you swallow for refreshment
 drill; tool for making holes
+drink; liquid you swallow for refreshment
 eagle; large bird of prey with strong wings
+earth; the planet we live on
 fence; barrier enclosing an area
+fiber; threadlike part of plants or materials
 field; open land for crops or pasture
+flame; burning gas seen as light and heat
 flock; group of birds or sheep
+flour; powder made by grinding grain, used in baking
 flute; musical instrument you blow across
+forge; make or shape metal by heating and hammering
+frost; thin layer of ice formed in cold air
 fruit; sweet edible part of a plant
-frost; thin layer of ice from cold air
+fuzzy; covered with short soft hairs
+gecko; small lizard with sticky feet
+ghost; spirit of a dead person believed to appear
 giant; being of great size and strength
+glass; hard clear material made by melting sand
 glove; clothing that covers the hand
+grape; small round fruit used to make wine
+grass; green plant covering fields or lawns
+gravy; sauce made from meat juices
 grill; device for cooking food over heat
 group; collection of people or things
 harsh; rough or unpleasant in sound or feel
+hazel; tree that produces edible nuts
+heart; organ that pumps blood through the body
 honey; sweet substance made by bees
 horse; large animal used for riding
+house; building for people to live in
 islet; very small island
+jelly; sweet spread made from fruit juice and sugar
 jewel; precious stone used in jewelry
-knife; sharp-edged tool for cutting
+kneel; to rest on one or both knees
+knife; tool with a sharp blade used for cutting
 ladle; deep spoon for serving soup
 laser; device that emits a narrow beam of light
 leafy; full of leaves
+lemon; yellow sour fruit
+light; natural or artificial brightness that lets you see
+linen; fabric made from flax
+loyal; showing faithfulness or devotion
+mango; tropical fruit with orange flesh
 maple; tree known for its sweet sap
+mason; person who builds with stone or brick
 melon; large round fruit with sweet flesh
-metal; hard shiny material that conducts heat
+metal; solid material that conducts heat and electricity
 mimic; copy someone’s actions or words
 mocha; coffee with chocolate flavor
 mossy; covered in moss
 mount; climb or go up
+music; organized sound that expresses feeling or rhythm
 night; time of darkness between sunset and sunrise
+noble; having high moral qualities
 ocean; vast body of salt water covering most of Earth
 olive; small green or black fruit with a pit
+onion; round vegetable with layers and a strong smell
+otter; playful water animal with thick fur
 paint; colored liquid used to coat surfaces
-pearl; round gem formed inside a shell
+panda; black and white bear native to China
+paper; thin material made from wood pulp, used for writing
+peach; soft round fruit with fuzzy skin
+pearl; round gem formed inside an oyster
+perch; fish that lives in freshwater
+piano; large musical instrument with black and white keys
 pilot; person who flies an aircraft
+plant; living thing that grows in soil and uses sunlight
 plaza; public square in a town or city
 pride; feeling of satisfaction in one’s achievements
+prism; solid object that bends light
 puppy; young dog
 quake; sudden shaking of the ground
-queen; female ruler of a country
+queen; female ruler of a country or kingdom
+quill; feather used for writing in the past
+ranch; large farm for raising animals
 raven; large black bird known for its intelligence
+rider; person who rides a horse or bike
 ridge; long narrow raised land
-sailor; person who works on a ship
+river; long stream of flowing water
+robot; machine designed to perform tasks automatically
+rocky; covered with or made of rocks
+rumor; story passed from person to person without proof
 salad; mixture of raw vegetables or fruits
+scarf; cloth worn around the neck
+scoop; deep spoon or tool for picking up something
+screw; metal fastener with a spiral ridge
+sewer; underground drain for waste water
 shark; large predatory fish with sharp teeth
+sheep; farm animal with woolly coat
+shelf; flat board used to hold objects
 shore; land along the edge of a sea or lake
+shrub; small bushy plant
+skirt; clothing worn from the waist down
+sleep; state of rest when the body and mind are inactive
+sloth; slow-moving tree animal
+smile; facial expression showing happiness
+snack; small portion of food between meals
 snake; long legless reptile
-spice; plant substance used to flavor food
+sound; vibrations that travel through air and can be heard
+spade; tool with a flat blade for digging
 spear; long pointed weapon used for thrusting
+spice; plant substance used to flavor food
+spine; backbone of an animal
 spoon; utensil used for eating or serving food
+stone; hard solid material from the earth
+storm; violent weather with wind and rain
+straw; dried stalks of grain plants
+sugar; sweet white or brown crystals used in food
+swamp; wet land covered with water and plants
+sword; weapon with a long metal blade
+table; flat surface on legs used for eating or working
+thief; person who steals
+tiger; large striped cat from Asia
+toast; bread browned by heat
+token; object that represents something else
 torch; handheld light source, often with flame
+towel; cloth used for drying
+tower; tall structure
 trail; path made by people or animals
+train; series of connected vehicles running on rails
+trout; type of freshwater fish
 tulip; brightly colored spring flower
 valve; device that controls the flow of liquid or gas
+vapor; moisture in the air as gas
+water; clear liquid needed by all living things
+weary; tired or worn out
+weave; interlace threads to make fabric
 whale; large marine mammal
 wheat; grain used to make flour
+wooly; covered in soft hair or fleece
 wrist; joint connecting the hand and arm
+yeast; substance that makes dough rise
+zebra; African animal with black and white stripes
