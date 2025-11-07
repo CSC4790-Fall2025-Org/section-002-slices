@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import GameControls from "../components/GameControls.jsx"
 
 export default function SportsTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
@@ -17,7 +18,6 @@ export default function SportsTrivia({ onComplete }) {
     try {
       const text = await fetch("/sports-trivia.txt").then(r => r.text())
       const lines = text.trim().split("\n").filter(Boolean)
-
       const randomLine = lines[Math.floor(Math.random() * lines.length)]
       const parts = randomLine.split(";").map(p => p.trim())
 
@@ -67,9 +67,7 @@ export default function SportsTrivia({ onComplete }) {
       <h2>Sports Trivia</h2>
       <p>Can you score a win on this one?</p>
 
-      <button onClick={handleSkip} style={{ marginBottom: 8 }}>
-        Skip
-      </button>
+      <GameControls onSkip={handleSkip} />
 
       <p>{question}</p>
 

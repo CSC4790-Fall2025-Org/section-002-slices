@@ -136,7 +136,6 @@ export default function GameHub() {
   if (penaltyCountdown != null) {
     return (
       <div className="gamehub centered">
-        <h1>Skipping…</h1>
         <h2 className="penalty-timer">{penaltyCountdown}</h2>
       </div>
     );
@@ -151,10 +150,6 @@ export default function GameHub() {
   </button>
 
   <div className="timer-top-right">{timeLeft}</div>
-
-  <div className="game-header">
-    <p className="score">Score: {gamesCompleted}</p>
-  </div>
 
   <div className="game-container">
     <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />

@@ -3,7 +3,7 @@ import GameControls from "../components/GameControls.jsx"
 import "./css/memory.css"
 
 export default function MemoryGame({ onComplete }) {
-  const allCards = ["🍎", "🍌", "🍇"] 
+  const allCards = ["🍎", "🍌", "🍇"]
 
   const [cards, setCards] = useState([])
   const [flipped, setFlipped] = useState([])
@@ -47,7 +47,6 @@ export default function MemoryGame({ onComplete }) {
     }
   }, [matched, cards])
 
-  function handleCheck() {}
   function handleSkip() {
     onComplete?.({ skipped: true })
   }
@@ -57,7 +56,7 @@ export default function MemoryGame({ onComplete }) {
       <h2>Memory Match</h2>
       <p>{showAll ? "Memorize the cards..." : "Find all the pairs!"}</p>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
+      <GameControls onSkip={handleSkip} />
 
       <div className="grid">
         {cards.map(card => {
@@ -76,10 +75,6 @@ export default function MemoryGame({ onComplete }) {
           )
         })}
       </div>
-
-      <p style={{ marginTop: 8 }}>
-        {matched.length / 2} / {cards.length / 2} pairs matched
-      </p>
     </div>
   )
 }

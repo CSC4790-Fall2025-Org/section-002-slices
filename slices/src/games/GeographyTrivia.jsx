@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import GameControls from "../components/GameControls.jsx"
 
 export default function GeographyTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
@@ -67,9 +68,7 @@ export default function GeographyTrivia({ onComplete }) {
       <h2>Geography Trivia</h2>
       <p>Test your knowledge of places and countries.</p>
 
-      <button onClick={handleSkip} style={{ marginBottom: 8 }}>
-        Skip
-      </button>
+      <GameControls onSkip={handleSkip} />
 
       <p>{question}</p>
 
