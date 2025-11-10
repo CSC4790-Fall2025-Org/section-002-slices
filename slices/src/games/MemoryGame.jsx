@@ -1,79 +1,85 @@
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import GameControls from "../components/GameControls.jsx"
 import "./css/memory.css"
 
 export default function MemoryGame({ onComplete }) {
-  const allCards = ["🍎", "🍌", "🍇"]
-
-  const [cards, setCards] = useState([])
-  const [flipped, setFlipped] = useState([])
-  const [matched, setMatched] = useState([])
-  const [showAll, setShowAll] = useState(true)
+  const allEmojis = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍒", "🍋", "🍍"]
+  const [grid, setGrid] = useState([])
+  const [flipped, setFlipped] = useState([]) // false = hidden, true = revealed
+  const [activeIndices, setActiveIndices] = useState([])
 
   useEffect(() => {
-    const shuffled = [...allCards, ...allCards]
-      .sort(() => Math.random() - 0.5)
-      .map((emoji, index) => ({ id: index, emoji }))
+    const shuffledEmojis = allEmojis.sort(() => Math.random() - 0.5)
+    const selected = shuffledEmojis.slice(0, 3)
+    const paired = [...selected, ...selected]
+    const finalGrid = paired.sort(() => Math.random() - 0.5)
+    setGrid(finalGrid)
+    
+    setFlipped(Array(finalGrid.length).fill(true)) // show all initially
+    const hideTimeout = setTimeout(() => {
+      setFlipped(Array(finalGrid.length).fill(false)) // hide all after .5s
+    }, 500)
 
-    setCards(shuffled)
-    setShowAll(true)
-
-    const timer = setTimeout(() => setShowAll(false), 650)
-    return () => clearTimeout(timer)
+    return () => clearTimeout(hideTimeout)
   }, [])
-
-  function handleFlip(id) {
-    if (showAll) return
-    if (flipped.includes(id) || matched.includes(id)) return
-
-    const newFlipped = [...flipped, id]
-    setFlipped(newFlipped)
-
-    if (newFlipped.length === 2) {
-      const [first, second] = newFlipped.map(i => cards[i])
-      if (first.emoji === second.emoji) {
-        setMatched(prev => [...prev, first.id, second.id])
-        setFlipped([])
-      } else {
-        setTimeout(() => setFlipped([]), 800)
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (matched.length === cards.length && cards.length > 0) {
-      const t = setTimeout(() => onComplete?.({ score: matched.length / 2 }), 800)
-      return () => clearTimeout(t)
-    }
-  }, [matched, cards])
 
   function handleSkip() {
     onComplete?.({ skipped: true })
   }
 
+  function handleCardClick(index) {
+    if (flipped[index] || activeIndices.length === 2) return
+
+    const newActive = [...activeIndices, index]
+    setActiveIndices(newActive)
+    setFlipped(prev => {
+      const copy = [...prev]
+      copy[index] = true
+      return copy
+    })
+
+    if (newActive.length === 2) {
+      const [first, second] = newActive
+      if (grid[first] !== grid[second]) {
+        setTimeout(() => {
+          setFlipped(prev => {
+            const copy = [...prev]
+            copy[first] = false
+            copy[second] = false
+            return copy
+          })
+          setActiveIndices([])
+        }, 250)
+      } else {
+        setActiveIndices([])
+      }
+    }
+
+    // check if all cards are revealed
+    setTimeout(() => {
+      if (flipped.every((v, i) => v || i === index)) {
+        onComplete?.({ correct: true })
+      }
+    }, 100)
+  }
+
   return (
-    <div className="centered">
+    <div className="memory-container">
       <h2>Memory Match</h2>
-      <p>{showAll ? "Memorize the cards..." : "Find all the pairs!"}</p>
+      <p>Find all the matching pairs!</p>
 
       <GameControls onSkip={handleSkip} />
 
       <div className="grid">
-        {cards.map(card => {
-          const isFlipped = showAll || flipped.includes(card.id) || matched.includes(card.id)
-          return (
-            <div
-              key={card.id}
-              className={`card ${isFlipped ? "flipped" : ""}`}
-              onClick={() => handleFlip(card.id)}
-            >
-              <div className="card-inner">
-                <div className="card-front">?</div>
-                <div className="card-back">{card.emoji}</div>
-              </div>
-            </div>
-          )
-        })}
+        {grid.map((emoji, i) => (
+          <div
+            key={i}
+            className={`cell ${flipped[i] ? "flipped" : ""}`}
+            onClick={() => handleCardClick(i)}
+          >
+            {flipped[i] && emoji}
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 .top-controls {
   position: fixed;
-  top: 100px;
+  top: 150px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -15,6 +15,7 @@
   width: 10rem;
   height: 3rem;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .skip-button:hover {
