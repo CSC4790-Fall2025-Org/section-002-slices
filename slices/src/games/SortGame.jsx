@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import GameControls from "../components/GameControls.jsx"
-import "./css//SortGame.css"
+import "./css/SortGame.css"
 
 const SET = {
   leftLabel: "Fruit",
@@ -20,59 +20,35 @@ const SET = {
 }
 
 export default function SortGame({ onComplete }) {
-  const [round, setRound] = useState(0)
-  const [score, setScore] = useState(0)
-  const [streak, setStreak] = useState(0)
+  const [item, setItem] = useState(null)
   const [feedback, setFeedback] = useState("")
-  const [pair, setPair] = useState([])
-
-  const MAX_ROUNDS = 3
 
   useEffect(() => {
-    newRound()
+    const randomItem = SET.items[Math.floor(Math.random() * SET.items.length)]
+    setItem(randomItem)
   }, [])
 
-  function newRound() {
-    const shuffled = [...SET.items].sort(() => Math.random() - 0.5)
-    setPair(shuffled.slice(0, 2))
-  }
-
-  const currentItem = useMemo(() => {
-    if (!pair.length) return null
-    return pair[Math.floor(Math.random() * pair.length)]
-  }, [pair, round])
-
   function pick(side) {
-    if (!currentItem) return
-    const correct = side === currentItem.side
+    if (!item) return
+    const correct = side === item.side
     if (correct) {
-      const bonus = streak >= 2 ? 2 : 1
-      setScore(s => s + bonus)
-      setStreak(s => s + 1)
       setFeedback("Correct!")
+      setTimeout(() => onComplete?.({ correct: true }), 800)
     } else {
-      setScore(s => s - 1)
-      setStreak(0)
       setFeedback("Incorrect")
     }
+  }
 
-    if (round + 1 >= MAX_ROUNDS) {
-      setTimeout(() => onComplete?.({ score }), 800)
-    } else {
-      setTimeout(() => {
-        setRound(r => r + 1)
-        setFeedback("")
-        newRound()
-      }, 600)
-    }
+  function handleSkip() {
+    onComplete?.({ skipped: true })
   }
 
   return (
     <div className="wrap">
       <h2>Sort the Item</h2>
-      <GameControls onSkip={() => onComplete?.({ skipped: true })} />
+      <GameControls onSkip={handleSkip} />
 
-      <div className="card">{currentItem?.label || "..."}</div>
+      <div className="card">{item?.label || "..."}</div>
 
       <div className="row">
         <button className="zone" onClick={() => pick("left")}>
@@ -85,10 +61,6 @@ export default function SortGame({ onComplete }) {
 
       <div className="feedback" aria-live="polite">
         {feedback}
-      </div>
-
-      <div className="score">
-        Round {round + 1}/{MAX_ROUNDS}
       </div>
     </div>
   )
