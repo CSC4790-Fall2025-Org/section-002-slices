@@ -5,7 +5,8 @@ import "./css/memory.css"
 export default function MemoryGame({ onComplete }) {
   const allEmojis = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍒", "🍋", "🍍"]
   const [grid, setGrid] = useState([])
-  const [flipped, setFlipped] = useState([])
+  const [flipped, setFlipped] = useState([]) // false = hidden, true = revealed
+  const [activeIndices, setActiveIndices] = useState([])
 
   useEffect(() => {
     const shuffledEmojis = allEmojis.sort(() => Math.random() - 0.5)
@@ -13,13 +14,13 @@ export default function MemoryGame({ onComplete }) {
     const paired = [...selected, ...selected]
     const finalGrid = paired.sort(() => Math.random() - 0.5)
     setGrid(finalGrid)
+    
+    setFlipped(Array(finalGrid.length).fill(true)) // show all initially
+    const hideTimeout = setTimeout(() => {
+      setFlipped(Array(finalGrid.length).fill(false)) // hide all after .5s
+    }, 500)
 
-    // initially show emojis, then flip after 1 second
-    const flipTimeout = setTimeout(() => {
-      setFlipped(Array(finalGrid.length).fill(true))
-    }, 1000)
-
-    return () => clearTimeout(flipTimeout)
+    return () => clearTimeout(hideTimeout)
   }, [])
 
   function handleSkip() {
@@ -27,17 +28,45 @@ export default function MemoryGame({ onComplete }) {
   }
 
   function handleCardClick(index) {
+    if (flipped[index] || activeIndices.length === 2) return
+
+    const newActive = [...activeIndices, index]
+    setActiveIndices(newActive)
     setFlipped(prev => {
-      const newFlipped = [...prev]
-      newFlipped[index] = false
-      return newFlipped
+      const copy = [...prev]
+      copy[index] = true
+      return copy
     })
+
+    if (newActive.length === 2) {
+      const [first, second] = newActive
+      if (grid[first] !== grid[second]) {
+        setTimeout(() => {
+          setFlipped(prev => {
+            const copy = [...prev]
+            copy[first] = false
+            copy[second] = false
+            return copy
+          })
+          setActiveIndices([])
+        }, 250)
+      } else {
+        setActiveIndices([])
+      }
+    }
+
+    // check if all cards are revealed
+    setTimeout(() => {
+      if (flipped.every((v, i) => v || i === index)) {
+        onComplete?.({ correct: true })
+      }
+    }, 100)
   }
 
   return (
     <div className="memory-container">
-      <h2>Emoji Grid (memory game)</h2>
-      <p>Skip for now it will work</p>
+      <h2>Memory Match</h2>
+      <p>Find all the matching pairs!</p>
 
       <GameControls onSkip={handleSkip} />
 
@@ -48,7 +77,7 @@ export default function MemoryGame({ onComplete }) {
             className={`cell ${flipped[i] ? "flipped" : ""}`}
             onClick={() => handleCardClick(i)}
           >
-            {!flipped[i] && emoji}
+            {flipped[i] && emoji}
           </div>
         ))}
       </div>
