@@ -117,7 +117,8 @@ export default function GameHub() {
 
   function handleBack() {
     if (window.confirm("Are you sure you want to quit? You'll lose your current progress.")) {
-      navigate("/");
+      const fromExplore = location.state?.from === "/explore";
+      navigate(fromExplore ? "/explore" : "/");
     }
   }
 
