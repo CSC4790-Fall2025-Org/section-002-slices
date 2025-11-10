@@ -1,38 +1,36 @@
-:root {
+.math-game {
   --bg: #fafafa;
   --text: #222;
   --accent: #121212;
   --correct: #3aa655;
   --error: #b00020;
   --border: #dcdcdc;
-}
 
-body {
-  background: var(--bg);
+
   color: var(--text);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.centered {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 80vh;
   text-align: center;
+  padding: 16px;
 }
 
-h2 {
+/* Headings */
+.math-game h2 {
   font-weight: 600;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
 }
 
-p {
+.math-game p {
   margin: 4px 0;
   font-size: 18px;
 }
 
+/* Input box */
 .math-input {
   width: 100px;
   font-size: 22px;
@@ -49,49 +47,53 @@ p {
   -moz-appearance: textfield;
 }
 
+/* Focus ring */
 .math-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Removes spinner arrows */
+/* Remove spinner arrows */
 .math-input::-webkit-inner-spin-button,
 .math-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-h3 {
+/* Result text */
+.math-game h3 {
   margin-top: 12px;
   font-size: 20px;
   font-weight: 500;
 }
 
-h3:empty {
-  display: none;
-}
-
-h3:contains("Correct") {
+.math-game h3.correct {
   color: var(--correct);
 }
 
-h3:contains("Try again"),
-h3:contains("Answer") {
+.math-game h3.error {
   color: var(--error);
 }
 
-button {
+/* Buttons */
+.math-game .math-btn {
   background: var(--accent);
-  color: white;
+  color: #fff;
   border: none;
   border-radius: 6px;
   padding: 8px 16px;
   margin: 4px;
   font-size: 16px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s ease;
 }
 
-button:hover {
-  background: #333;
+.math-game .math-btn:hover {
+  background: #1c1c1c;
+}
+
+
+/* Smooth fade for result changes */
+.math-game h3 {
+  transition: color 0.2s ease;
 }
