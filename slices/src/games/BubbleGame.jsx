@@ -136,10 +136,6 @@ function handleTap(id) {
           </div>
         ))}
       </div>
-
-      <div className={css.info}>
-        Score: {score} • Tap {expected}/{count}
-      </div>
     </div>
   )
 }
