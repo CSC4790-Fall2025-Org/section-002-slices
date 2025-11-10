@@ -7,6 +7,7 @@ const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
 export default function ColorNameGame({ onComplete }) {
   const [card, setCard] = useState(null)
   const [modeWord, setModeWord] = useState(() => Math.random() < 0.5)
+  const [answers, setAnswers] = useState([])
   const [selected, setSelected] = useState(null)
   const [isCorrect, setIsCorrect] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -28,6 +29,7 @@ export default function ColorNameGame({ onComplete }) {
 
     setCard({ colorIdx, wordIdx })
     setModeWord(Math.random() < 0.5)
+    setAnswers([...WORDS]) // reset all options
     setLoading(false)
   }
 
@@ -49,8 +51,9 @@ export default function ColorNameGame({ onComplete }) {
       }, 600)
       return () => clearTimeout(t)
     } else {
-      // remove wrong answer to let them try again
-      setTimeout(() => setSelected(null), 300)
+      // remove wrong answer
+      setAnswers(prev => prev.filter((_, i) => i !== idx))
+      setSelected(null)
     }
   }
 
@@ -82,7 +85,7 @@ export default function ColorNameGame({ onComplete }) {
       </div>
 
       <div>
-        {WORDS.map((w, idx) => (
+        {answers.map((w, idx) => (
           <button
             key={w}
             onClick={() => handleAnswer(idx)}
