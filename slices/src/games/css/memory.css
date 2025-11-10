@@ -1,23 +1,23 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 90px);
-  grid-template-rows: repeat(2, 90px);
-  column-gap: 80px;
-  row-gap: 40px;
+  grid-template-columns: repeat(3, minmax(clamp(80px, 15vw, 160px), 1fr));
+  grid-template-rows: repeat(2, minmax(clamp(60px, 12vw, 120px), 1fr));
+  column-gap: clamp(16px, 6vw, 80px);
+  row-gap: clamp(8px, 3vw, 40px);
   justify-content: center;
   align-content: center;
   margin-top: 24px;
 }
 
 .cell {
-  width: 160px;
-  height: 120px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #f4f4f5;
   border-radius: 10px;
-  font-size: 2rem;
+  font-size: clamp(1.2rem, 3vw, 2rem);
   user-select: none;
   transition: background 0.2s ease, transform 0.1s ease;
 }
@@ -25,17 +25,4 @@
 .cell:hover {
   background: #e4e4e7;
   transform: scale(1.05);
-}
-
-/* Smaller on mobile */
-@media (max-width: 500px) {
-  .grid {
-    grid-template-columns: repeat(3, 70px);
-    grid-template-rows: repeat(2, 70px);
-    gap: 12px;
-  }
-
-  .cell {
-    font-size: 1.6rem;
-  }
 }
