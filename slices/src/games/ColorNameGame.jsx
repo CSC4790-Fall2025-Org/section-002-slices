@@ -29,7 +29,7 @@ export default function ColorNameGame({ onComplete }) {
 
     setCard({ colorIdx, wordIdx })
     setModeWord(Math.random() < 0.5)
-    setAnswers([...WORDS]) // reset all options
+    setAnswers([...WORDS]) // store canonical values (uppercase strings)
     setLoading(false)
   }
 
@@ -37,22 +37,21 @@ export default function ColorNameGame({ onComplete }) {
     newRound()
   }, [])
 
-  function handleAnswer(idx) {
+  function handleAnswer(answer) {
     if (!card) return
-    const correctIdx = modeWord ? card.wordIdx : card.colorIdx
-    const correct = idx === correctIdx
-    setSelected(idx)
+    const correctValue = modeWord ? WORDS[card.wordIdx] : WORDS[card.colorIdx]
+    const correct = answer === correctValue
+    setSelected(answer)
     setIsCorrect(correct)
 
     if (correct) {
-      setScore(s => s + 1)
-      const t = setTimeout(() => {
-        onComplete?.({ correct: true, score: score + 1 })
-      }, 600)
-      return () => clearTimeout(t)
+      setScore(s => {
+        const newScore = s + 1
+        const t = setTimeout(() => onComplete?.({ correct: true, score: newScore }), 600)
+        return newScore
+      })
     } else {
-      // remove wrong answer
-      setAnswers(prev => prev.filter((_, i) => i !== idx))
+      setAnswers(prev => prev.filter(a => a !== answer))
       setSelected(null)
     }
   }
@@ -85,29 +84,32 @@ export default function ColorNameGame({ onComplete }) {
       </div>
 
       <div>
-        {answers.map((w, idx) => (
-          <button
-            key={w}
-            onClick={() => handleAnswer(idx)}
-            disabled={isCorrect}
-            style={{
-              margin: 4,
-              padding: "8px 16px",
-              borderRadius: 8,
-              border: "1px solid rgba(255,255,255,.2)",
-              background:
-                selected === idx
-                  ? isCorrect
-                    ? "#006f16"
-                    : "#802020"
-                  : "#222",
-              color: "#fff",
-              cursor: "pointer"
-            }}
-          >
-            {modeWord ? w : w.toLowerCase()}
-          </button>
-        ))}
+        {answers.map((ans) => {
+          const display = modeWord ? ans : ans.toLowerCase()
+          return (
+            <button
+              key={ans}
+              onClick={() => handleAnswer(ans)}
+              disabled={isCorrect}
+              style={{
+                margin: 4,
+                padding: "8px 16px",
+                borderRadius: 8,
+                border: "1px solid rgba(255,255,255,.2)",
+                background:
+                  selected === ans
+                    ? isCorrect
+                      ? "#006f16"
+                      : "#802020"
+                    : "#222",
+                color: "#fff",
+                cursor: "pointer"
+              }}
+            >
+              {display}
+            </button>
+          )
+        })}
       </div>
 
       {isCorrect !== null && (
