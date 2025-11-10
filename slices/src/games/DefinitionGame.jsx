@@ -8,6 +8,7 @@ export default function DefinitionGame({ onComplete }) {
   const [current, setCurrent] = useState(Array(5).fill(null))
   const [result, setResult] = useState("")
   const [cursorIndex, setCursorIndex] = useState(0)
+  const [solved, setSolved] = useState(false)
 
   useEffect(() => {
     loadWord()
@@ -19,6 +20,7 @@ export default function DefinitionGame({ onComplete }) {
     setCurrent(Array(5).fill(null))
     setResult("")
     setCursorIndex(0)
+    setSolved(false)
 
     try {
       const text = await fetch("/words.txt").then(r => r.text())
@@ -36,7 +38,7 @@ export default function DefinitionGame({ onComplete }) {
   }
 
   function updateLetter(value, index) {
-    if (locked[index]) return
+    if (locked[index] || solved) return
     const updated = [...current]
     updated[index] = value.toUpperCase()
     setCurrent(updated)
@@ -53,6 +55,7 @@ export default function DefinitionGame({ onComplete }) {
   }
 
   function handleKeyDown(e) {
+    if (solved) return
     const key = e.key.toUpperCase()
 
     if (/^[A-Z]$/.test(key)) {
@@ -80,35 +83,40 @@ export default function DefinitionGame({ onComplete }) {
   }
 
   function handleClick(i) {
-    if (!locked[i]) setCursorIndex(i)
+    if (!locked[i] && !solved) setCursorIndex(i)
   }
 
   function handleCheck() {
+    if (solved) return
     const newLocked = [...locked]
-    const newCurrent = [...current]
-
     for (let i = 0; i < 5; i++) {
       const guessLetter = current[i]?.toLowerCase()
-      if (!locked[i] && guessLetter === word[i]) newLocked[i] = word[i].toUpperCase()
-      if (!locked[i]) newCurrent[i] = null
+      if (!locked[i] && guessLetter === word[i]) {
+        newLocked[i] = word[i].toUpperCase()
+      }
     }
 
     const isCorrect = newLocked.every((l, i) => l?.toLowerCase() === word[i])
     setLocked(newLocked)
-    setCurrent(newCurrent)
-    setResult(isCorrect ? "Correct!" : "Try again")
+    setResult(isCorrect ? "Correct!" : "")
 
     if (isCorrect) {
-      setTimeout(() => onComplete?.(), 500)
-    } else {
-      setCursorIndex(nextUnlockedIndex(-1))
+      setSolved(true)
+      setTimeout(() => onComplete?.(), 400)
     }
   }
 
   function handleSkip() {
     setResult(`The word was: ${word}`)
-    setTimeout(() => onComplete?.({ skipped: true }), 500)
+    setTimeout(() => onComplete?.({ skipped: true }), 400)
   }
+
+  // Auto-check only when not solved and all letters are filled
+  useEffect(() => {
+    if (solved) return
+    const allLetters = locked.map((l, i) => l || current[i])
+    if (allLetters.every(c => /^[A-Z]$/.test(c))) handleCheck()
+  }, [current, locked, solved])
 
   return (
     <div className="centered">
@@ -117,7 +125,6 @@ export default function DefinitionGame({ onComplete }) {
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
       <p>{definition}</p>
-        {/* 🔹 Hidden input for mobile keyboard support */}
       <input
         id="mobile-input"
         type="text"
@@ -130,7 +137,7 @@ export default function DefinitionGame({ onComplete }) {
         }}
         onChange={(e) => {
           const letter = e.target.value.slice(-1).toUpperCase()
-          e.target.value = "" // clear immediately
+          e.target.value = ""
           if (/^[A-Z]$/.test(letter)) {
             updateLetter(letter, cursorIndex)
             setCursorIndex(nextUnlockedIndex(cursorIndex))
@@ -138,21 +145,18 @@ export default function DefinitionGame({ onComplete }) {
         }}
       />
 
-      {/* Your visible input boxes */}
-
-        <div
-          id="word-input-container"
-          tabIndex={0}
-          onKeyDown={handleKeyDown}
-          onClick={() => document.getElementById("mobile-input")?.focus()}
-          style={{
-            display: "flex",
-            gap: 8,
-            marginBottom: 16,
-            outline: "none",
-          }}
-          
-        >
+      <div
+        id="word-input-container"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onClick={() => document.getElementById("mobile-input")?.focus()}
+        style={{
+          display: "flex",
+          gap: 8,
+          marginBottom: 16,
+          outline: "none",
+        }}
+      >
         {locked.map((l, i) => (
           <input
             key={i}
@@ -164,8 +168,7 @@ export default function DefinitionGame({ onComplete }) {
               fontSize: 20,
               textAlign: "center",
               border: "2px solid",
-              borderColor:
-                i === cursorIndex ? "#3b82f6" : l ? "#10b981" : "#aaa",
+              borderColor: i === cursorIndex ? "#3b82f6" : l ? "#10b981" : "#aaa",
               borderRadius: 8,
               backgroundColor: l ? "#a7f3d0" : "white",
               color: "black",

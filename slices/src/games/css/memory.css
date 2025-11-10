@@ -1,63 +1,40 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 100px); 
-  gap: 12px;
+  grid-template-columns: repeat(3, 90px);
+  grid-template-rows: repeat(2, 90px);
+  gap: 40px;
   justify-content: center;
-  margin: 20px auto;
+  align-content: center;
+  margin-top: 24px;
 }
 
-.card {
-  width: 100px;
-  height: 100px;
-  perspective: 600px;
-  cursor: pointer;
-  position: relative;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.4s ease;
-  transform-style: preserve-3d;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  border: 2px solid #999;
+.cell {
+  width: 120px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(14px, 2vw, 22px);
-  backface-visibility: hidden;
+  background: #f4f4f5;
+  border-radius: 10px;
+  font-size: 2rem;
   user-select: none;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.card-front {
-  background-color: #e5e7eb;
+.cell:hover {
+  background: #e4e4e7;
+  transform: scale(1.05);
 }
 
-.card-back {
-  background-color: #d2f78d;
-  transform: rotateY(180deg);
-}
-
-/* --- Responsive layout switch --- */
-@media (min-width: 768px) {
+/* Smaller on mobile */
+@media (max-width: 500px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 1fr;
-    max-width: 600px;
+    grid-template-columns: repeat(3, 70px);
+    grid-template-rows: repeat(2, 70px);
+    gap: 12px;
   }
 
-  .card {
-    max-width: 100px;
+  .cell {
+    font-size: 1.6rem;
   }
 }
