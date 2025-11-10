@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import GameControls from "../components/GameControls.jsx"
 
 export default function DefinitionGame({ onComplete }) {
@@ -9,6 +9,7 @@ export default function DefinitionGame({ onComplete }) {
   const [result, setResult] = useState("")
   const [cursorIndex, setCursorIndex] = useState(0)
   const [solved, setSolved] = useState(false)
+  const containerRef = useRef(null)
 
   useEffect(() => {
     loadWord()
@@ -32,6 +33,7 @@ export default function DefinitionGame({ onComplete }) {
 
       setWord(w.toLowerCase())
       setDefinition(def)
+      setTimeout(() => containerRef.current?.focus(), 0)
     } catch {
       setDefinition("Failed to load word list")
     }
@@ -111,12 +113,11 @@ export default function DefinitionGame({ onComplete }) {
     setTimeout(() => onComplete?.({ skipped: true }), 400)
   }
 
-  // Auto-check only when not solved and all letters are filled
   useEffect(() => {
-    if (solved) return
-    const allLetters = locked.map((l, i) => l || current[i])
-    if (allLetters.every(c => /^[A-Z]$/.test(c))) handleCheck()
-  }, [current, locked, solved])
+    if (!solved && current.every(c => /^[A-Z]$/.test(c || ""))) {
+      handleCheck()
+    }
+  }, [current])
 
   return (
     <div className="centered">
@@ -125,31 +126,12 @@ export default function DefinitionGame({ onComplete }) {
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
       <p>{definition}</p>
-      <input
-        id="mobile-input"
-        type="text"
-        autoCapitalize="characters"
-        autoFocus
-        style={{
-          position: "absolute",
-          opacity: 0,
-          pointerEvents: "none",
-        }}
-        onChange={(e) => {
-          const letter = e.target.value.slice(-1).toUpperCase()
-          e.target.value = ""
-          if (/^[A-Z]$/.test(letter)) {
-            updateLetter(letter, cursorIndex)
-            setCursorIndex(nextUnlockedIndex(cursorIndex))
-          }
-        }}
-      />
 
       <div
         id="word-input-container"
+        ref={containerRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        onClick={() => document.getElementById("mobile-input")?.focus()}
         style={{
           display: "flex",
           gap: 8,
