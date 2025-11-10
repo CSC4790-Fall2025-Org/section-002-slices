@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import GameControls from "../components/GameControls.jsx"
+import "./css/math.css"
 
 export default function MathGame({ onComplete }) {
   const ops = ["+", "-"]
@@ -30,14 +31,14 @@ export default function MathGame({ onComplete }) {
     setEquation(generateEquation())
   }, [])
 
-  function handleCheck() {
+  function handleCheck(val) {
     if (!equation) return
-    const val = parseInt(input)
-    if (val === equation.answer) {
+    const parsed = parseInt(val)
+    if (parsed === equation.answer) {
       setResult("Correct!")
-      setTimeout(() => onComplete?.(), 500)
+      setTimeout(() => onComplete?.(), 400)
     } else {
-      setResult("Try again")
+      setResult("")
     }
   }
 
@@ -53,25 +54,20 @@ export default function MathGame({ onComplete }) {
       <h2>Math Challenge</h2>
       <p>Solve the equation below.</p>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
+      <GameControls onCheck={() => handleCheck(input)} onSkip={handleSkip} />
 
       <p>{equation.expr} = ?</p>
 
       <input
         type="number"
         value={input}
-        onChange={e => setInput(e.target.value)}
-        onKeyDown={e => {
-          if (e.key === "Enter") handleCheck()
+        className="math-input"
+        onChange={e => {
+          const val = e.target.value
+          setInput(val)
+          handleCheck(val)
         }}
         autoFocus
-        style={{
-          width: 100,
-          fontSize: 20,
-          textAlign: "center",
-          marginTop: 12,
-          marginBottom: 8,
-        }}
       />
 
       {result && <h3>{result}</h3>}
