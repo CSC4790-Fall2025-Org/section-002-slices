@@ -7,7 +7,7 @@ const COLORS = [
   "#3d8e41", // green
   "#f8810b", // orange
   "#8a1fb8", // purple
-  "#fbc02d"  // yellow (muted)
+  "#fbc02d"  // yellow
 ]
 const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
 
