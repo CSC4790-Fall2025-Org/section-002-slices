@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     fontSize: 20,
     fontWeight: "bold",
     color: "#fff",
-    background: "#3b82f6",
+    background: "#006f16",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

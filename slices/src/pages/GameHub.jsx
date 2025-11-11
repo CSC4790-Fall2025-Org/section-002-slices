@@ -74,10 +74,7 @@ export default function GameHub() {
   }, [penaltyCountdown]);
 
   useEffect(() => {
-    if (gameOver) {
-      getScore();
-      console.log("Game over! Final score:", gamesCompleted);
-    }
+    if (gameOver) getScore();
   }, [gameOver]);
 
   useEffect(() => {
@@ -92,7 +89,7 @@ export default function GameHub() {
 
   function handleSkip() {
     if (gameOver || penaltyCountdown != null) return;
-    setPenaltyCountdown(5); // 5-second penalty
+    setPenaltyCountdown(5);
   }
 
   async function getScore() {
@@ -119,9 +116,11 @@ export default function GameHub() {
 
   if (gameOver) {
     return (
-      <div className="gamehub centered">
+      <div className="full-end-screen">
         <h1>Time's up!</h1>
-        <p>{gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!</p>
+        <p>
+          {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
+        </p>
         <button onClick={() => navigate("/")}>Home</button>
       </div>
     );
@@ -138,7 +137,7 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
 
   return (
-    <div className="gamehub centered" style={{ position: "relative" }}>
+    <div className="gamehub centered">
       <button className="back-button" onClick={handleBack} aria-label="Back">
         ⬅
       </button>
