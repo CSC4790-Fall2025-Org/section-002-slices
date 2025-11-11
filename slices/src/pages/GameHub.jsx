@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import DefinitionGame from "../games/DefinitionGame.jsx";
 import MathGame from "../games/MathGame.jsx";
 import MemoryGame from "../games/MemoryGame.jsx";
@@ -12,6 +12,7 @@ import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 
 const categoryGames = {
@@ -38,7 +39,15 @@ export default function GameHub() {
   const [gameIndex, setGameIndex] = useState(0);
   const [fromDaily, setFromDaily] = useState(false);
 
+<<<<<<< Updated upstream
   const allGames = Object.values(categoryGames).flat();
+=======
+  const nodeRefMap = useRef({});
+
+  useEffect(() => {
+    const lower = category?.toLowerCase();
+    const all = Object.values(categoryGames).flat();
+>>>>>>> Stashed changes
 
   const [games] = useState(() => {
     if (category && categoryGames[category.toLowerCase()]) {
@@ -148,6 +157,10 @@ export default function GameHub() {
   }
 
   const CurrentGame = games[gameIndex];
+  const cardKey = `${gameIndex}-${gamesCompleted}`;
+  const nodeRef =
+    nodeRefMap.current[cardKey] ||
+    (nodeRefMap.current[cardKey] = { current: null });
 
   return (
 <div className="gamehub centered" style={{ position: "relative" }}>
@@ -157,9 +170,40 @@ export default function GameHub() {
 
   <div className="timer-top-right">{timeLeft}</div>
 
+<<<<<<< Updated upstream
   <div className="game-container">
     <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />
   </div>
 </div>
+=======
+      <div className="main-content">
+        <button className="skip-button" onClick={handleSkip}>
+          SKIP
+        </button>
+
+        <TransitionGroup className="card-stack">
+          <CSSTransition
+            key={cardKey}
+            nodeRef={nodeRef}
+            timeout={600}
+            classNames="game-card"
+          >
+            <div ref={nodeRef} className="game-card">
+              {CurrentGame ? (
+                <CurrentGame
+                  onComplete={handleGameComplete}
+                  onSkip={handleSkip}
+                />
+              ) : (
+                <div style={{ textAlign: "center", opacity: 0.65 }}>
+                  Loading game...
+                </div>
+              )}
+            </div>
+          </CSSTransition>
+        </TransitionGroup>
+      </div>
+    </div>
+>>>>>>> Stashed changes
   );
 }

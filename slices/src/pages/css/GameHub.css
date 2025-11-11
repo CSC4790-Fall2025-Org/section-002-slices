@@ -70,3 +70,194 @@ body {
     height: 3rem;
 }
 
+<<<<<<< Updated upstream
+=======
+/* centered main content stack */
+.main-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* skip button */
+.skip-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 10rem;
+  height: 3rem;
+}
+
+.skip-button:hover {
+  background-color: #d32f2f;
+}
+
+/* game container */
+.game-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 450px;
+  max-width: 90vw;
+  max-height: 70vh;
+  background: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  overflow: hidden;
+}
+
+/* stacked card container */
+.card-stack {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* card appearance */
+.game-card {
+  position: absolute;
+  width: 90vw;
+  max-width: 600px;
+  height: 80vh;
+  background: #ffffff;
+  color: black;
+  border-radius: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  
+}
+
+/* entering card (slides up and over) */
+.game-card-enter {
+  transform: translateY(100%) scale(0.97);
+  opacity: 0.6;
+  z-index: 2;
+}
+.game-card-enter-active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  z-index: 2;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* exiting card (stays visible under new one) */
+.game-card-exit {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  z-index: 1;
+}
+.game-card-exit-active {
+  transform: translateY(-10%) scale(0.98);
+  opacity: 0.7;
+  z-index: 1;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+/* penalty countdown */
+.penalty-timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(80px, 15vw, 180px);
+  font-weight: 900;
+  color: #f44336;
+  text-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
+  animation: penaltyPulse 1s ease-in-out infinite;
+  user-select: none;
+}
+
+@keyframes penaltyPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* end screen */
+.full-end-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  background: #1a1a1a;
+  color: white;
+  gap: 1rem;
+}
+.full-end-screen h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+.full-end-screen button {
+  background: #00440e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.full-end-screen button:hover {
+  background: #006b16;
+}
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .game-container {
+    width: 90vw;
+    height: 60vh;
+  }
+
+  .skip-button {
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 14px;
+  }
+
+  .timer-top-right,
+  .back-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 20px;
+  }
+
+  .main-content {
+    transform: translate(-50%, -50%);
+    gap: 16px;
+  }
+}
+>>>>>>> Stashed changes
