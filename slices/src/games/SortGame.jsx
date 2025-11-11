@@ -11,11 +11,15 @@ const SET = {
     { label: "Banana", side: "left" },
     { label: "Broccoli", side: "right" },
     { label: "Pear", side: "left" },
+    { label: "Avocado", side: "left" }, 
     { label: "Spinach", side: "right" },
     { label: "Grapes", side: "left" },
     { label: "Lettuce", side: "right" },
     { label: "Mango", side: "left" },
     { label: "Pepper", side: "right" },
+    { label: "Orange", side: "left" },
+    { label: "Tomato", side: "left" },
+    { label: "Cucumber", side: "right" }, 
   ],
 }
 
