@@ -6,53 +6,10 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #fafafa;
+  background: none;
 }
 
-.game-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 600px;
-  height: 500px;
-  max-width: 90vw;
-  max-height: 70vh;
-  background: #f9f9f9;
-  border-radius: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
-  padding: 16px;
-  overflow: hidden;
-  margin-top: 0;
-}
-
-.penalty-timer {
-  color: #f44336;
-  font-size: 120px;
-  font-weight: 700;
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-body {
-  font-family: "Rubik", sans-serif;
-}
-
-.time-remaining {
-  font-size: 40px;
-  color: #3e3e3e;
-}
-
+/* fixed corner buttons */
 .back-button {
   position: fixed;
   top: 32px;
@@ -87,64 +44,76 @@ body {
   height: 3rem;
 }
 
-.top-controls {
-  position: fixed;
-  top: 150px;
+/* centered main content stack */
+.main-content {
+  position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
+  transform: translate(-50%, -45%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 800px;
 }
 
+/* skip button */
 .skip-button {
   background-color: #f44336;
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 8px 16px;
-  font-size: 16px;
-  width: 10rem;
-  height: 3rem;
+  padding: 10px 20px;
+  font-size: 18px;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
+  width: 10rem;
+  height: 3rem;
 }
 
 .skip-button:hover {
   background-color: #d32f2f;
 }
 
-/* Full end screen (no container, fills whole viewport) */
-.full-end-screen {
+/* game container */
+.game-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100vw;
-  height: 100vh;
+  width: 600px;
+  height: 450px;
+  max-width: 90vw;
+  max-height: 70vh;
   background: #f9f9f9;
-  text-align: center;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  overflow: hidden;
 }
 
-.full-end-screen h1 {
-  font-size: 64px;
-  color: #222;
-  margin-bottom: 12px;
-}
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .game-container {
+    width: 90vw;
+    height: 60vh;
+  }
 
-.full-end-screen p {
-  font-size: 24px;
-  margin-bottom: 24px;
-}
+  .skip-button {
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 14px;
+  }
 
-.full-end-screen button {
-  background: #00440e;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 18px;
-  cursor: pointer;
-}
+  .timer-top-right,
+  .back-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 20px;
+  }
 
-.full-end-screen button:hover {
-  background: #006a18;
+  .main-content {
+    transform: translate(-50%, -50%);
+    gap: 16px;
+  }
 }

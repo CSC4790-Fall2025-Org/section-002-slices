@@ -128,7 +128,7 @@ export default function GameHub() {
 
   if (penaltyCountdown != null) {
     return (
-      <div className="gamehub centered">
+      <div className="gamehub">
         <h2 className="penalty-timer">{penaltyCountdown}</h2>
       </div>
     );
@@ -137,25 +137,25 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
 
   return (
-    <div className="gamehub centered">
+    <div className="gamehub">
       <button className="back-button" onClick={handleBack} aria-label="Back">
         ⬅
       </button>
 
       <div className="timer-top-right">{timeLeft}</div>
 
-      <div className="game-container">
-        <CurrentGame
-          key={`${gameIndex}-${gamesCompleted}`}
-          onComplete={handleGameComplete}
-          onSkip={handleSkip}
-        />
-      </div>
-
-      <div className="top-controls">
+      <div className="main-content">
         <button className="skip-button" onClick={handleSkip}>
           SKIP
         </button>
+
+        <div className="game-container">
+          <CurrentGame
+            key={`${gameIndex}-${gamesCompleted}`}
+            onComplete={handleGameComplete}
+            onSkip={handleSkip}
+          />
+        </div>
       </div>
     </div>
   );
