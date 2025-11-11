@@ -70,3 +70,26 @@ body {
     height: 3rem;
 }
 
+.top-controls {
+  position: fixed;
+  top: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.skip-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 16px;
+  width: 10rem;
+  height: 3rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.skip-button:hover {
+  background-color: #d32f2f;
+}

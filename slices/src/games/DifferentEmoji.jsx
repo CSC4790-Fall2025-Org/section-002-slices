@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { createUseStyles } from "react-jss"
-import GameControls from "../components/GameControls.jsx"
 
 const useStyles = createUseStyles({
   stage: {
@@ -102,8 +101,6 @@ export default function DifferentEmoji({ onComplete }) {
     }
   }
 
-  function handleCheck() {}
-
   function handleSkip() {
     onComplete?.({ skipped: true })
   }
@@ -111,8 +108,6 @@ export default function DifferentEmoji({ onComplete }) {
   return (
     <div style={{ textAlign: "center" }}>
       <h2>Find the Different Emoji</h2>
-
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
       <div className={css.stage}>
         {grid.map((emoji, i) => {

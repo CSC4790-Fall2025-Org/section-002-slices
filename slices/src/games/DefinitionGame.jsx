@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react"
-import GameControls from "../components/GameControls.jsx"
 
 export default function DefinitionGame({ onComplete }) {
   const [word, setWord] = useState("")
@@ -104,7 +103,7 @@ export default function DefinitionGame({ onComplete }) {
 
     if (isCorrect) {
       setSolved(true)
-      setTimeout(() => onComplete?.(), 400)
+      setTimeout(() => onComplete?.({ correct: true }), 400)
     }
   }
 
@@ -122,8 +121,6 @@ export default function DefinitionGame({ onComplete }) {
   return (
     <div className="centered">
       <h2>Define the Word:</h2>
-
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
       <p>{definition}</p>
 

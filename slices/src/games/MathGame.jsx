@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
 import "./css/math.css"
 
 export default function MathGame({ onComplete }) {
@@ -33,13 +32,14 @@ export default function MathGame({ onComplete }) {
     const parsed = parseInt(val)
     if (parsed === equation.answer) {
       setResult("Correct!")
-      setTimeout(() => onComplete?.(), 400)
+      setTimeout(() => onComplete?.({ correct: true }), 400)
     } else {
       setResult("")
     }
   }
 
   function handleSkip() {
+    if (!equation) return
     setResult(`Answer: ${equation.answer}`)
     setTimeout(() => onComplete?.({ skipped: true }), 500)
   }
@@ -50,8 +50,6 @@ export default function MathGame({ onComplete }) {
     <div className="math-game">
       <h2>Math Challenge</h2>
       <p>Solve the equation below.</p>
-
-      <GameControls onCheck={() => handleCheck(input)} onSkip={handleSkip} />
 
       <p>{equation.expr} = ?</p>
 

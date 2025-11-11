@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
 
 const COLORS = ["red", "blue", "green", "orange", "purple", "yellow"]
 const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
@@ -29,7 +28,7 @@ export default function ColorNameGame({ onComplete }) {
 
     setCard({ colorIdx, wordIdx })
     setModeWord(Math.random() < 0.5)
-    setAnswers([...WORDS]) // store canonical values (uppercase strings)
+    setAnswers([...WORDS])
     setLoading(false)
   }
 
@@ -47,7 +46,7 @@ export default function ColorNameGame({ onComplete }) {
     if (correct) {
       setScore(s => {
         const newScore = s + 1
-        const t = setTimeout(() => onComplete?.({ correct: true, score: newScore }), 600)
+        setTimeout(() => onComplete?.({ correct: true, score: newScore }), 600)
         return newScore
       })
     } else {
@@ -67,8 +66,6 @@ export default function ColorNameGame({ onComplete }) {
       <h2>Color Name Game</h2>
       <p>Choose based on the instruction shown.</p>
 
-      <GameControls onSkip={handleSkip} />
-
       <p>{modeWord ? "Tap the WORD" : "Tap the COLOR"}</p>
 
       <div
@@ -84,7 +81,7 @@ export default function ColorNameGame({ onComplete }) {
       </div>
 
       <div>
-        {answers.map((ans) => {
+        {answers.map(ans => {
           const display = modeWord ? ans : ans.toLowerCase()
           return (
             <button
@@ -118,6 +115,7 @@ export default function ColorNameGame({ onComplete }) {
         </div>
       )}
 
+      <div style={{ marginTop: 8 }}>Score: {score}</div>
     </div>
   )
 }

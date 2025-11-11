@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
 import "./css/SortGame.css"
 
 const SET = {
@@ -23,7 +22,7 @@ const SET = {
   ],
 }
 
-export default function SortGame({ onComplete }) {
+export default function SortGame({ onComplete, onSkip }) {
   const [item, setItem] = useState(null)
   const [feedback, setFeedback] = useState("")
 
@@ -43,14 +42,9 @@ export default function SortGame({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   return (
     <div className="wrap">
       <h2>Sort the Item</h2>
-      <GameControls onSkip={handleSkip} />
 
       <div className="card">{item?.label || "..."}</div>
 

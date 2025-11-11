@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
 
 export default function GeographyTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
@@ -56,10 +55,6 @@ export default function GeographyTrivia({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   if (loading) return <div>Loading...</div>
   if (!question) return null
 
@@ -67,8 +62,6 @@ export default function GeographyTrivia({ onComplete }) {
     <div className="centered">
       <h2>Geography Trivia</h2>
       <p>Test your knowledge of places and countries.</p>
-
-      <GameControls onSkip={handleSkip} />
 
       <p>{question}</p>
 

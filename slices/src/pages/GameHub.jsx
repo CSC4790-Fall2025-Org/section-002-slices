@@ -13,7 +13,6 @@ import "./css/GameHub.css";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
 
-
 const categoryGames = {
   memory: [MemoryGame],
   math: [MathGame],
@@ -46,7 +45,7 @@ export default function GameHub() {
     }
     return [...allGames].sort(() => Math.random() - 0.5);
   });
-  
+
   useEffect(() => {
     if (gameOver || penaltyCountdown != null) return;
     const timer = setInterval(() => {
@@ -81,14 +80,8 @@ export default function GameHub() {
     }
   }, [gameOver]);
 
-  function fromDailyCheck() {
-    if (location.state?.from === "daily") {
-      setFromDaily(true);
-    }
-  }
-
   useEffect(() => {
-    fromDailyCheck();
+    if (location.state?.from === "daily") setFromDaily(true);
   }, []);
 
   function nextGame(skipped = false) {
@@ -97,16 +90,18 @@ export default function GameHub() {
     setGameIndex(prev => (prev + 1) % games.length);
   }
 
+  function handleSkip() {
+    if (gameOver || penaltyCountdown != null) return;
+    setPenaltyCountdown(5); // 5-second penalty
+  }
+
   async function getScore() {
-    if (!auth.currentUser) return null;
-    if(!fromDaily) {
-      console.log("Not from daily, score not recorded.");
-      return;
-    }
-    setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
-      Score: gamesCompleted * 10,
-    }, { merge: true });
-    
+    if (!auth.currentUser || !fromDaily) return;
+    setDoc(
+      doc(db, "UserAccounts", auth.currentUser.uid),
+      { Score: gamesCompleted * 10 },
+      { merge: true }
+    );
   }
 
   function handleGameComplete(data) {
@@ -129,7 +124,6 @@ export default function GameHub() {
         <p>{gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!</p>
         <button onClick={() => navigate("/")}>Home</button>
       </div>
-      
     );
   }
 
@@ -144,16 +138,26 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
 
   return (
-<div className="gamehub centered" style={{ position: "relative" }}>
-  <button className="back-button" onClick={handleBack} aria-label="Back">
-    ⬅
-  </button>
+    <div className="gamehub centered" style={{ position: "relative" }}>
+      <button className="back-button" onClick={handleBack} aria-label="Back">
+        ⬅
+      </button>
 
-  <div className="timer-top-right">{timeLeft}</div>
+      <div className="timer-top-right">{timeLeft}</div>
 
-  <div className="game-container">
-    <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />
-  </div>
-</div>
+      <div className="game-container">
+        <CurrentGame
+          key={`${gameIndex}-${gamesCompleted}`}
+          onComplete={handleGameComplete}
+          onSkip={handleSkip}
+        />
+      </div>
+
+      <div className="top-controls">
+        <button className="skip-button" onClick={handleSkip}>
+          SKIP
+        </button>
+      </div>
+    </div>
   );
 }

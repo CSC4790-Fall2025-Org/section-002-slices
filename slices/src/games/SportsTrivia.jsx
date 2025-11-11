@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
 
 export default function SportsTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
@@ -55,10 +54,6 @@ export default function SportsTrivia({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   if (loading) return <div>Loading...</div>
   if (!question) return null
 
@@ -66,8 +61,6 @@ export default function SportsTrivia({ onComplete }) {
     <div className="centered">
       <h2>Sports Trivia</h2>
       <p>Can you score a win on this one?</p>
-
-      <GameControls onSkip={handleSkip} />
 
       <p>{question}</p>
 
