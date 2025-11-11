@@ -47,8 +47,11 @@ export default function MathGame({ onComplete }) {
   }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   if (!equation) return <div className="centered">Loading...</div>
 =======
+=======
+>>>>>>> Stashed changes
   function handleButtonClick(num) {
     const newVal = input + num
     setInput(newVal)
@@ -68,9 +71,12 @@ export default function MathGame({ onComplete }) {
       <h2>Math Challenge</h2>
       <p>Solve the equation below.</p>
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
       <p>{equation.expr} = ?</p>
@@ -93,8 +99,11 @@ export default function MathGame({ onComplete }) {
       />
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       {result && <h3>{result}</h3>}
 =======
+=======
+>>>>>>> Stashed changes
       <div className="number-pad">
         {[1,2,3,4,5,6,7,8,9,0].map(n => (
           <button key={n} onClick={() => handleButtonClick(n)} className="num-btn">

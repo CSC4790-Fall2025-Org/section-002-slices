@@ -40,8 +40,11 @@ export default function GameHub() {
   const [fromDaily, setFromDaily] = useState(false);
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const allGames = Object.values(categoryGames).flat();
 =======
+=======
+>>>>>>> Stashed changes
   const nodeRefMap = useRef({});
 
   useEffect(() => {
