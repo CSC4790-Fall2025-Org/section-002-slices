@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react"
+import "./css/ColorNameGame.css"
 
-const COLORS = ["red", "blue", "green", "orange", "purple", "yellow"]
+const COLORS = [
+  "#b12727", // red
+  "#1976d2", // blue
+  "#3d8e41", // green
+  "#f8810b", // orange
+  "#8a1fb8", // purple
+  "#fbc02d"  // yellow (muted)
+]
 const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
 
 export default function ColorNameGame({ onComplete }) {
@@ -55,53 +63,36 @@ export default function ColorNameGame({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   if (loading || !card) return <div>Loading...</div>
 
   return (
-    <div className="centered">
+    <div className="color-game">
       <h2>Color Name Game</h2>
       <p>Choose based on the instruction shown.</p>
-
       <p>{modeWord ? "Tap the WORD" : "Tap the COLOR"}</p>
 
       <div
-        style={{
-          fontSize: 48,
-          fontWeight: 800,
-          letterSpacing: 2,
-          color: COLORS[card.colorIdx],
-          margin: "12px 0"
-        }}
+        className="color-word"
+        style={{ color: COLORS[card.colorIdx] }}
       >
         {WORDS[card.wordIdx]}
       </div>
 
-      <div>
+      <div className="answer-grid">
         {answers.map(ans => {
           const display = modeWord ? ans : ans.toLowerCase()
+          const isSelected = selected === ans
+          const correctClass = isSelected
+            ? isCorrect
+              ? "correct"
+              : "incorrect"
+            : ""
           return (
             <button
               key={ans}
               onClick={() => handleAnswer(ans)}
               disabled={isCorrect}
-              style={{
-                margin: 4,
-                padding: "8px 16px",
-                borderRadius: 8,
-                border: "1px solid rgba(255,255,255,.2)",
-                background:
-                  selected === ans
-                    ? isCorrect
-                      ? "#006f16"
-                      : "#802020"
-                    : "#222",
-                color: "#fff",
-                cursor: "pointer"
-              }}
+              className={`answer-btn ${correctClass}`}
             >
               {display}
             </button>
@@ -110,12 +101,10 @@ export default function ColorNameGame({ onComplete }) {
       </div>
 
       {isCorrect !== null && (
-        <div style={{ marginTop: 12 }}>
+        <div className="feedback">
           <h3>{isCorrect ? "Correct!" : "Incorrect! Try again."}</h3>
         </div>
       )}
-
-      <div style={{ marginTop: 8 }}>Score: {score}</div>
     </div>
   )
 }

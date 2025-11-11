@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import "./css/DefinitionGame.css"
 
 export default function DefinitionGame({ onComplete }) {
   const [word, setWord] = useState("")
@@ -107,11 +108,6 @@ export default function DefinitionGame({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    setResult(`The word was: ${word}`)
-    setTimeout(() => onComplete?.({ skipped: true }), 400)
-  }
-
   useEffect(() => {
     if (!solved && current.every(c => /^[A-Z]$/.test(c || ""))) {
       handleCheck()
@@ -119,22 +115,17 @@ export default function DefinitionGame({ onComplete }) {
   }, [current])
 
   return (
-    <div className="centered">
+    <div className="definition-game">
       <h2>Define the Word:</h2>
 
-      <p>{definition}</p>
+      <p className="definition-text">{definition}</p>
 
       <div
         id="word-input-container"
         ref={containerRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        style={{
-          display: "flex",
-          gap: 8,
-          marginBottom: 16,
-          outline: "none",
-        }}
+        className="word-input-container"
       >
         {locked.map((l, i) => (
           <input
@@ -142,21 +133,18 @@ export default function DefinitionGame({ onComplete }) {
             readOnly
             value={l || current[i] || ""}
             onClick={() => handleClick(i)}
-            style={{
-              width: 50,
-              fontSize: 20,
-              textAlign: "center",
-              border: "2px solid",
-              borderColor: i === cursorIndex ? "#3b82f6" : l ? "#10b981" : "#aaa",
-              borderRadius: 8,
-              backgroundColor: l ? "#a7f3d0" : "white",
-              color: "black",
-            }}
+            className={`letter-box ${
+              i === cursorIndex
+                ? "active"
+                : l
+                ? "locked"
+                : ""
+            }`}
           />
         ))}
       </div>
 
-      {result && <h3>{result}</h3>}
+      {result && <h3 className="result-text">{result}</h3>}
     </div>
   )
 }

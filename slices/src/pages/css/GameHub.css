@@ -46,7 +46,7 @@
 
 /* centered main content stack */
 .main-content {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -45%);
@@ -80,6 +80,7 @@
 .game-container {
   display: flex;
   align-items: center;
+  left: 50%;
   justify-content: center;
   width: 600px;
   height: 450px;
