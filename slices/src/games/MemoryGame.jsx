@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import "./css/memory.css"
+import "./css/MemoryGame.css"
 
 export default function MemoryGame({ onComplete }) {
   const allEmojis = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍒", "🍋", "🍍"]

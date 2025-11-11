@@ -1,44 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { createUseStyles } from "react-jss"
-
-const useStyles = createUseStyles({
-  stage: {
-    position: "relative",
-    width: 320,
-    height: 320,
-    border: "2px solid #ccc",
-    borderRadius: 12,
-    overflow: "hidden",
-    margin: "0 auto",
-    background: "#f9f9f9",
-  },
-  bubble: {
-    position: "absolute",
-    width: 48,
-    height: 48,
-    borderRadius: "50%",
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fff",
-    background: "#006f16",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    transition: "background 0.2s ease",
-  },
-  flash: {
-    background: "#ef4444 !important",
-  },
-  info: {
-    textAlign: "center",
-    marginTop: 16,
-    fontSize: 18,
-  },
-})
+import "./css/BubbleGame.css"
 
 export default function BubbleGame({ onComplete }) {
-  const css = useStyles()
   const count = 5
   const [bubbles, setBubbles] = useState([])
   const [expected, setExpected] = useState(1)
@@ -107,19 +70,15 @@ export default function BubbleGame({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="bubblegame-container">
       <h2>Tap the Numbers in Order</h2>
 
-      <div className={css.stage}>
+      <div className="stage">
         {bubbles.map(b => (
           <div
             key={b.id}
-            className={`${css.bubble} ${b.flash ? css.flash : ""}`}
+            className={`bubble ${b.flash ? "flash" : ""}`}
             style={{ left: b.x, top: b.y }}
             onClick={() => handleTap(b.id)}
           >

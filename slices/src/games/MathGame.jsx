@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import "./css/math.css"
+import "./css/MathGame.css"
 
 export default function MathGame({ onComplete }) {
   const ops = ["+", "-"]
