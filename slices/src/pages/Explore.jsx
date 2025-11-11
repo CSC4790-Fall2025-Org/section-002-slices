@@ -25,9 +25,10 @@ export default function Explore() {
   );
 
   const handleCategoryClick = (cat) => {
-  const state = { duration: 60 };
+  const state = { duration: 60, from: "/explore" };
   if (cat.name === "TRIVIA") {
     state.games = ["/game/geography", "/game/sports"];
+    
   }
   navigate(cat.route, { state });
 };

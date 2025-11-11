@@ -29,6 +29,7 @@ export default function Profile() {
   const [friendEmail, setFriendEmail] = useState("");
   const [Friends, setFriends] = useState(null);
   const [filtered, setFiltered] = useState(false);
+  const [highestScore, setHighestScore] = useState(0);
 
   const navigate = useNavigate();
 
@@ -45,6 +46,7 @@ export default function Profile() {
             if (data.username) setUsername(data.username);
             if (data.Streak !== undefined) setScore(data.Streak);
             if (data.friends) setFriends(data.friends);
+            if (data.highestScore !== undefined) setHighestScore(data.highestScore);
           }
         });
       } else {
@@ -164,6 +166,10 @@ async function showAllLeaderboard() {
       </section>
 
       <div className="profile-scroll">
+    {highestScore > 0 ? (
+      <p style={{ fontWeight: "bold" }}>High Score: {highestScore}</p>
+    ) : null}
+
    <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
    
 <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
