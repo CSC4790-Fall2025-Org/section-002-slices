@@ -47,17 +47,7 @@ export default function MathGame({ onComplete }) {
     setTimeout(() => onComplete?.({ skipped: true }), 500);
   }
 
-  function handleButtonClick(num) {
-    const newVal = input + num;
-    setInput(newVal);
-  }
-
-  function handleClear() {
-    setInput("");
-    setResult("");
-  }
-
-  if (!equation) return <div className="centered">Loading...</div>;
+  if (!equation) return <div className="math-game">Loading...</div>
 
   return (
     <div className="centered math-game">
@@ -98,6 +88,15 @@ export default function MathGame({ onComplete }) {
       </div>
 
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
+
+      <div className="number-pad">
+        {[1,2,3,4,5,6,7,8,9,0].map(n => (
+          <button key={n} onClick={() => handleButtonClick(n)} className="num-btn">
+            {n}
+          </button>
+        ))}
+        <button onClick={handleClear} className="num-btn clear">Clear</button>
+      </div>
 
       {result && (
         <h3 className={result.includes("Correct") ? "correct" : "error"}>

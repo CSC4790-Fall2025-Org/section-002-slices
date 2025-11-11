@@ -94,17 +94,9 @@ export default function GameHub() {
     if (!auth.currentUser || !fromDaily) return;
     const user = auth.currentUser;
     const score = gamesCompleted * 10;
-    await setDoc(
-      doc(db, "UserAccounts", user.uid),
-      { Score: score },
-      { merge: true }
-    );
+    await setDoc(doc(db, "UserAccounts", user.uid), { Score: score }, { merge: true });
     if (user.Score > user.highestScore) {
-      await setDoc(
-        doc(db, "UserAccounts", user.uid),
-        { highestScore: score },
-        { merge: true }
-      );
+      await setDoc(doc(db, "UserAccounts", user.uid), { highestScore: score }, { merge: true });
     }
   }
 
@@ -119,11 +111,7 @@ export default function GameHub() {
   }
 
   function handleBack() {
-    if (
-      window.confirm(
-        "Are you sure you want to quit? You'll lose your current progress."
-      )
-    ) {
+    if (window.confirm("Are you sure you want to quit? You'll lose your current progress.")) {
       navigate("/");
     }
   }
@@ -151,8 +139,7 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
   const cardKey = `${gameIndex}-${gamesCompleted}`;
   const nodeRef =
-    nodeRefMap.current[cardKey] ||
-    (nodeRefMap.current[cardKey] = { current: null });
+    nodeRefMap.current[cardKey] || (nodeRefMap.current[cardKey] = { current: null });
 
   return (
     <div className="gamehub centered" style={{ position: "relative" }}>
@@ -168,22 +155,12 @@ export default function GameHub() {
         </button>
 
         <TransitionGroup className="card-stack">
-          <CSSTransition
-            key={cardKey}
-            nodeRef={nodeRef}
-            timeout={600}
-            classNames="game-card"
-          >
+          <CSSTransition key={cardKey} nodeRef={nodeRef} timeout={600} classNames="game-card">
             <div ref={nodeRef} className="game-card">
               {CurrentGame ? (
-                <CurrentGame
-                  onComplete={handleGameComplete}
-                  onSkip={handleSkip}
-                />
+                <CurrentGame onComplete={handleGameComplete} onSkip={handleSkip} />
               ) : (
-                <div style={{ textAlign: "center", opacity: 0.65 }}>
-                  Loading game...
-                </div>
+                <div style={{ textAlign: "center", opacity: 0.65 }}>Loading game...</div>
               )}
             </div>
           </CSSTransition>
