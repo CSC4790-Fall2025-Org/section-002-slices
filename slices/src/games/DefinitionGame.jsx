@@ -14,6 +14,26 @@ export default function DefinitionGame({ onComplete }) {
     loadWord()
   }, [])
 
+  useEffect(() => {
+  function handleKeyDown(e) {
+    if (solved) return
+
+    const key = e.key.toUpperCase()
+
+    if (/^[A-Z]$/.test(key)) {
+      // If it's a letter key
+      handleButtonClick(key)
+    } else if (key === "BACKSPACE") {
+      handleClear()
+    } else if (key === "ENTER") {
+      handleCheck()
+    }
+  }
+
+  window.addEventListener("keydown", handleKeyDown)
+  return () => window.removeEventListener("keydown", handleKeyDown)
+}, [cursorIndex, solved, current, locked]) // dependencies for the event listener
+
   async function loadWord() {
     setDefinition("Loading...")
     setLocked(Array(5).fill(null))
@@ -58,9 +78,22 @@ export default function DefinitionGame({ onComplete }) {
 
   function handleClear() {
     if (solved) return
-    const updated = [...current]
-    updated[cursorIndex] = null
-    setCurrent(updated)
+    const updated = [...current];
+    let newCursor = cursorIndex;
+
+  // If the current spot is empty, move left first
+  if (!updated[cursorIndex]) {
+    for (let i = cursorIndex - 1; i >= 0; i--) {
+      if (!locked[i]) {
+        newCursor = i
+        break
+      }
+    }
+  }
+
+  updated[newCursor] = null
+  setCurrent(updated)
+  setCursorIndex(newCursor)
   }
 
   function handleCheck() {

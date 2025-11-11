@@ -60,17 +60,15 @@
 
 /* Top row: QWERTYUIOP */
 .keyboard-row.row-1 {
-  grid-template-columns: repeat(10, 60px);
+  grid-template-columns: repeat(10, 1fr);
 }
 
-/* Middle row: ASDFGHJKL */
 .keyboard-row.row-2 {
-  grid-template-columns: repeat(9, 60px);
+  grid-template-columns: repeat(9, 1fr);
 }
 
-/* Bottom row: Enter + letters + Backspace */
 .keyboard-row.row-3 {
-  grid-template-columns: 70px repeat(7, 60px) 70px;
+  grid-template-columns: 1.4fr repeat(7, 1fr) 1.4fr;
 }
 
 .letter-btn {
