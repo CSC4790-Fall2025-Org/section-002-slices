@@ -1,54 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { createUseStyles } from "react-jss"
-import GameControls from "../components/GameControls.jsx"
-
-const useStyles = createUseStyles({
-  stage: {
-    position: "relative",
-    width: 320,
-    height: 320,
-    border: "2px solid #ccc",
-    borderRadius: 12,
-    overflow: "hidden",
-    margin: "0 auto",
-    background: "#f9f9f9",
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
-    gridTemplateRows: "repeat(3, 1fr)",
-    gap: 8,
-    alignItems: "center",
-    justifyItems: "center",
-    fontSize: 32,
-    cursor: "pointer",
-  },
-  cell: {
-    width: 64,
-    height: 64,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    background: "#fff",
-    borderRadius: 8,
-    transition: "transform 0.14s ease, background 0.14s ease",
-    "&:active": { transform: "scale(0.96)" },
-  },
-  flash: {
-    background: "#ef4444 !important",
-    color: "#fff",
-  },
-  success: {
-    background: "#10b981 !important",
-    color: "#fff",
-  },
-  info: {
-    textAlign: "center",
-    marginTop: 16,
-    fontSize: 18,
-  },
-})
+import { useEffect, useState } from "react"
+import "./css/DifferentEmoji.css"
 
 export default function DifferentEmoji({ onComplete }) {
-  const css = useStyles()
   const rows = 3
   const cols = 4
   const total = rows * cols
@@ -102,25 +55,23 @@ export default function DifferentEmoji({ onComplete }) {
     }
   }
 
-  function handleCheck() {}
-
   function handleSkip() {
     onComplete?.({ skipped: true })
   }
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="different-emoji-container">
       <h2>Find the Different Emoji</h2>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
-
-      <div className={css.stage}>
+      <div className="stage">
         {grid.map((emoji, i) => {
           const className = [
-            css.cell,
-            flashIndex === i ? css.flash : "",
-            solved && i === oddIndex ? css.success : "",
-          ].join(" ")
+            "cell",
+            flashIndex === i ? "flash" : "",
+            solved && i === oddIndex ? "success" : "",
+          ]
+            .filter(Boolean)
+            .join(" ")
           return (
             <div key={i} className={className} onClick={() => handleTap(i)}>
               {emoji}

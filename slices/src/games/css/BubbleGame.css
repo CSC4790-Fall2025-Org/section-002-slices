@@ -1,0 +1,34 @@
+.bubblegame-container {
+  text-align: center;
+}
+
+.stage {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+  background: #f9f9f9;
+}
+
+.bubble {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  background: #006f16;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.bubble.flash {
+  background: #ef4444 !important;
+}

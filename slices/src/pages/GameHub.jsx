@@ -5,8 +5,7 @@ import MathGame from "../games/MathGame.jsx";
 import MemoryGame from "../games/MemoryGame.jsx";
 import ColorNameGame from "../games/ColorNameGame.jsx";
 import SortGame from "../games/SortGame.jsx";
-import SportsTrivia from "../games/SportsTrivia.jsx";
-import GeographyTrivia from "../games/GeographyTrivia.jsx";
+import TriviaGame from "../games/TriviaGame.jsx";
 import BubbleGame from "../games/BubbleGame.jsx";
 import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
@@ -14,13 +13,17 @@ import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+const SportsTrivia = props => <TriviaGame category="sports" {...props} />;
+const GeographyTrivia = props => <TriviaGame category="geography" {...props} />;
+const RandomTrivia = props => <TriviaGame random {...props} />;
+
 const categoryGames = {
   memory: [MemoryGame],
   math: [MathGame],
   vocabulary: [DefinitionGame, SortGame],
   sports: [SportsTrivia],
   geography: [GeographyTrivia],
-  trivia: [SportsTrivia, GeographyTrivia],
+  trivia: [RandomTrivia],
   reaction: [BubbleGame, DifferentEmoji, ColorNameGame],
   debug: [DifferentEmoji],
 };
@@ -31,6 +34,7 @@ export default function GameHub() {
   const navigate = useNavigate();
   const duration = location.state?.duration || 60;
 
+  const [games, setGames] = useState([]);
   const [gamesCompleted, setGamesCompleted] = useState(0);
   const [timeLeft, setTimeLeft] = useState(duration);
   const [gameOver, setGameOver] = useState(false);
@@ -40,14 +44,19 @@ export default function GameHub() {
 
   const nodeRefMap = useRef({});
 
-  const allGames = Object.values(categoryGames).flat();
+  useEffect(() => {
+    const lower = category?.toLowerCase();
+    const all = Object.values(categoryGames).flat();
 
-  const [games] = useState(() => {
-    if (category && categoryGames[category.toLowerCase()]) {
-      return categoryGames[category.toLowerCase()];
+    if (lower && categoryGames[lower]) {
+      setGames(categoryGames[lower]);
+    } else if (location.state?.from === "daily") {
+      setFromDaily(true);
+      setGames([...all].sort(() => Math.random() - 0.5));
+    } else {
+      setGames([...all].sort(() => Math.random() - 0.5));
     }
-    return [...allGames].sort(() => Math.random() - 0.5);
-  });
+  }, [category, location.state]);
 
   useEffect(() => {
     if (gameOver || penaltyCountdown != null) return;
@@ -80,24 +89,24 @@ export default function GameHub() {
     if (gameOver) getScore();
   }, [gameOver]);
 
-  useEffect(() => {
-    if (location.state?.from === "daily") setFromDaily(true);
-  }, [location.state]);
-
   function nextGame(skipped = false) {
     if (gameOver) return;
     if (!skipped) setGamesCompleted(prev => prev + 1);
     setGameIndex(prev => (prev + 1) % games.length);
   }
 
+  function handleSkip() {
+    if (gameOver || penaltyCountdown != null) return;
+    setPenaltyCountdown(5);
+  }
+
   async function getScore() {
     if (!auth.currentUser || !fromDaily) return;
-    const user = auth.currentUser;
-    const score = gamesCompleted * 10;
-    await setDoc(doc(db, "UserAccounts", user.uid), { Score: score }, { merge: true });
-    if (user.Score > user.highestScore) {
-      await setDoc(doc(db, "UserAccounts", user.uid), { highestScore: score }, { merge: true });
-    }
+    await setDoc(
+      doc(db, "UserAccounts", auth.currentUser.uid),
+      { Score: gamesCompleted * 10 },
+      { merge: true }
+    );
   }
 
   function handleGameComplete(data) {
@@ -106,19 +115,16 @@ export default function GameHub() {
     else nextGame();
   }
 
-  function handleSkip() {
-    setPenaltyCountdown(5);
-  }
-
   function handleBack() {
     if (window.confirm("Are you sure you want to quit? You'll lose your current progress.")) {
-      navigate("/");
+      const fromExplore = location.state?.from === "/explore";
+      navigate(fromExplore ? "/explore" : "/");
     }
   }
 
   if (gameOver) {
     return (
-      <div className="gamehub centered">
+      <div className="full-end-screen">
         <h1>Time's up!</h1>
         <p>
           {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
@@ -130,7 +136,7 @@ export default function GameHub() {
 
   if (penaltyCountdown != null) {
     return (
-      <div className="gamehub centered">
+      <div className="gamehub">
         <h2 className="penalty-timer">{penaltyCountdown}</h2>
       </div>
     );
@@ -139,10 +145,11 @@ export default function GameHub() {
   const CurrentGame = games[gameIndex];
   const cardKey = `${gameIndex}-${gamesCompleted}`;
   const nodeRef =
-    nodeRefMap.current[cardKey] || (nodeRefMap.current[cardKey] = { current: null });
+    nodeRefMap.current[cardKey] ||
+    (nodeRefMap.current[cardKey] = { current: null });
 
   return (
-    <div className="gamehub centered" style={{ position: "relative" }}>
+    <div className="gamehub">
       <button className="back-button" onClick={handleBack} aria-label="Back">
         ⬅
       </button>
@@ -155,12 +162,22 @@ export default function GameHub() {
         </button>
 
         <TransitionGroup className="card-stack">
-          <CSSTransition key={cardKey} nodeRef={nodeRef} timeout={600} classNames="game-card">
+          <CSSTransition
+            key={cardKey}
+            nodeRef={nodeRef}
+            timeout={500}
+            classNames="game-card"
+          >
             <div ref={nodeRef} className="game-card">
               {CurrentGame ? (
-                <CurrentGame onComplete={handleGameComplete} onSkip={handleSkip} />
+                <CurrentGame
+                  onComplete={handleGameComplete}
+                  onSkip={handleSkip}
+                />
               ) : (
-                <div style={{ textAlign: "center", opacity: 0.65 }}>Loading game...</div>
+                <div style={{ textAlign: "center", opacity: 0.65 }}>
+                  Loading game...
+                </div>
               )}
             </div>
           </CSSTransition>

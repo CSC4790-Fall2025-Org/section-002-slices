@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react"
-import GameControls from "../components/GameControls.jsx"
-import "./css/memory.css"
+import "./css/MemoryGame.css"
 
 export default function MemoryGame({ onComplete }) {
   const allEmojis = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍒", "🍋", "🍍"]
   const [grid, setGrid] = useState([])
-  const [flipped, setFlipped] = useState([]) // false = hidden, true = revealed
+  const [flipped, setFlipped] = useState([])
   const [activeIndices, setActiveIndices] = useState([])
 
   useEffect(() => {
@@ -15,9 +14,9 @@ export default function MemoryGame({ onComplete }) {
     const finalGrid = paired.sort(() => Math.random() - 0.5)
     setGrid(finalGrid)
     
-    setFlipped(Array(finalGrid.length).fill(true)) // show all initially
+    setFlipped(Array(finalGrid.length).fill(true))
     const hideTimeout = setTimeout(() => {
-      setFlipped(Array(finalGrid.length).fill(false)) // hide all after .5s
+      setFlipped(Array(finalGrid.length).fill(false))
     }, 500)
 
     return () => clearTimeout(hideTimeout)
@@ -55,7 +54,6 @@ export default function MemoryGame({ onComplete }) {
       }
     }
 
-    // check if all cards are revealed
     setTimeout(() => {
       if (flipped.every((v, i) => v || i === index)) {
         onComplete?.({ correct: true })
@@ -67,8 +65,6 @@ export default function MemoryGame({ onComplete }) {
     <div className="memory-container">
       <h2>Memory Match</h2>
       <p>Find all the matching pairs!</p>
-
-      <GameControls onSkip={handleSkip} />
 
       <div className="grid">
         {grid.map((emoji, i) => (

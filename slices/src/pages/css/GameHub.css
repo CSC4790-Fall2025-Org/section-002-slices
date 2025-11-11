@@ -1,47 +1,21 @@
 .gamehub {
   position: relative;
-  width: 100%;
-  height: 100%;
-}
-.penalty-timer {
-  color: #f44336;
-  font-size: 120px;
-  font-weight: 700;
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0% {
-    /* transform: scale(1); */
-    opacity: 1;
-  }
-  50% {
-    /* transform: scale(1.1); */
-    opacity: 0.5;
-  }
-  100% {
-    /* transform: scale(1); */
-    opacity: 1;
-  }
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: none;
 }
 
-
-
-body {
-  font-family: "Rubik", sans-serif;
-}
-
-.time-remaining {
-    font-size: 40px;
-    color: #3e3e3e;
-
-}
+/* fixed corner buttons */
 .back-button {
   position: fixed;
   top: 32px;
   left: 32px;
-   width: 3rem;
-    height: 3rem;
+  width: 3rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,8 +40,8 @@ body {
   color: #fff;
   border-radius: 8px;
   z-index: 1000;
-    width: 3rem;
-    height: 3rem;
+  width: 3rem;
+  height: 3rem;
 }
 
 /* centered main content stack */
@@ -135,8 +109,8 @@ body {
   width: 90vw;
   max-width: 600px;
   height: 80vh;
-  background: #ffffff;
-  color: black;
+  background: #1a1a1a;
+  color: white;
   border-radius: 24px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   padding: 24px;
@@ -145,7 +119,6 @@ body {
   justify-content: center;
   align-items: center;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  
 }
 
 /* entering card (slides up and over) */

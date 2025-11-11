@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
+import { useState, useEffect, useRef } from "react"
+import "./css//DefinitionGame.css"
 
 export default function DefinitionGame({ onComplete }) {
   const [word, setWord] = useState("")
@@ -9,6 +9,7 @@ export default function DefinitionGame({ onComplete }) {
   const [result, setResult] = useState("")
   const [cursorIndex, setCursorIndex] = useState(0)
   const [solved, setSolved] = useState(false)
+  const containerRef = useRef(null)
 
   useEffect(() => {
     loadWord()
@@ -32,6 +33,7 @@ export default function DefinitionGame({ onComplete }) {
 
       setWord(w.toLowerCase())
       setDefinition(def)
+      setTimeout(() => containerRef.current?.focus(), 0)
     } catch {
       setDefinition("Failed to load word list")
     }
@@ -102,60 +104,28 @@ export default function DefinitionGame({ onComplete }) {
 
     if (isCorrect) {
       setSolved(true)
-      setTimeout(() => onComplete?.(), 400)
+      setTimeout(() => onComplete?.({ correct: true }), 400)
     }
   }
 
-  function handleSkip() {
-    setResult(`The word was: ${word}`)
-    setTimeout(() => onComplete?.({ skipped: true }), 400)
-  }
-
-  // Auto-check only when not solved and all letters are filled
   useEffect(() => {
-    if (solved) return
-    const allLetters = locked.map((l, i) => l || current[i])
-    if (allLetters.every(c => /^[A-Z]$/.test(c))) handleCheck()
-  }, [current, locked, solved])
+    if (!solved && current.every(c => /^[A-Z]$/.test(c || ""))) {
+      handleCheck()
+    }
+  }, [current])
 
   return (
-    <div className="centered">
+    <div className="definition-game">
       <h2>Define the Word:</h2>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
-
-      <p>{definition}</p>
-      <input
-        id="mobile-input"
-        type="text"
-        autoCapitalize="characters"
-        autoFocus
-        style={{
-          position: "absolute",
-          opacity: 0,
-          pointerEvents: "none",
-        }}
-        onChange={(e) => {
-          const letter = e.target.value.slice(-1).toUpperCase()
-          e.target.value = ""
-          if (/^[A-Z]$/.test(letter)) {
-            updateLetter(letter, cursorIndex)
-            setCursorIndex(nextUnlockedIndex(cursorIndex))
-          }
-        }}
-      />
+      <p className="definition-text">{definition}</p>
 
       <div
         id="word-input-container"
+        ref={containerRef}
         tabIndex={0}
         onKeyDown={handleKeyDown}
-        onClick={() => document.getElementById("mobile-input")?.focus()}
-        style={{
-          display: "flex",
-          gap: 8,
-          marginBottom: 16,
-          outline: "none",
-        }}
+        className="word-input-container"
       >
         {locked.map((l, i) => (
           <input
@@ -163,21 +133,18 @@ export default function DefinitionGame({ onComplete }) {
             readOnly
             value={l || current[i] || ""}
             onClick={() => handleClick(i)}
-            style={{
-              width: 50,
-              fontSize: 20,
-              textAlign: "center",
-              border: "2px solid",
-              borderColor: i === cursorIndex ? "#3b82f6" : l ? "#10b981" : "#aaa",
-              borderRadius: 8,
-              backgroundColor: l ? "#a7f3d0" : "white",
-              color: "black",
-            }}
+            className={`letter-box ${
+              i === cursorIndex
+                ? "active"
+                : l
+                ? "locked"
+                : ""
+            }`}
           />
         ))}
       </div>
 
-      {result && <h3>{result}</h3>}
+      {result && <h3 className="result-text">{result}</h3>}
     </div>
   )
 }

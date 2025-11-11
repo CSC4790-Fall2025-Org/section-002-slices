@@ -1,91 +1,103 @@
-import React, { useMemo, useState } from "react"
-import { createUseStyles } from "react-jss"
-import GameControls from "../components/GameControls.jsx"
+import { useState, useEffect } from "react"
+import "./css/ColorNameGame.css"
 
 const COLORS = ["red", "blue", "green", "orange", "purple", "yellow"]
 const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
 
-const useStyles = createUseStyles({
-  wrap: { display: "grid", placeItems: "center", gap: 16, padding: 24, textAlign: "center" },
-  prompt: { fontSize: 22, opacity: 0.9 },
-  word: { fontSize: 48, fontWeight: 800, letterSpacing: 2 },
-  row: { display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center" },
-  btn: {
-    padding: "10px 14px",
-    borderRadius: 12,
-    border: "1px solid rgba(255,255,255,.12)",
-    background: "#222",
-    cursor: "pointer",
-    fontSize: 16
-  },
-  feedback: { fontSize: 18, marginTop: 8, minHeight: 24, transition: "opacity 0.3s ease" }
-})
-
-export default function ColorNameGame({ items = 1, onComplete }) {
-  const css = useStyles()
-  const [i, setI] = useState(0)
-  const [score, setScore] = useState(0)
-  const [feedback, setFeedback] = useState("")
+export default function ColorNameGame({ onComplete }) {
+  const [card, setCard] = useState(null)
   const [modeWord, setModeWord] = useState(() => Math.random() < 0.5)
+  const [answers, setAnswers] = useState([])
+  const [selected, setSelected] = useState(null)
+  const [isCorrect, setIsCorrect] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [score, setScore] = useState(0)
 
-  const card = useMemo(() => {
+  function newRound() {
+    setLoading(true)
+    setSelected(null)
+    setIsCorrect(null)
+
     const colorIdx = Math.floor(Math.random() * COLORS.length)
     let wordIdx = Math.floor(Math.random() * WORDS.length)
+
     if (Math.random() < 0.6) {
       while (wordIdx === colorIdx) wordIdx = Math.floor(Math.random() * WORDS.length)
     } else {
       wordIdx = colorIdx
     }
-    return { colorIdx, wordIdx }
-  }, [i])
 
-  function pick(ansIdx) {
-    const correctIdx = modeWord ? card.wordIdx : card.colorIdx
-    const isCorrect = ansIdx === correctIdx
-    setFeedback(isCorrect ? "Correct" : "Incorrect")
-    if (isCorrect) setScore(s => s + 1)
-    setTimeout(() => setFeedback(""), 600)
-    if (i + 1 >= items) onComplete?.({ score })
-    else {
-      setI(n => n + 1)
-      if ((i + 1) % 3 === 0) setModeWord(m => !m)
+    setCard({ colorIdx, wordIdx })
+    setModeWord(Math.random() < 0.5)
+    setAnswers([...WORDS])
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    newRound()
+  }, [])
+
+  function handleAnswer(answer) {
+    if (!card) return
+    const correctValue = modeWord ? WORDS[card.wordIdx] : WORDS[card.colorIdx]
+    const correct = answer === correctValue
+    setSelected(answer)
+    setIsCorrect(correct)
+
+    if (correct) {
+      setScore(s => {
+        const newScore = s + 1
+        setTimeout(() => onComplete?.({ correct: true, score: newScore }), 600)
+        return newScore
+      })
+    } else {
+      setAnswers(prev => prev.filter(a => a !== answer))
+      setSelected(null)
     }
   }
 
-  function handleCheck() {
-    // "Check" doesn't have a natural action here, so just complete the round
-    onComplete?.({ checked: true })
-  }
-
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
+  if (loading || !card) return <div>Loading...</div>
 
   return (
-    <div className={css.wrap}>
+    <div className="color-game">
       <h2>Color Name Game</h2>
       <p>Choose based on the instruction shown.</p>
+      <p>{modeWord ? "Tap the WORD" : "Tap the COLOR"}</p>
 
-      <GameControls onCheck={handleCheck} onSkip={handleSkip} />
-
-      <div className={css.prompt}>
-        {modeWord ? "Tap the WORD" : "Tap the COLOR"}
-      </div>
-
-      <div className={css.word} style={{ color: COLORS[card.colorIdx] }}>
+      <div
+        className="color-word"
+        style={{ color: COLORS[card.colorIdx] }}
+      >
         {WORDS[card.wordIdx]}
       </div>
 
-      <div className={css.row} role="group" aria-label="Answer choices">
-        {WORDS.map((w, idx) => (
-          <button className={css.btn} key={w} onClick={() => pick(idx)}>
-            {modeWord ? w : w.toLowerCase()}
-          </button>
-        ))}
+      <div className="answer-grid">
+        {answers.map(ans => {
+          const display = modeWord ? ans : ans.toLowerCase()
+          const isSelected = selected === ans
+          const correctClass = isSelected
+            ? isCorrect
+              ? "correct"
+              : "incorrect"
+            : ""
+          return (
+            <button
+              key={ans}
+              onClick={() => handleAnswer(ans)}
+              disabled={isCorrect}
+              className={`answer-btn ${correctClass}`}
+            >
+              {display}
+            </button>
+          )
+        })}
       </div>
 
-      <div className={css.feedback} aria-live="polite">{feedback}</div>
-      <div>Score: {score}</div>
+      {isCorrect !== null && (
+        <div className="feedback">
+          <h3>{isCorrect ? "Correct!" : "Incorrect! Try again."}</h3>
+        </div>
+      )}
     </div>
   )
 }

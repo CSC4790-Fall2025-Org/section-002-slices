@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
-import GameControls from "../components/GameControls.jsx"
+import "./css/TriviaGame.css"
 
-export default function GeographyTrivia({ onComplete }) {
+export default function TriviaGame({ onComplete }) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [rightAnswer, setRightAnswer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [isCorrect, setIsCorrect] = useState(null)
+  const [category, setCategory] = useState(null)
 
   async function loadTrivia() {
     setLoading(true)
@@ -16,9 +17,12 @@ export default function GeographyTrivia({ onComplete }) {
     setRightAnswer(null)
 
     try {
-      const text = await fetch("/geography-trivia.txt").then(r => r.text())
-      const lines = text.trim().split("\n").filter(Boolean)
+      // randomly choose which trivia category to load
+      const chosen = Math.random() < 0.5 ? "sports" : "geography"
+      setCategory(chosen)
 
+      const text = await fetch(`/${chosen}-trivia.txt`).then(r => r.text())
+      const lines = text.trim().split("\n").filter(Boolean)
       const randomLine = lines[Math.floor(Math.random() * lines.length)]
       const parts = randomLine.split(";").map(p => p.trim())
 
@@ -31,7 +35,7 @@ export default function GeographyTrivia({ onComplete }) {
       setRightAnswer(correct)
       setAnswers(allAnswers)
     } catch (err) {
-      console.warn("Failed to load geography trivia:", err.message)
+      console.warn("Failed to load trivia:", err.message)
       onComplete?.({ autoSkip: true })
     } finally {
       setLoading(false)
@@ -56,35 +60,30 @@ export default function GeographyTrivia({ onComplete }) {
     }
   }
 
-  function handleSkip() {
-    onComplete?.({ skipped: true })
-  }
-
   if (loading) return <div>Loading...</div>
   if (!question) return null
 
-  return (
-    <div className="centered">
-      <h2>Geography Trivia</h2>
-      <p>Test your knowledge of places and countries.</p>
+  const heading =
+    category === "sports" ? "Sports Trivia" : "Geography Trivia"
+  const subtitle =
+    category === "sports"
+      ? "Can you score a win on this one?"
+      : "Test your knowledge of places and countries."
 
-      <GameControls onSkip={handleSkip} />
+  return (
+    <div className="trivia-container">
+      <h2>{heading}</h2>
+      <p>{subtitle}</p>
 
       <p>{question}</p>
 
-      <div>
+      <div className="trivia-answers">
         {answers.map((answer, i) => (
           <button
             key={i}
             onClick={() => handleAnswerClick(answer)}
             disabled={isCorrect}
-            style={{
-              margin: 4,
-              padding: "8px 16px",
-              borderRadius: 8,
-              background:
-                selectedAnswer === answer ? "#006f16" : "#626262ff",
-            }}
+            className={`trivia-btn ${selectedAnswer === answer ? "selected" : ""}`}
           >
             {answer}
           </button>
@@ -92,7 +91,7 @@ export default function GeographyTrivia({ onComplete }) {
       </div>
 
       {isCorrect !== null && (
-        <div style={{ marginTop: 12 }}>
+        <div className="trivia-result">
           <h3>{isCorrect ? "Correct!" : "Incorrect! Try again."}</h3>
         </div>
       )}
