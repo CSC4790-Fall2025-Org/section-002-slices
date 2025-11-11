@@ -63,9 +63,7 @@ export default function MemoryGame({ onComplete }) {
 
   return (
     <div className="memory-container">
-      <h2>Memory Match</h2>
-      <p>Find all the matching pairs!</p>
-
+      <h2>Find All Matching Pairs</h2>
       <div className="grid">
         {grid.map((emoji, i) => (
           <div
