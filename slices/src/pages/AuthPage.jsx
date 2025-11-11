@@ -19,6 +19,7 @@ export default function AuthPage() {
       await createUserWithEmailAndPassword(auth, email, password);
       setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
         email: auth.currentUser.email,
+        highestScore: 0,
         Score: 0,
         createdAt: new Date(),
       });

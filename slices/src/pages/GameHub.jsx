@@ -103,10 +103,16 @@ export default function GameHub() {
       console.log("Not from daily, score not recorded.");
       return;
     }
-    console.log("Recording score for user:", auth.currentUser.uid);
-    setDoc(doc(db, "UserAccounts", auth.currentUser.uid), {
+    const user = auth.currentUser;
+    console.log("Recording score for user:", user.uid);
+    setDoc(doc(db, "UserAccounts", user.uid), {
       Score: gamesCompleted * 10,
     }, { merge: true });
+    if(user.Score > user.highestScore) {
+      setDoc(doc(db, "UserAccounts", user.uid), {
+        highestScore: gamesCompleted * 10,
+      }, { merge: true });
+    }
     
   }
 
