@@ -48,8 +48,11 @@ export default function MathGame({ onComplete }) {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   if (!equation) return <div className="centered">Loading...</div>
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   function handleButtonClick(num) {
@@ -72,9 +75,12 @@ export default function MathGame({ onComplete }) {
       <p>Solve the equation below.</p>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
       <GameControls onCheck={handleCheck} onSkip={handleSkip} />
 
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -100,8 +106,11 @@ export default function MathGame({ onComplete }) {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       {result && <h3>{result}</h3>}
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
       <div className="number-pad">

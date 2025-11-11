@@ -41,8 +41,11 @@ export default function GameHub() {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const allGames = Object.values(categoryGames).flat();
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
   const nodeRefMap = useRef({});
