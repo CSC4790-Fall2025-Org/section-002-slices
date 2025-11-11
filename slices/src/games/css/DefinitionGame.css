@@ -1,41 +1,99 @@
 .definition-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   text-align: center;
   font-family: sans-serif;
 }
 
 .definition-text {
-  margin-bottom: 16px;
+  font-size: 1.2rem;
+  max-width: 400px;
 }
 
-.word-input-container {
+.letter-display {
   display: flex;
   gap: 8px;
   margin-bottom: 16px;
-  outline: none;
-  justify-content: center;
 }
 
 .letter-box {
   width: 50px;
-  font-size: 20px;
+  height: 50px;
+  font-size: 1.5rem;
+  font-weight: bold;
   text-align: center;
-  border: 2px solid #aaa;
+  border: 2px solid #00440e;
   border-radius: 8px;
-  background-color: white;
+  background-color: #f0f0f0;
   color: black;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .letter-box.active {
-  border-color: #3b82f6;
+  border-color: #1976d2;
+  background-color: #e3f2fd;
 }
 
 .letter-box.locked {
-  border-color: #10b981;
-  background-color: #a7f3d0;
+  border-color: #00440e;
+  background-color: #00440e;
+  color: white;
+}
+
+.letter-pad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* vertical spacing between rows */
+  align-items: center;
+  margin-top: 16px;
+}
+
+.keyboard-row {
+  display: grid;
+  gap: 8px; /* horizontal spacing between keys */
+}
+
+/* Top row: QWERTYUIOP */
+.keyboard-row.row-1 {
+  grid-template-columns: repeat(10, 60px);
+}
+
+/* Middle row: ASDFGHJKL */
+.keyboard-row.row-2 {
+  grid-template-columns: repeat(9, 60px);
+}
+
+/* Bottom row: Enter + letters + Backspace */
+.keyboard-row.row-3 {
+  grid-template-columns: 70px repeat(7, 60px) 70px;
+}
+
+.letter-btn {
+  font-size: 1.25rem;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #00440e;
+  color: white;
+  cursor: pointer;
+}
+
+.letter-btn.enter {
+  background-color: #1976d2;
+}
+
+.letter-btn.backspace {
+  background-color: #d32f2f;
 }
 
 .result-text {
-  margin-top: 12px;
+  font-size: 1.5rem;
+  margin-top: 16px;
+  color: #00440e;
   font-weight: bold;
 }

@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react"
-import "./css//DefinitionGame.css"
+import { useState, useEffect } from "react"
+import "./css/DefinitionGame.css"
 
 export default function DefinitionGame({ onComplete }) {
   const [word, setWord] = useState("")
@@ -9,7 +9,6 @@ export default function DefinitionGame({ onComplete }) {
   const [result, setResult] = useState("")
   const [cursorIndex, setCursorIndex] = useState(0)
   const [solved, setSolved] = useState(false)
-  const containerRef = useRef(null)
 
   useEffect(() => {
     loadWord()
@@ -33,7 +32,6 @@ export default function DefinitionGame({ onComplete }) {
 
       setWord(w.toLowerCase())
       setDefinition(def)
-      setTimeout(() => containerRef.current?.focus(), 0)
     } catch {
       setDefinition("Failed to load word list")
     }
@@ -48,44 +46,21 @@ export default function DefinitionGame({ onComplete }) {
 
   function nextUnlockedIndex(from) {
     for (let i = from + 1; i < locked.length; i++) if (!locked[i]) return i
+    for (let i = 0; i < from; i++) if (!locked[i]) return i
     return from
   }
 
-  function prevUnlockedIndex(from) {
-    for (let i = from - 1; i >= 0; i--) if (!locked[i]) return i
-    return from
-  }
-
-  function handleKeyDown(e) {
+  function handleButtonClick(letter) {
     if (solved) return
-    const key = e.key.toUpperCase()
-
-    if (/^[A-Z]$/.test(key)) {
-      if (!locked[cursorIndex]) {
-        updateLetter(key, cursorIndex)
-        setCursorIndex(nextUnlockedIndex(cursorIndex))
-      }
-    } else if (e.key === "Backspace") {
-      let index = cursorIndex
-      if (current[index]) {
-        updateLetter("", index)
-      } else {
-        const prev = prevUnlockedIndex(index)
-        updateLetter("", prev)
-        index = prev
-      }
-      setCursorIndex(index)
-    } else if (e.key === "ArrowLeft") {
-      setCursorIndex(prevUnlockedIndex(cursorIndex))
-    } else if (e.key === "ArrowRight") {
-      setCursorIndex(nextUnlockedIndex(cursorIndex))
-    } else if (e.key === "Enter") {
-      handleCheck()
-    }
+    updateLetter(letter, cursorIndex)
+    setCursorIndex(nextUnlockedIndex(cursorIndex))
   }
 
-  function handleClick(i) {
-    if (!locked[i] && !solved) setCursorIndex(i)
+  function handleClear() {
+    if (solved) return
+    const updated = [...current]
+    updated[cursorIndex] = null
+    setCurrent(updated)
   }
 
   function handleCheck() {
@@ -108,40 +83,71 @@ export default function DefinitionGame({ onComplete }) {
     }
   }
 
-  useEffect(() => {
-    if (!solved && current.every(c => /^[A-Z]$/.test(c || ""))) {
-      handleCheck()
-    }
-  }, [current])
+  // QWERTY rows
+  const rows = [
+    "QWERTYUIOP".split(""),
+    "ASDFGHJKL".split(""),
+    "ZXCVBNM".split("")
+  ]
 
   return (
     <div className="definition-game">
       <h2>Define the Word:</h2>
-
       <p className="definition-text">{definition}</p>
 
-      <div
-        id="word-input-container"
-        ref={containerRef}
-        tabIndex={0}
-        onKeyDown={handleKeyDown}
-        className="word-input-container"
-      >
+      <div className="letter-display">
         {locked.map((l, i) => (
-          <input
+          <div
             key={i}
-            readOnly
-            value={l || current[i] || ""}
-            onClick={() => handleClick(i)}
-            className={`letter-box ${
-              i === cursorIndex
-                ? "active"
-                : l
-                ? "locked"
-                : ""
-            }`}
-          />
+            className={`letter-box ${l ? "locked" : i === cursorIndex ? "active" : ""}`}
+          >
+            {l || current[i] || "-"}
+          </div>
         ))}
+      </div>
+
+      <div className="letter-pad">
+        <div className="keyboard-row row-1">
+          {rows[0].map(letter => (
+            <button
+              key={letter}
+              className="letter-btn"
+              onClick={() => handleButtonClick(letter)}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+
+        <div className="keyboard-row row-2">
+          {rows[1].map(letter => (
+            <button
+              key={letter}
+              className="letter-btn"
+              onClick={() => handleButtonClick(letter)}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+
+        <div className="keyboard-row row-3">
+          <button className="letter-btn enter" onClick={handleCheck}>
+            Enter
+          </button>
+          {rows[2].map(letter => (
+            <button
+              key={letter}
+              className="letter-btn"
+              onClick={() => handleButtonClick(letter)}
+            >
+              {letter}
+            </button>
+          ))}
+          <button className="letter-btn backspace" onClick={handleClear}>
+            ⌫
+          </button>
+        </div>
       </div>
 
       {result && <h3 className="result-text">{result}</h3>}
