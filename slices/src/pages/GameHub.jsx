@@ -101,12 +101,21 @@ export default function GameHub() {
   }
 
   async function getScore() {
-    if (!auth.currentUser || !fromDaily) return;
-    await setDoc(
-      doc(db, "UserAccounts", auth.currentUser.uid),
-      { Score: gamesCompleted * 10 },
-      { merge: true }
-    );
+    if (!auth.currentUser) return null;
+    if(!fromDaily) {
+      console.log("Not from daily, score not recorded.");
+      return;
+    }
+    const user = auth.currentUser;
+    console.log("Recording score for user:", user.uid);
+    setDoc(doc(db, "UserAccounts", user.uid), {
+      Score: gamesCompleted * 10,
+    }, { merge: true });
+    if(user.Score > user.highestScore) {
+      setDoc(doc(db, "UserAccounts", user.uid), {
+        highestScore: gamesCompleted * 10,
+      }, { merge: true });
+    }
   }
 
   function handleGameComplete(data) {
