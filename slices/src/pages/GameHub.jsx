@@ -14,7 +14,6 @@ import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-
 const categoryGames = {
   memory: [MemoryGame],
   math: [MathGame],
@@ -39,21 +38,9 @@ export default function GameHub() {
   const [gameIndex, setGameIndex] = useState(0);
   const [fromDaily, setFromDaily] = useState(false);
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const allGames = Object.values(categoryGames).flat();
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
   const nodeRefMap = useRef({});
 
-  useEffect(() => {
-    const lower = category?.toLowerCase();
-    const all = Object.values(categoryGames).flat();
->>>>>>> Stashed changes
+  const allGames = Object.values(categoryGames).flat();
 
   const [games] = useState(() => {
     if (category && categoryGames[category.toLowerCase()]) {
@@ -61,7 +48,7 @@ export default function GameHub() {
     }
     return [...allGames].sort(() => Math.random() - 0.5);
   });
-  
+
   useEffect(() => {
     if (gameOver || penaltyCountdown != null) return;
     const timer = setInterval(() => {
@@ -90,21 +77,12 @@ export default function GameHub() {
   }, [penaltyCountdown]);
 
   useEffect(() => {
-    if (gameOver) {
-      getScore();
-      console.log("Game over! Final score:", gamesCompleted);
-    }
+    if (gameOver) getScore();
   }, [gameOver]);
 
-  function fromDailyCheck() {
-    if (location.state?.from === "daily") {
-      setFromDaily(true);
-    }
-  }
-
   useEffect(() => {
-    fromDailyCheck();
-  }, []);
+    if (location.state?.from === "daily") setFromDaily(true);
+  }, [location.state]);
 
   function nextGame(skipped = false) {
     if (gameOver) return;
@@ -113,22 +91,21 @@ export default function GameHub() {
   }
 
   async function getScore() {
-    if (!auth.currentUser) return null;
-    if(!fromDaily) {
-      console.log("Not from daily, score not recorded.");
-      return;
-    }
+    if (!auth.currentUser || !fromDaily) return;
     const user = auth.currentUser;
-    console.log("Recording score for user:", user.uid);
-    setDoc(doc(db, "UserAccounts", user.uid), {
-      Score: gamesCompleted * 10,
-    }, { merge: true });
-    if(user.Score > user.highestScore) {
-      setDoc(doc(db, "UserAccounts", user.uid), {
-        highestScore: gamesCompleted * 10,
-      }, { merge: true });
+    const score = gamesCompleted * 10;
+    await setDoc(
+      doc(db, "UserAccounts", user.uid),
+      { Score: score },
+      { merge: true }
+    );
+    if (user.Score > user.highestScore) {
+      await setDoc(
+        doc(db, "UserAccounts", user.uid),
+        { highestScore: score },
+        { merge: true }
+      );
     }
-    
   }
 
   function handleGameComplete(data) {
@@ -137,8 +114,16 @@ export default function GameHub() {
     else nextGame();
   }
 
+  function handleSkip() {
+    setPenaltyCountdown(5);
+  }
+
   function handleBack() {
-    if (window.confirm("Are you sure you want to quit? You'll lose your current progress.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to quit? You'll lose your current progress."
+      )
+    ) {
       navigate("/");
     }
   }
@@ -147,10 +132,11 @@ export default function GameHub() {
     return (
       <div className="gamehub centered">
         <h1>Time's up!</h1>
-        <p>{gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!</p>
+        <p>
+          {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
+        </p>
         <button onClick={() => navigate("/")}>Home</button>
       </div>
-      
     );
   }
 
@@ -169,19 +155,13 @@ export default function GameHub() {
     (nodeRefMap.current[cardKey] = { current: null });
 
   return (
-<div className="gamehub centered" style={{ position: "relative" }}>
-  <button className="back-button" onClick={handleBack} aria-label="Back">
-    ⬅
-  </button>
+    <div className="gamehub centered" style={{ position: "relative" }}>
+      <button className="back-button" onClick={handleBack} aria-label="Back">
+        ⬅
+      </button>
 
-  <div className="timer-top-right">{timeLeft}</div>
+      <div className="timer-top-right">{timeLeft}</div>
 
-<<<<<<< Updated upstream
-  <div className="game-container">
-    <CurrentGame key={`${gameIndex}-${gamesCompleted}`} onComplete={handleGameComplete} />
-  </div>
-</div>
-=======
       <div className="main-content">
         <button className="skip-button" onClick={handleSkip}>
           SKIP
@@ -210,6 +190,5 @@ export default function GameHub() {
         </TransitionGroup>
       </div>
     </div>
->>>>>>> Stashed changes
   );
 }
