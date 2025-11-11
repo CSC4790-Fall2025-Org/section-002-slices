@@ -118,7 +118,6 @@ export default function ColorNameGame({ onComplete }) {
         </div>
       )}
 
-      <div style={{ marginTop: 8 }}>Score: {score}</div>
     </div>
   )
 }
