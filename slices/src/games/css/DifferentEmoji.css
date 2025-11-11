@@ -1,0 +1,47 @@
+.different-emoji-container {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.stage {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  align-items: center;
+  justify-items: center;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.cell {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 8px;
+  transition: transform 0.14s ease, background 0.14s ease;
+}
+
+.cell:active {
+  transform: scale(0.96);
+}
+
+.flash {
+  background: #ef4444 !important;
+  color: #fff;
+}
+
+.success {
+  background: #10b981 !important;
+  color: #fff;
+}

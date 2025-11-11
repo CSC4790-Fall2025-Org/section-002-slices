@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import "./css/TriviaGames.css"
 
 export default function GeographyTrivia({ onComplete }) {
   const [question, setQuestion] = useState(null)
@@ -17,10 +18,8 @@ export default function GeographyTrivia({ onComplete }) {
     try {
       const text = await fetch("/geography-trivia.txt").then(r => r.text())
       const lines = text.trim().split("\n").filter(Boolean)
-
       const randomLine = lines[Math.floor(Math.random() * lines.length)]
       const parts = randomLine.split(";").map(p => p.trim())
-
       if (parts.length < 3) throw new Error("Invalid line format")
 
       const [questionText, correct, ...wrong] = parts
@@ -59,25 +58,19 @@ export default function GeographyTrivia({ onComplete }) {
   if (!question) return null
 
   return (
-    <div className="centered">
+    <div className="trivia-container">
       <h2>Geography Trivia</h2>
       <p>Test your knowledge of places and countries.</p>
 
       <p>{question}</p>
 
-      <div>
+      <div className="trivia-answers">
         {answers.map((answer, i) => (
           <button
             key={i}
             onClick={() => handleAnswerClick(answer)}
             disabled={isCorrect}
-            style={{
-              margin: 4,
-              padding: "8px 16px",
-              borderRadius: 8,
-              background:
-                selectedAnswer === answer ? "#006f16" : "#626262ff",
-            }}
+            className={`trivia-btn ${selectedAnswer === answer ? "selected" : ""}`}
           >
             {answer}
           </button>
@@ -85,7 +78,7 @@ export default function GeographyTrivia({ onComplete }) {
       </div>
 
       {isCorrect !== null && (
-        <div style={{ marginTop: 12 }}>
+        <div className="trivia-result">
           <h3>{isCorrect ? "Correct!" : "Incorrect! Try again."}</h3>
         </div>
       )}

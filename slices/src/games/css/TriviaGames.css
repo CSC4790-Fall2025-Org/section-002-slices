@@ -1,0 +1,40 @@
+.trivia-container {
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.trivia-container h2 {
+  margin-bottom: 8px;
+}
+
+.trivia-container p {
+  margin-bottom: 12px;
+}
+
+.trivia-answers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.trivia-btn {
+  margin: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: #626262ff;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.trivia-btn.selected {
+  background: #006f16;
+}
+
+.trivia-result {
+  margin-top: 12px;
+  font-weight: bold;
+}
