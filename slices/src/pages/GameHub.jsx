@@ -5,13 +5,16 @@ import MathGame from "../games/MathGame.jsx";
 import MemoryGame from "../games/MemoryGame.jsx";
 import ColorNameGame from "../games/ColorNameGame.jsx";
 import SortGame from "../games/SortGame.jsx";
-import SportsTrivia from "../games/SportsTrivia.jsx";
-import GeographyTrivia from "../games/GeographyTrivia.jsx";
+import TriviaGame from "../games/TriviaGame.jsx";
 import BubbleGame from "../games/BubbleGame.jsx";
 import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
+
+const SportsTrivia = props => <TriviaGame category="sports" {...props} />;
+const GeographyTrivia = props => <TriviaGame category="geography" {...props} />;
+const RandomTrivia = props => <TriviaGame random {...props} />;
 
 const categoryGames = {
   memory: [MemoryGame],
@@ -19,7 +22,7 @@ const categoryGames = {
   vocabulary: [DefinitionGame, SortGame],
   sports: [SportsTrivia],
   geography: [GeographyTrivia],
-  trivia: [SportsTrivia, GeographyTrivia],
+  trivia: [RandomTrivia],
   reaction: [BubbleGame, DifferentEmoji, ColorNameGame],
   debug: [DifferentEmoji],
 };
@@ -30,6 +33,7 @@ export default function GameHub() {
   const navigate = useNavigate();
   const duration = location.state?.duration || 60;
 
+  const [games, setGames] = useState([]);
   const [gamesCompleted, setGamesCompleted] = useState(0);
   const [timeLeft, setTimeLeft] = useState(duration);
   const [gameOver, setGameOver] = useState(false);
@@ -37,14 +41,19 @@ export default function GameHub() {
   const [gameIndex, setGameIndex] = useState(0);
   const [fromDaily, setFromDaily] = useState(false);
 
-  const allGames = Object.values(categoryGames).flat();
+  useEffect(() => {
+    const lower = category?.toLowerCase();
+    const all = Object.values(categoryGames).flat();
 
-  const [games] = useState(() => {
-    if (category && categoryGames[category.toLowerCase()]) {
-      return categoryGames[category.toLowerCase()];
+    if (lower && categoryGames[lower]) {
+      setGames(categoryGames[lower]);
+    } else if (location.state?.from === "daily") {
+      setFromDaily(true);
+      setGames([...all].sort(() => Math.random() - 0.5));
+    } else {
+      setGames([...all].sort(() => Math.random() - 0.5));
     }
-    return [...allGames].sort(() => Math.random() - 0.5);
-  });
+  }, [category, location.state]);
 
   useEffect(() => {
     if (gameOver || penaltyCountdown != null) return;
@@ -77,10 +86,6 @@ export default function GameHub() {
     if (gameOver) getScore();
   }, [gameOver]);
 
-  useEffect(() => {
-    if (location.state?.from === "daily") setFromDaily(true);
-  }, []);
-
   function nextGame(skipped = false) {
     if (gameOver) return;
     if (!skipped) setGamesCompleted(prev => prev + 1);
@@ -94,7 +99,7 @@ export default function GameHub() {
 
   async function getScore() {
     if (!auth.currentUser || !fromDaily) return;
-    setDoc(
+    await setDoc(
       doc(db, "UserAccounts", auth.currentUser.uid),
       { Score: gamesCompleted * 10 },
       { merge: true }
@@ -150,11 +155,13 @@ export default function GameHub() {
         </button>
 
         <div className="game-container">
-          <CurrentGame
-            key={`${gameIndex}-${gamesCompleted}`}
-            onComplete={handleGameComplete}
-            onSkip={handleSkip}
-          />
+          {CurrentGame && (
+            <CurrentGame
+              key={`${gameIndex}-${gamesCompleted}`}
+              onComplete={handleGameComplete}
+              onSkip={handleSkip}
+            />
+          )}
         </div>
       </div>
     </div>

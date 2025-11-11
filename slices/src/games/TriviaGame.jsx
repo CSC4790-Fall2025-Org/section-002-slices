@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import "./css/TriviaGames.css"
 
-export default function SportsTrivia({ onComplete }) {
+export default function TriviaGame({ category, random = false, onComplete }) {
   const [question, setQuestion] = useState(null)
   const [answers, setAnswers] = useState([])
   const [rightAnswer, setRightAnswer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [selectedAnswer, setSelectedAnswer] = useState(null)
   const [isCorrect, setIsCorrect] = useState(null)
+  const [activeCategory, setActiveCategory] = useState(category)
 
   async function loadTrivia() {
     setLoading(true)
@@ -16,7 +17,14 @@ export default function SportsTrivia({ onComplete }) {
     setRightAnswer(null)
 
     try {
-      const text = await fetch("/sports-trivia.txt").then(r => r.text())
+      // Pick category: either the provided one or a random one if random=true
+      const chosen = random
+        ? ["sports", "geography"][Math.floor(Math.random() * 2)]
+        : category
+
+      setActiveCategory(chosen)
+
+      const text = await fetch(`/${chosen}-trivia.txt`).then(r => r.text())
       const lines = text.trim().split("\n").filter(Boolean)
       const randomLine = lines[Math.floor(Math.random() * lines.length)]
       const parts = randomLine.split(";").map(p => p.trim())
@@ -38,7 +46,7 @@ export default function SportsTrivia({ onComplete }) {
 
   useEffect(() => {
     loadTrivia()
-  }, [])
+  }, [category, random])
 
   function handleAnswerClick(answer) {
     setSelectedAnswer(answer)
@@ -57,10 +65,12 @@ export default function SportsTrivia({ onComplete }) {
   if (loading) return <div>Loading...</div>
   if (!question) return null
 
+  const heading =
+    activeCategory === "sports" ? "Sports Trivia" : "Geography Trivia"
+
   return (
     <div className="trivia-container">
-      <h2>Sports Trivia</h2>
-      <p>Can you score a win on this one?</p>
+      <h2>{heading}</h2>
 
       <p>{question}</p>
 
