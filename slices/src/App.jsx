@@ -6,6 +6,7 @@ import Profile from "./pages/Profile.jsx";
 import AuthPage from "./pages/AuthPage.jsx";
 import EditAccount from "./pages/EditAccount.jsx";
 import GameHub from "./pages/GameHub.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import "./App.css";
 import "./index.css";
@@ -47,6 +48,7 @@ function Layout() {
   <Route path="/profile" element={<Profile />} />
   <Route path="/auth" element={<AuthPage />} />
   <Route path="/edit-account" element={<EditAccount />} />
+  <Route path="/ForgotPassword" element={<ForgotPassword />} />
   
   {/* Game routes */}
   <Route path="/game/:category" element={<GameHub />} />

@@ -57,6 +57,7 @@ export default function AuthPage() {
       />
       <button onClick={handleSignIn}>Log In</button>
       <button onClick={handleSignUp}>Sign Up</button>
+      <button onClick={() => navigate("/ForgotPassword")}>Forgot Password</button>
     </main>
   );
 }
