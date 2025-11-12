@@ -43,10 +43,19 @@ export default function Profile() {
         onSnapshot(userRef, (snap) => {
           if (snap.exists()) {
             const data = snap.data();
+            console.log(data.highestScore, data.Score)
             if (data.username) setUsername(data.username);
             if (data.Streak !== undefined) setScore(data.Streak);
             if (data.friends) setFriends(data.friends);
             if (data.highestScore !== undefined) setHighestScore(data.highestScore);
+            if(data.Score > data.highestScore){
+              setHighestScore(data.Score);
+               setDoc(doc(db, "UserAccounts", u.uid), {
+                highestScore: data.Score,
+              }, { merge: true });
+            }
+
+              
           }
         });
       } else {
