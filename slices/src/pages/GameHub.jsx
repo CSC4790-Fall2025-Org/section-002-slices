@@ -111,9 +111,11 @@ export default function GameHub() {
     setDoc(doc(db, "UserAccounts", user.uid), {
       Score: gamesCompleted * 10,
     }, { merge: true });
+    console.log(user.Score, user.highestScore)
     if(user.Score > user.highestScore) {
+      console.log("New highest score!", user.Score)
       setDoc(doc(db, "UserAccounts", user.uid), {
-        highestScore: gamesCompleted * 10,
+        highestScore: user.Score,
       }, { merge: true });
     }
   }

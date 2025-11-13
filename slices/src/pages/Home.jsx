@@ -84,7 +84,7 @@ export default function Home() {
             alert("You have already played today's game. Come back tomorrow for a new challenge!");
           }
         }}}*/}
-          navigate("/game", { state: { from: "daily" } } )}}
+          navigate("/daily-loading", { state: { from: "daily" } } )}}
       >
         BEGIN
       </button>
