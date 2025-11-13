@@ -52,6 +52,7 @@ export default function EditAccount() {
       await setDoc(doc(db, "UserAccounts", user.uid), {
         email: user.email,
         Score: 0,
+        highestScore: 0,
         createdAt: new Date(),
       });
     } catch (err) {
