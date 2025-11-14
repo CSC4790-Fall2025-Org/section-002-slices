@@ -49,6 +49,7 @@ export default function EditAccount() {
     setError("");
     try {
       const { user } = await createUserWithEmailAndPassword(auth, email, password);
+      console.log("User created:", user);
       await setDoc(doc(db, "UserAccounts", user.uid), {
         email: user.email,
         Score: 0,
@@ -151,6 +152,8 @@ export default function EditAccount() {
           />
           <button onClick={handleSignIn}>Log In</button>
           <button onClick={handleSignUp}>Sign Up</button>
+          <button onClick={() => navigate("/ForgotPassword")}>Forgot Password</button>
+
 
         </div>
       )}

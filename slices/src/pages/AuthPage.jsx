@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { auth } from "../scripts/firebase.js";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import "./css/AuthPage.css";
-import { setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
+import { db } from "../scripts/firebase.js";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ export default function AuthPage() {
   const location = useLocation();
   const redirect = new URLSearchParams(location.search).get("redirect") || "/profile";
 
-  async function handleSignUp() {
+   async function handleSignUp() {
     setError("");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -23,7 +24,7 @@ export default function AuthPage() {
         Score: 0,
         createdAt: new Date(),
       });
-      navigate(redirect);
+      navigate('../edit-account');
     } catch (err) {
       setError(err.message);
     }
