@@ -75,7 +75,7 @@ export default function Home() {
         className="btn btn--primary"
         type="button"
         onClick={async () => {
-          {/*{const allowed = await canPlay();
+          {{const allowed = await canPlay();
           console.log("Can play today:", allowed);
           if (allowed) {
             navigate("/game", { state: { from: "daily" } } );
@@ -83,8 +83,8 @@ export default function Home() {
           else {
             alert("You have already played today's game. Come back tomorrow for a new challenge!");
           }
-        }}}*/}
-          navigate("/daily-loading", { state: { from: "daily" } } )}}
+        }}}}
+          //navigate("/daily-loading", { state: { from: "daily" } } )}}
       >
         BEGIN
       </button>
