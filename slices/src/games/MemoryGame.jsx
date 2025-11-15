@@ -1,85 +1,81 @@
 import { useEffect, useState } from "react"
-import "./css/DifferentEmoji.css"
+import "./css/MemoryGame.css"
 
-export default function DifferentEmoji({ onComplete }) {
-  const rows = 3
-  const cols = 4
-  const total = rows * cols
+export default function MemoryGame({ onComplete }) {
+  const allEmojis = ["🍎", "🍌", "🍇", "🍉", "🍓", "🍒", "🍋", "🍍"]
   const [grid, setGrid] = useState([])
-  const [oddIndex, setOddIndex] = useState(null)
-  const [score, setScore] = useState(0)
-  const [flashIndex, setFlashIndex] = useState(null)
-  const [round, setRound] = useState(1)
-  const [solved, setSolved] = useState(false)
-  const [startTime, setStartTime] = useState(Date.now())
-  const [canTap, setCanTap] = useState(false)
+  const [flipped, setFlipped] = useState([])
+  const [activeIndices, setActiveIndices] = useState([])
 
   useEffect(() => {
-    generateGrid()
+    const shuffledEmojis = allEmojis.sort(() => Math.random() - 0.5)
+    const selected = shuffledEmojis.slice(0, 3)
+    const paired = [...selected, ...selected]
+    const finalGrid = paired.sort(() => Math.random() - 0.5)
+    setGrid(finalGrid)
+    
+    setFlipped(Array(finalGrid.length).fill(true))
+    const hideTimeout = setTimeout(() => {
+      setFlipped(Array(finalGrid.length).fill(false))
+    }, 500)
+
+    return () => clearTimeout(hideTimeout)
   }, [])
-
-  function generateGrid() {
-    const emojis = ["🙂", "😎", "🥶", "🤓", "😬", "😇", "🤠", "🥳"]
-    const normal = emojis[Math.floor(Math.random() * emojis.length)]
-    let diff
-    do diff = emojis[Math.floor(Math.random() * emojis.length)]
-    while (diff === normal)
-
-    const cells = Array(total).fill(normal)
-    const oddPos = Math.floor(Math.random() * total)
-    cells[oddPos] = diff
-
-    setGrid(cells)
-    setOddIndex(oddPos)
-    setFlashIndex(null)
-    setSolved(false)
-    setStartTime(Date.now())
-    setCanTap(false)
-
-    setTimeout(() => setCanTap(true), 800)
-  }
-
-  function handleTap(index) {
-    if (!canTap || solved || flashIndex !== null) return
-
-    if (index === oddIndex) {
-      const newScore = score + 1
-      setScore(newScore)
-      setSolved(true)
-      setFlashIndex(index)
-      const elapsed = (Date.now() - startTime) / 1000
-
-      setTimeout(() => {
-        onComplete?.({ score: newScore, round, elapsed })
-      }, 400)
-    } else {
-      setScore(prev => Math.max(0, prev - 1))
-      setFlashIndex(index)
-      setTimeout(() => setFlashIndex(null), 300)
-    }
-  }
 
   function handleSkip() {
     onComplete?.({ skipped: true })
   }
 
-  return (
-    <div className="different-emoji-container">
-      <h2>Find the Different Emoji</h2>
+  function handleCardClick(index) {
+    if (flipped[index] || activeIndices.length === 2) return
 
-      <div className="stage">
-        {grid.map((emoji, i) => {
-          const className = [
-            "cell",
-            flashIndex === i ? "flash" : "",
-            solved && i === oddIndex ? "success" : ""
-          ].filter(Boolean).join(" ")
-          return (
-            <div key={i} className={className} onClick={() => handleTap(i)}>
-              {emoji}
-            </div>
-          )
-        })}
+    const newActive = [...activeIndices, index]
+    setActiveIndices(newActive)
+    setFlipped(prev => {
+      const copy = [...prev]
+      copy[index] = true
+      return copy
+    })
+
+    if (newActive.length === 2) {
+      const [first, second] = newActive
+      if (grid[first] !== grid[second]) {
+        setTimeout(() => {
+          setFlipped(prev => {
+            const copy = [...prev]
+            copy[first] = false
+            copy[second] = false
+            return copy
+          })
+          setActiveIndices([])
+        }, 250)
+      } else {
+        setActiveIndices([])
+      }
+    }
+
+    setTimeout(() => {
+      if (flipped.every((v, i) => v || i === index)) {
+        onComplete?.({ correct: true })
+      }
+    }, 100)
+  }
+
+  return (
+    <div className="memory-container">
+      <h2>Memory Match</h2>
+      <p>Find all the matching pairs!</p>
+
+      <div className="grid">
+        {grid.map((emoji, i) => (
+          <div
+            key={i}
+            className={`cell ${flipped[i] ? "flipped" : ""}`}
+            onClick={() => handleCardClick(i)}
+          >
+            {flipped[i] && emoji}
+          </div>
+        ))}
       </div>
     </div>
   )
