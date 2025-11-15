@@ -12,6 +12,7 @@ export default function DifferentEmoji({ onComplete }) {
   const [round, setRound] = useState(1)
   const [solved, setSolved] = useState(false)
   const [startTime, setStartTime] = useState(Date.now())
+  const [canTap, setCanTap] = useState(false)
 
   useEffect(() => {
     generateGrid()
@@ -33,10 +34,13 @@ export default function DifferentEmoji({ onComplete }) {
     setFlashIndex(null)
     setSolved(false)
     setStartTime(Date.now())
+    setCanTap(false)
+
+    setTimeout(() => setCanTap(true), 800)
   }
 
   function handleTap(index) {
-    if (solved || flashIndex !== null) return
+    if (!canTap || solved || flashIndex !== null) return
 
     if (index === oddIndex) {
       const newScore = score + 1
@@ -68,10 +72,8 @@ export default function DifferentEmoji({ onComplete }) {
           const className = [
             "cell",
             flashIndex === i ? "flash" : "",
-            solved && i === oddIndex ? "success" : "",
-          ]
-            .filter(Boolean)
-            .join(" ")
+            solved && i === oddIndex ? "success" : ""
+          ].filter(Boolean).join(" ")
           return (
             <div key={i} className={className} onClick={() => handleTap(i)}>
               {emoji}
