@@ -65,7 +65,12 @@ export default function Profile() {
     });
 
     // Leaderboard updates
-   const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
+  const now = new Date();
+  const startOfToday = new Date(now);
+  startOfToday.setHours(0, 0, 0, 0);  // Force midnight
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+   const q = query(collection(db, "UserAccounts"), where("lastPlayed", ">=", startOfToday), where("lastPlayed", "<", startOfTomorrow), orderBy("Score", "desc"));
     const unsubscribeLeaderboard = onSnapshot(q, (snap) => {
       setLeaderboard(
         snap.docs.map((d, i) => ({
@@ -106,7 +111,12 @@ export default function Profile() {
     }
     
 async function showAllLeaderboard() {
-  const q = query(collection(db, "UserAccounts"), orderBy("Score", "desc"));
+  const now = new Date();
+  const startOfToday = new Date(now);
+  startOfToday.setHours(0, 0, 0, 0);  // Force midnight
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+  const q = query(collection(db, "UserAccounts"), where("lastPlayed", ">=", startOfToday), where("lastPlayed", "<", startOfTomorrow), orderBy("Score", "desc"));
   const querySnapshot = await getDocs(q);
   const fullLeaderboard = querySnapshot.docs.map((d, i) => ({
     rank: i + 1,
@@ -124,8 +134,12 @@ async function showAllLeaderboard() {
     const friendslist = snap.data().friends || [];
     friendslist.push(snap.data().email); // Include self
     console.log("friendslist:", friendslist);
-
-    const filtered = query(collection(db, "UserAccounts"), where("email", "in", friendslist), orderBy("Score", "desc"));
+    const now = new Date();
+    const startOfToday = new Date(now);
+    startOfToday.setHours(0, 0, 0, 0);  // Force midnight
+    const startOfTomorrow = new Date(startOfToday);
+    startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+    const filtered = query(collection(db, "UserAccounts"), where("lastPlayed", ">=", startOfToday), where("lastPlayed", "<", startOfTomorrow), where("email", "in", friendslist), orderBy("Score", "desc"));
     const querySnapshot = await getDocs(filtered);
     const filteredleaderboard = querySnapshot.docs.map((d, i) => ({
           rank: i + 1,
@@ -143,7 +157,17 @@ async function showAllLeaderboard() {
       navigate("/auth?redirect=/profile");
     }
   }
-
+  async function AllTimeScores() {
+    const q = query(collection(db, "UserAccounts"), orderBy("highestScore", "desc"));
+    const querySnapshot = await getDocs(q);
+    const fullLeaderboard = querySnapshot.docs.map((d, i) => ({
+      rank: i + 1,
+      username: d.data().username,
+      score: d.data().highestScore,
+    }));
+    setLeaderboard(fullLeaderboard);
+    setFiltered(true);
+  }
   return (
     <main className="phone phone--white profile-screen">
       <section className="profile-card">
@@ -212,11 +236,12 @@ async function showAllLeaderboard() {
           </>
         )}
  {filtered ?    
-   <button style={{ padding: "0.2rem", width: "50%", marginBottom: "1rem" }} onClick={showAllLeaderboard}>Show All</button>
- : 
- <button className = "sort-button" onClick={filterLeaderboard}>Sort by Friends</button>}
+   <button className="sort-button" onClick={showAllLeaderboard}>Show All</button>
+ : (
+  <>
+ <button className="sort-button" onClick={filterLeaderboard}>Sort by Friends</button>
+ </> )}
       </div>
-
     </main>
   );
 }
