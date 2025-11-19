@@ -3,7 +3,7 @@ section-002-Slices
 Senior Project repo for Ava Drewer, Ryan Loftus, and Turner Inge.
 
 To run game simply press this link
-  https://section2slices.netlify.app/
+ (https://slicesgame.netlify.app/)
   
 
    
