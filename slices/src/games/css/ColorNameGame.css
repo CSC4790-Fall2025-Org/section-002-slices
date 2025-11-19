@@ -11,10 +11,13 @@
 }
 
 .answer-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 12px;
   justify-content: center;
-  gap: 8px;
+  max-width: 320px;
+  margin: 0 auto;
 }
 
 .answer-btn {
@@ -26,6 +29,16 @@
   color: #fff;
   cursor: pointer;
   transition: background 0.2s ease;
+}
+
+.color-game-stage {
+  background: #f9f9f9;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 360px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .answer-btn.correct {

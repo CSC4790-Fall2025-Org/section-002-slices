@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import "./css/ColorNameGame.css"
 
-const COLORS = ["red", "blue", "green", "orange", "purple", "yellow"]
+const COLORS = ["Red", "Blue", "Green", "Orange", "Purple", "Yellow"]
 const WORDS = ["RED", "BLUE", "GREEN", "ORANGE", "PURPLE", "YELLOW"]
 
 export default function ColorNameGame({ onComplete }) {
@@ -59,9 +59,11 @@ export default function ColorNameGame({ onComplete }) {
   if (loading || !card) return <div>Loading...</div>
 
   return (
-    <div className="color-game">
-      <h2>Color Name Game</h2>
-      <p>Choose based on the instruction shown.</p>
+  <div className="color-game">
+    <h2>Color Name Game</h2>
+
+    <div className="color-game-stage">
+      <p>Choose Based on the Instruction Shown</p>
       <p>{modeWord ? "Tap the WORD" : "Tap the COLOR"}</p>
 
       <div
@@ -73,7 +75,7 @@ export default function ColorNameGame({ onComplete }) {
 
       <div className="answer-grid">
         {answers.map(ans => {
-          const display = modeWord ? ans : ans.toLowerCase()
+          const display = COLORS[WORDS.indexOf(ans)]
           const isSelected = selected === ans
           const correctClass = isSelected
             ? isCorrect
@@ -99,5 +101,6 @@ export default function ColorNameGame({ onComplete }) {
         </div>
       )}
     </div>
+  </div>
   )
 }
