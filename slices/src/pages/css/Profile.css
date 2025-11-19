@@ -189,7 +189,6 @@ button:hover {
   filter: blur(6px);
   pointer-events: none;
   user-select: none;
-  height: 100px;
 }
 
 .leaderboard-overlay {
