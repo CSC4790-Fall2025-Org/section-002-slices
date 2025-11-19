@@ -10,7 +10,7 @@ const SET = {
     { label: "Banana", side: "left" },
     { label: "Broccoli", side: "right" },
     { label: "Pear", side: "left" },
-    { label: "Avocado", side: "left" }, 
+    { label: "Avocado", side: "left" },
     { label: "Spinach", side: "right" },
     { label: "Grapes", side: "left" },
     { label: "Lettuce", side: "right" },
@@ -18,7 +18,7 @@ const SET = {
     { label: "Pepper", side: "right" },
     { label: "Orange", side: "left" },
     { label: "Tomato", side: "left" },
-    { label: "Cucumber", side: "right" }, 
+    { label: "Cucumber", side: "right" },
   ],
 }
 
@@ -44,21 +44,23 @@ export default function SortGame({ onComplete, onSkip }) {
 
   return (
     <div className="wrap">
-      <h2>Sort the Item</h2>
+      <h2 className="sort-title">Sort the Item</h2>
 
-      <div className="card">{item?.label || "..."}</div>
+      <div className="sort-game-stage">
+        <div className="card">{item?.label || "..."}</div>
 
-      <div className="row">
-        <button className="zone" onClick={() => pick("left")}>
-          {SET.leftLabel}
-        </button>
-        <button className="zone" onClick={() => pick("right")}>
-          {SET.rightLabel}
-        </button>
-      </div>
+        <div className="row">
+          <button className="zone" onClick={() => pick("left")}>
+            {SET.leftLabel}
+          </button>
+          <button className="zone" onClick={() => pick("right")}>
+            {SET.rightLabel}
+          </button>
+        </div>
 
-      <div className="feedback" aria-live="polite">
-        {feedback}
+        <div className="feedback" aria-live="polite">
+          {feedback}
+        </div>
       </div>
     </div>
   )
