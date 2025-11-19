@@ -35,7 +35,7 @@ export default function BubbleGame({ onComplete }) {
         attempts++
         if (attempts > 100) break
       } while (!isFarEnough(x, y))
-      newBubbles.push({ id: i + 1, x, y, flash: false })
+      newBubbles.push({ id: i + 1, x, y, flash: false, success: false })
     }
 
     setBubbles(newBubbles)
@@ -46,7 +46,14 @@ export default function BubbleGame({ onComplete }) {
   function handleTap(id) {
     if (id === expected) {
       setScore(prev => prev + 1)
-      setBubbles(prev => prev.filter(b => b.id !== id))
+     
+      setBubbles(prev =>
+        prev.map(b => (b.id === id ? { ...b, success: true } : b))
+      )
+
+      setTimeout(() => {
+        setBubbles(prev => prev.filter(b => b.id !== id))
+      }, 300)
 
       if (id === count) {
         const elapsed = Date.now() - startTime
@@ -78,7 +85,7 @@ export default function BubbleGame({ onComplete }) {
         {bubbles.map(b => (
           <div
             key={b.id}
-            className={`bubble ${b.flash ? "flash" : ""}`}
+            className={`bubble ${b.flash ? "flash" : ""} ${b.success ? "success" : ""}`}
             style={{ left: b.x, top: b.y }}
             onClick={() => handleTap(b.id)}
           >
