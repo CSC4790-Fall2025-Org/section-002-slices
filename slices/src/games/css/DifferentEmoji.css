@@ -4,6 +4,7 @@
 }
 
 .stage {
+  padding-right: 4px;
   position: relative;
   width: 320px;
   height: 320px;
@@ -12,24 +13,29 @@
   overflow: hidden;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
+  grid-template-columns: repeat(4, 64px);
+  grid-template-rows: repeat(3, 64px);
+  place-content: center;
+  gap: 12px;
   align-items: center;
   justify-items: center;
-  font-size: 32px;
+  font-size: 30px;
   cursor: pointer;
 }
 
 .cell {
-  width: 64px;
-  height: 64px;
+  width: 68px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fff;
   border-radius: 8px;
   transition: transform 0.14s ease, background 0.14s ease;
+  line-height: 1;
+}
+.emoji {
+  display: inline-block;
 }
 
 .cell:active {
