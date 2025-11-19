@@ -164,13 +164,14 @@ export default function GameHub() {
       <button className="back-button" onClick={handleBack} aria-label="Back">
         ⬅
       </button>
+      <button className="skip-button" onClick={handleSkip}>
+          SKIP
+        </button>
 
       <div className="timer-top-right">{timeLeft}</div>
 
       <div className="main-content">
-        <button className="skip-button" onClick={handleSkip}>
-          SKIP
-        </button>
+        
 
         <TransitionGroup className="card-stack">
           <CSSTransition

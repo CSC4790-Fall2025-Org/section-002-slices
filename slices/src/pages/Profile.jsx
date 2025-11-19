@@ -240,6 +240,7 @@ async function showAllLeaderboard() {
  : (
   <>
  <button className="sort-button" onClick={filterLeaderboard}>Sort by Friends</button>
+ <button className="sort-button" onClick={AllTimeScores}>All-Time Scores</button>
  </> )}
       </div>
     </main>
