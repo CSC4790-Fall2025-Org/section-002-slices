@@ -4,7 +4,8 @@
   grid-template-rows: repeat(3, minmax(90px, 1fr));     
   gap: 24px;                                
   justify-content: center;                 
-  align-content: center;                   
+  align-content: center;    
+  justify-items: center;               
   padding: 2rem;
   margin: 0 auto;
   min-height: 100vh;                        
