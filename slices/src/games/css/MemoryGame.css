@@ -2,29 +2,67 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 2rem;
+  background: var(--bg-light);
+  min-height: 100vh;
+  gap: 1rem;
+  text-align: center;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, clamp(80px, 15vw, 160px));
-  grid-template-rows: repeat(2, clamp(60px, 12vw, 120px));
-  gap: clamp(12px, 4vw, 40px);
-  justify-content: center;
-  align-content: center;
-  margin-top: 24px;
+.memory-title {
+  font-size: 1.75rem;
+  margin: -150px;
+  color: var(--text-dark);
+  text-align: center;
+  margin-top: 160px;
 }
+
+.memory-instruction {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.memory-match-stage {
+  background: #f9f9f9;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+}
+
+.memory-match-stage .grid {
+  display: grid;
+  grid-template-columns: repeat(3, clamp(100px, 12vw, 120px));
+  grid-template-rows: repeat(2, clamp(80px, 10vw, 100px));
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
 
 .cell {
-  display: flex;
+  display: set;
   align-items: center;
   justify-content: center;
   justify-self: stretch;
   align-self: stretch;
-  background: #f4f4f5;
+  background: #e2e2e5; 
   border-radius: 12px;
   font-size: clamp(1.4rem, 3vw, 2.2rem);
   user-select: none;
   transition: background 0.2s ease, transform 0.1s ease;
+  margin-left: 6px;
+  margin-top: 2px;
 }
 
 .cell.flipped {
@@ -33,9 +71,8 @@
 }
 
 .cell:not(.flipped) {
-  background: linear-gradient(135deg, #d4d4d8, #e5e5e5);
+  background: linear-gradient(135deg, #c4c4c8, #d8d8da); 
 }
-
 
 .cell:hover {
   background: #e4e4e7;

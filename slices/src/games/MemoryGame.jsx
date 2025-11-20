@@ -13,7 +13,7 @@ export default function MemoryGame({ onComplete }) {
     const paired = [...selected, ...selected]
     const finalGrid = paired.sort(() => Math.random() - 0.5)
     setGrid(finalGrid)
-    
+
     setFlipped(Array(finalGrid.length).fill(true))
     const hideTimeout = setTimeout(() => {
       setFlipped(Array(finalGrid.length).fill(false))
@@ -63,19 +63,22 @@ export default function MemoryGame({ onComplete }) {
 
   return (
     <div className="memory-container">
-      <h2>Memory Match</h2>
-      <p>Find all the matching pairs!</p>
+      <h2 className="memory-title">Memory Match</h2>
 
-      <div className="grid">
-        {grid.map((emoji, i) => (
-          <div
-            key={i}
-            className={`cell ${flipped[i] ? "flipped" : ""}`}
-            onClick={() => handleCardClick(i)}
-          >
-            {flipped[i] && emoji}
-          </div>
-        ))}
+      <div className="memory-match-stage">
+        <p className="memory-instruction">Find All the Matching Pairs!</p>
+
+        <div className="grid">
+          {grid.map((emoji, i) => (
+            <div
+              key={i}
+              className={`cell ${flipped[i] ? "flipped" : ""}`}
+              onClick={() => handleCardClick(i)}
+            >
+              {flipped[i] && emoji}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
