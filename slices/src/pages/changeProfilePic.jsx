@@ -1,50 +1,58 @@
-import { useState, useEffect, use } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { auth, db } from "../scripts/firebase.js";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, onSnapshot, collection, query, orderBy, setDoc, updateDoc, getDoc } from "firebase/firestore";
-import { where, getDocs, arrayUnion } from "firebase/firestore";
-import "./css/changeProfilePic.css";
+import { useNavigate } from "react-router-dom"
+import { auth, db } from "../scripts/firebase.js"
+import { doc, updateDoc } from "firebase/firestore"
+import "./css/changeProfilePic.css"
 
-const images = [
-    "../assets/gamer.png",
-    "../assets/icon.png",
-    "../assets/logo.png",
-    "../assets/pencil-icon.png",
-    "../assets/search.png",
-    "../assets/gamergirl.png",
-
-
+const imageNames = [
+  "gamer.png",
+  "icon.png",
+  "logo.png",
+  "pencil-icon.png",
+  "search.png",
+  "gamergirl.png",
+  "bunny.png",
+  "giraff.png",
+  "zebra.png",
 ]
-async function onImageClick(img) {
 
-    const user = auth.currentUser;
-    if (user) {
-        const userRef = doc(db, "UserAccounts", user.uid);
-        await updateDoc(userRef, {
-            ProfilePic: img,
-        });
-        alert("Profile picture updated!")        
-    } else {
-        alert("No user is signed in.");
+async function onImageClick(imgPath, navigate) {
+  const user = auth.currentUser
+  if (user) {
+    try {
+      const userRef = doc(db, "UserAccounts", user.uid)
+      await updateDoc(userRef, { ProfilePic: imgPath })
+      alert("Profile picture updated!")
+      navigate("/profile")
+    } catch (err) {
+      console.error("Error updating profile picture:", err)
+      alert("Something went wrong.")
     }
+  } else {
+    alert("No user is signed in.")
+  }
 }
+
 export default function ClickablePngGallery() {
-    const navigate = useNavigate();
-    
+  const navigate = useNavigate()
 
-return (
-<div className="gallery-grid">
-{images.map((img, index) => (
-<div key={index} className="gallery-item" onClick={() => { onImageClick(img); setTimeout(() => navigate("/profile"), 1000); }}>
-
-<img
-src={img}
-alt={img}
-className="gallery-img"
-/>
-</div>
-))}
-</div>
-);
+  return (
+    <div className="gallery-grid">
+      {imageNames.map((name, index) => {
+        const imgPath = `/assets/${name}`
+        return (
+          <div
+            key={index}
+            className="gallery-item"
+            onClick={() => onImageClick(imgPath, navigate)}
+          >
+            <img
+              src={imgPath}
+              alt={`profile-option-${index}`}
+              className="gallery-img"
+            />
+          </div>
+        )
+      })}
+    </div>
+  )
 }
