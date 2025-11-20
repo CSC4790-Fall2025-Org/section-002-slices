@@ -10,7 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import "./App.css";
 import "./index.css";
-import DailyLoading from "./pages/dailyLoadin.jsx";
+import DailyLoading from "./pages/DailyLoading.jsx";
 
 function BodyClassController() {
   const location = useLocation();
