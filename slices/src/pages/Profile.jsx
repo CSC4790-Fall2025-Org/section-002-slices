@@ -169,60 +169,71 @@ async function showAllLeaderboard() {
     setFiltered(true);
   }
   return (
-    <main className="phone phone--white profile-screen">
-      <section className="profile-card">
-        <div className="profile-avatar">
-          <img src="assets/icon.png" alt="User avatar" />
-        </div>
-        <h1 className="profile-username">
-          <p>{username}</p>
-          {user && (
-            <Link to="/edit-account">
-              <img
-                src="assets/pencil-icon.png"
-                alt="Edit username"
-                style={{ width: "15px", height: "15px" }}
-              />
-            </Link>
-          )}                 
-
-        </h1>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <div className="profile-streak">
-          <span>{score}🔥</span>
-        </div>
-        <button onClick={handleAuthClick} className="authButton">
-          {user ? "Sign Out" : "Sign In"}
-        </button>
-
-      </section>
-
-      <div className="profile-scroll">
-    {highestScore > 0 ? (
-      <p style={{ fontWeight: "bold" }}>High Score: {highestScore}</p>
-    ) : null}
-
-   <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
-   
-<div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
-  {!user && (
-    <div className="leaderboard-overlay">
-      <img src="../assets/lock-icon.png" alt="lock icon" className="lock" />
-      <p>Sign in to view the leaderboard!</p>
-    </div>
-  )}
-
-  <div className="leaderboard-list">
-    {leaderboard.map((entry) => (
-      <div className="leaderboard" key={entry.rank}>
-        {entry.rank}. {entry.username} — {entry.score}
+  <main className="phone phone--white profile-screen">
+    <section className="profile-card">
+      <div className="profile-avatar">
+        <img src="assets/icon.png" alt="User avatar" />
       </div>
-    ))}
-  </div>
-</div>
-{addfriend ? (
-          <button className = "friend-button" onClick={() => { setAddFriend(false); setError(""); }}>Add Friend</button>
+
+      <h1 className="profile-username">
+        <p>{username}</p>
+        {user && (
+          <Link to="/edit-account">
+            <img
+              src="assets/pencil-icon.png"
+              alt="Edit username"
+              style={{ width: "15px", height: "15px" }}
+            />
+          </Link>
+        )}
+      </h1>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <div className="profile-streak">
+        <span>{score}🔥</span>
+      </div>
+
+      <button onClick={handleAuthClick} className="authButton">
+        {user ? "Sign Out" : "Sign In"}
+      </button>
+    </section>
+
+    <div className="profile-scroll">
+      {highestScore > 0 ? (
+        <p style={{ fontWeight: "bold" }}>High Score: {highestScore}</p>
+      ) : null}
+
+      <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
+
+      <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
+        {!user && (
+          <div className="leaderboard-overlay">
+            <img src="../assets/lock-icon.png" alt="lock icon" className="lock" />
+            <p>Sign in to view the leaderboard!</p>
+          </div>
+        )}
+
+        <div className="leaderboard-list">
+          {leaderboard.map((entry) => (
+            <div className="leaderboard" key={entry.rank}>
+              {entry.rank}. {entry.username} — {entry.score}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {user && (
+        addfriend ? (
+          <button
+            className="friend-button"
+            onClick={() => {
+              setAddFriend(false);
+              setError("");
+            }}
+          >
+            Add Friend
+          </button>
         ) : (
           <>
             <input
@@ -231,18 +242,35 @@ async function showAllLeaderboard() {
               value={friendEmail}
               onChange={(e) => setFriendEmail(e.target.value)}
             />
-            <button onClick={() => { setAddFriend(true); handleAddFriend(friendEmail); }}>Add</button>
-
+            <button
+              onClick={() => {
+                setAddFriend(true);
+                handleAddFriend(friendEmail);
+              }}
+            >
+              Add
+            </button>
           </>
-        )}
- {filtered ?    
-   <button className="sort-button" onClick={showAllLeaderboard}>Show All</button>
- : (
-  <>
- <button className="sort-button" onClick={filterLeaderboard}>Sort by Friends</button>
- <button className="sort-button" onClick={AllTimeScores}>All-Time Scores</button>
- </> )}
-      </div>
-    </main>
-  );
+        )
+      )}
+
+      {user && (
+        filtered ? (
+          <button className="sort-button" onClick={showAllLeaderboard}>
+            Show All
+          </button>
+        ) : (
+          <>
+            <button className="sort-button" onClick={filterLeaderboard}>
+              Sort by Friends
+            </button>
+            <button className="sort-button" onClick={AllTimeScores}>
+              All-Time Scores
+            </button>
+          </>
+        )
+      )}
+    </div>
+  </main>
+);
 }

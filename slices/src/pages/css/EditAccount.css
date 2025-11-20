@@ -1,119 +1,115 @@
-/* EditAccount.css */
-
-.phone.phone--white {
+/* Full white page */
+.edit-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: calc(var(--nav-h) * 0.2) 5% 0;
+  width: 100%;
   min-height: 100vh;
-  background-color: #fff;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
+  background: #fff;
   box-sizing: border-box;
+  font-family: "Rubik", sans-serif;
 }
 
+/* Header */
 .status-errors {
   width: 100%;
-  max-width: 360px;
-  margin-bottom: 1.5rem;
+  max-width: 420px;
   text-align: center;
-}
-
-body {
-  font-family: "Rubik", sans-serif;
-   font-weight: 10000;
-
+  margin-bottom: 14px;
 }
 
 .status-errors h1 {
-  margin-bottom: 0.5rem;
-  font-size: 1.6rem;
-  color: #333;
+  font-family: "Blinker", sans-serif;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 400;
+  color: #000;
+  margin: 0 0 6px;
 }
 
 .status-errors p {
-  margin-bottom: 0.5rem;
-  color: #555;
+  font-size: 15px;
+  color: #444;
+  margin: 4px 0;
 }
 
+.error-text {
+  color: red;
+}
+
+/* Forms */
 .settingsWrapper,
 .auth-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 360px;
-  gap: 1rem;
+  gap: 12px;
   align-items: center;
-}
-
-input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Inputs */
+.settingsWrapper input,
+.auth-container input {
+  width: 100%;
+  height: 38px;
+  border-radius: 8px;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
+  padding: 0 12px;
+  font-size: 15px;
+  box-sizing: border-box;
 }
 
-input:focus {
-  border-color: #007bff;
+.settingsWrapper input:focus,
+.auth-container input:focus {
+  border-color: #006f16;
 }
 
-button {
+/* Buttons */
+.settingsWrapper button,
+.auth-container button {
   width: 100%;
   padding: 0.75rem 1rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 6px;
+  background-color: #006f16;
+  color: #fff;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: opacity 0.2s ease;
 }
 
-.settingsWrapper button:first-of-type {
-  background-color: #007bff;
-  color: #fff;
+.settingsWrapper button:hover,
+.auth-container button:hover {
+  opacity: 0.85;
 }
 
-.settingsWrapper button:first-of-type:hover {
-  background-color: #0056b3;
-}
-
+/* Delete account button */
 .settingsWrapper button:last-of-type {
-  background-color: #dc3545;
-  color: #fff;
+  background-color: #b00020;
 }
 
 .settingsWrapper button:last-of-type:hover {
-  background-color: #a71d2a;
-}
-.settingsWrapper input {
-  width: 90%;
-}
-.auth-container button:first-of-type {
-  background-color: #007bff;
-  color: #fff;
+  opacity: 0.8;
 }
 
-.auth-container button:first-of-type:hover {
-  background-color: #0056b3;
+/* Forgot password */
+.auth-container .secondary {
+  background-color: #444;
 }
 
-.auth-container button:nth-of-type(2) {
-  background-color: #28a745;
-  color: #fff;
-}
-.auth-container button:last-of-type {
-  background-color: #ee1505;
-  color: #fff;
-}
-.auth-container button:last-of-type:hover {
-  background-color: #1e7e34;
+.phone.phone--green,
+.phone {
+  background: #fff !important;
 }
 
+
+/* Mobile */
 @media (max-width: 400px) {
-  .phone.phone--white,
-  input,
-  button {
-    max-width: 90%;
+  .settingsWrapper,
+  .auth-container,
+  .status-errors {
+    max-width: 92%;
   }
 }

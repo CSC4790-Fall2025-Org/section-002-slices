@@ -14,7 +14,12 @@ export default function AuthPage() {
   const location = useLocation();
   const redirect = new URLSearchParams(location.search).get("redirect") || "/profile";
 
-   async function handleSignUp() {
+  useEffect(() => {
+    document.body.classList.add("auth-mode");
+    return () => document.body.classList.remove("auth-mode");
+  }, []);
+
+  async function handleSignUp() {
     setError("");
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -24,7 +29,7 @@ export default function AuthPage() {
         Score: 0,
         createdAt: new Date(),
       });
-      navigate('../edit-account');
+      navigate("../edit-account");
     } catch (err) {
       setError(err.message);
     }
@@ -40,25 +45,49 @@ export default function AuthPage() {
     }
   }
 
-  return (
-    <main className="auth-page">
-      <h2>Log In / Sign Up</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+return (
+  <main className="auth-screen">
+    <section className="auth-card">
+      <h1 className="auth-title">Sign In / Sign Up</h1>
+
+      {error && <p className="auth-error">{error}</p>}
+
       <input
         type="email"
         placeholder="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={e => setEmail(e.target.value)}
+        className="auth-input"
       />
+
       <input
         type="password"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={e => setPassword(e.target.value)}
+        className="auth-input"
       />
-      <button onClick={handleSignIn}>Log In</button>
-      <button onClick={handleSignUp}>Sign Up</button>
-      <button onClick={() => navigate("/ForgotPassword")}>Forgot Password</button>
-    </main>
-  );
+
+      <button onClick={handleSignIn} className="auth-btn">
+        Log In
+      </button>
+
+      <button onClick={() => navigate("/ForgotPassword")} className="auth-btn secondary">
+        Forgot Password
+      </button>
+
+            <button onClick={() => navigate("/profile")} className="auth-btn back-btn">
+        Back
+      </button>
+
+      <p>Don't have an account? Type an email and password in the above fields and press the button below:</p>
+      <button onClick={handleSignUp} className="auth-btn">
+        Sign Up
+      </button>
+
+
+    </section>
+  </main>
+);
+
 }

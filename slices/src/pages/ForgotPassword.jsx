@@ -1,40 +1,47 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth, db } from "../scripts/firebase.js";
-import { Navigate, useNavigate } from "react-router-dom";
-
+import { auth } from "../scripts/firebase.js";
+import { useNavigate } from "react-router-dom";
+import "./css/ForgotPassword.css";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [msg, setMsg] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     try {
       await sendPasswordResetEmail(auth, email);
-      setMessage("Password reset email sent check your spam!\n Redirecting to login...");
-      setTimeout(() => navigate("/auth"), 5000);
-    } catch (error) {
-      setMessage("Error sending password reset email.");
+      setMsg("Email sent. Check your spam. Redirecting...");
+      setTimeout(() => navigate("/auth"), 4000);
+    } catch {
+      setMsg("Failed to send reset email.");
     }
-  };
+  }
 
   return (
-    <main className="auth-page">
-      <div>
-      <h2>Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
-        <button type="submit">Send Reset Email</button>
-      </form>
-      {message && <p>{message}</p>}
-     </div>
-    </main> 
+    <main className="fp-screen">
+      <button className="fp-back" onClick={() => navigate("/auth")}>
+        Back
+      </button>
+
+      <div className="fp-card">
+        <h1>Reset Password</h1>
+
+        <form onSubmit={handleSubmit} className="fp-form">
+          <input
+            type="email"
+            value={email}
+            placeholder="Email"
+            onChange={e => setEmail(e.target.value)}
+          />
+
+          <button type="submit">Send Reset Email</button>
+        </form>
+
+        {msg && <p className="fp-msg">{msg}</p>}
+      </div>
+    </main>
   );
 }
