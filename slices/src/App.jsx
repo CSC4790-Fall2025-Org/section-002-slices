@@ -11,6 +11,7 @@ import BottomNav from "./components/BottomNav.jsx";
 import "./App.css";
 import "./index.css";
 import DailyLoading from "./pages/dailyLoadin.jsx";
+import ClickablePngGallery from "./pages/changeProfilePic.jsx";
 
 function BodyClassController() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function Layout() {
   <Route path="/auth" element={<AuthPage />} />
   <Route path="/edit-account" element={<EditAccount />} />
   <Route path="/ForgotPassword" element={<ForgotPassword />} />
+  <Route path="/ProfilePic" element={<ClickablePngGallery />} />
   
   {/* Game routes */}
   <Route path="/daily-loading" element={<DailyLoading />} />

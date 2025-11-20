@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../scripts/firebase.js";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -30,6 +30,7 @@ export default function Profile() {
   const [Friends, setFriends] = useState(null);
   const [filtered, setFiltered] = useState(false);
   const [highestScore, setHighestScore] = useState(0);
+  const [profilePic, setProfilePic] = useState(null);
 
   const navigate = useNavigate();
 
@@ -43,9 +44,13 @@ export default function Profile() {
         onSnapshot(userRef, (snap) => {
           if (snap.exists()) {
             const data = snap.data();
+
             console.log(data.highestScore, data.Score)
-            if (data.username) setUsername(data.username);
+            if (data.username){ setUsername(data.username)};
+              console.log(data.username, username)
             if (data.Streak !== undefined) setScore(data.Streak);
+            if (data.ProfilePic !== undefined) setProfilePic(data.ProfilePic);
+            console.log(data.ProfilePic)
             if (data.friends) setFriends(data.friends);
             if (data.highestScore !== undefined) setHighestScore(data.highestScore);
             if(data.Score > data.highestScore){
@@ -77,6 +82,7 @@ export default function Profile() {
           rank: i + 1,
           username: d.data().username,
           score: d.data().Score,
+          ProfilePic: d.data().ProfilePic? d.data().ProfilePic : null,
         }))
       );
     });
@@ -86,6 +92,10 @@ export default function Profile() {
       unsubscribeLeaderboard();
     };
   }, []);
+  useEffect(() => { 
+    console.log(username);
+    console.log(profilePic)
+  }, [username]);
   async function handleAddFriend(emails){
     if (!user) return;
     try {
@@ -122,6 +132,7 @@ async function showAllLeaderboard() {
     rank: i + 1,
     username: d.data().username,
     score: d.data().Score,
+    ProfilePic: d.data().ProfilePic? d.data().ProfilePic : null,
   }));
   setLeaderboard(fullLeaderboard);
   setFiltered(false);
@@ -164,6 +175,7 @@ async function showAllLeaderboard() {
       rank: i + 1,
       username: d.data().username,
       score: d.data().highestScore,
+      ProfilePic: d.data().ProfilePic? d.data().ProfilePic : null,
     }));
     setLeaderboard(fullLeaderboard);
     setFiltered(true);
@@ -172,7 +184,9 @@ async function showAllLeaderboard() {
     <main className="phone phone--white profile-screen">
       <section className="profile-card">
         <div className="profile-avatar">
-          <img src="assets/icon.png" alt="User avatar" />
+        <Link to="/ProfilePic">
+          <img src={profilePic ? profilePic : "assets/icon.png"} alt="User avatar" />
+        </Link>
         </div>
         <h1 className="profile-username">
           <p>{username}</p>
@@ -216,7 +230,7 @@ async function showAllLeaderboard() {
   <div className="leaderboard-list">
     {leaderboard.map((entry) => (
       <div className="leaderboard" key={entry.rank}>
-        {entry.rank}. {entry.username} — {entry.score}
+        {entry.rank}. {entry.username} — {entry.score} — <img src={entry.ProfilePic != null ? entry.ProfilePic : "assets/icon.png"} alt="Gamer icon" style={{ width: "26px", height: "26px"}} />
       </div>
     ))}
   </div>

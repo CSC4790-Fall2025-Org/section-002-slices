@@ -1,0 +1,36 @@
+/* Container grid styling */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+}
+
+/* Each clickable box */
+.gallery-item {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Keeps boxes square */
+  background: #f3f3f3;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Hover effects */
+.gallery-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Image sizing */
+.gallery-img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
