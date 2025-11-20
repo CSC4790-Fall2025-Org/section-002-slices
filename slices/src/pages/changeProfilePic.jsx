@@ -13,6 +13,7 @@ const imageNames = [
   "bunny.png",
   "giraff.png",
   "zebra.png",
+  "lion.png",
 ]
 
 async function onImageClick(imgPath, navigate) {
