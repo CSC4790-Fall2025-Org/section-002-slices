@@ -140,6 +140,8 @@ export default function GameHub() {
         <p>
           {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
         </p>
+        <p> Sign in to save your score!</p>
+        <button onClick={() => navigate("/auth")}>Sign In</button>
         <button onClick={() => navigate("/")}>Home</button>
       </div>
     );
