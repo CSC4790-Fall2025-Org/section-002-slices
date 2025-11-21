@@ -156,6 +156,8 @@ async function showAllLeaderboard() {
           rank: i + 1,
           username: d.data().username,
           score: d.data().Score,
+          ProfilePic: d.data().ProfilePic? d.data().ProfilePic : null,
+
     }));
     setLeaderboard(filteredleaderboard);
     setFiltered(true);
