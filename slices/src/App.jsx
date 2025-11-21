@@ -10,7 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword.jsx";
 import BottomNav from "./components/BottomNav.jsx";
 import "./App.css";
 import "./index.css";
-import DailyLoading from ".pages/DailyLoading.jsx";
+import DailyLoading from "./pages/DailyLoading.jsx";
 import ClickablePngGallery from "./pages/changeProfilePic.jsx";
 
 function BodyClassController() {

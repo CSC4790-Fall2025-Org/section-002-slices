@@ -140,8 +140,12 @@ export default function GameHub() {
         <p>
           {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
         </p>
+        {!auth.currentUser && location.state?.from !== "/explore" ? (
+          <>
         <p> Sign in to save your score!</p>
         <button onClick={() => navigate("/auth")}>Sign In</button>
+        </>
+        ) : null}
         <button onClick={() => navigate("/")}>Home</button>
       </div>
     );
