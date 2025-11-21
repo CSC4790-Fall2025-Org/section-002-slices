@@ -87,6 +87,7 @@ export default function EditAccount() {
       setUser(null);
       setUsername("");
       setBirthday("");
+      navigate("/auth");
     } catch {}
   }
 

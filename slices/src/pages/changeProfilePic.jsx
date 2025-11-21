@@ -30,6 +30,7 @@ async function onImageClick(imgPath, navigate) {
     }
   } else {
     alert("No user is signed in.")
+    navigate("/profile")
   }
 }
 
