@@ -244,6 +244,15 @@ html, body {
   background: #006b16;
 }
 
+.full-end-screen-inner button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  width: auto;
+  align-self: center;
+  width: 80%;
+  max-width: 300px;
+}
+
 /* RESPONSIVE TWEAKS */
 @media (max-width: 768px) {
   .game-container {
