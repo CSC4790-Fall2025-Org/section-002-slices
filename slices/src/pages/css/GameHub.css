@@ -237,4 +237,30 @@
     transform: translate(-50%, -50%);
     gap: 16px;
   }
+
+  .full-end-screen {
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.full-end-screen button {
+  width: auto;
+  max-width: 300px;
+}
+
+.full-end-screen-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.full-end-screen-inner button {
+  padding: 10px 20px;
+  margin-top: 1rem;
+  width: auto;
+  align-self: center;
+}
+
 }

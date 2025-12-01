@@ -136,6 +136,7 @@ export default function GameHub() {
   if (gameOver) {
     return (
       <div className="full-end-screen">
+        <div className="full-end-screen-inner">
         <h1>Time's up!</h1>
         <p>
           {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
@@ -147,6 +148,7 @@ export default function GameHub() {
         </>
         ) : null}
         <button onClick={() => navigate("/")}>Home</button>
+        </div>
       </div>
     );
   }
