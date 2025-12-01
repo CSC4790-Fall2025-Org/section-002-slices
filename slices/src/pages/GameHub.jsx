@@ -168,7 +168,7 @@ export default function GameHub() {
   return (
     <div className="gamehub">
       <button className="back-button" onClick={handleBack} aria-label="Back">
-        ⬅
+        ◄
       </button>
       <button className="skip-button" onClick={handleSkip}>
           SKIP
