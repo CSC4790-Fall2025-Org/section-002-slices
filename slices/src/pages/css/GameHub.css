@@ -278,3 +278,43 @@ html, body {
     gap: 16px;
   }
 }
+
+/* PHONE UI TWEAKS */
+@media (max-width: 480px) {
+  html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #f3f3f3;
+  }
+
+  .gamehub {
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+  }
+
+  .game-card {
+    width: 100vw;
+    height: 85vh;
+    padding: 16px;
+    border-radius: 0;
+    box-sizing: border-box;
+  }
+
+  .main-content {
+    transform: translate(-50%, -50%);
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+
+  .penalty-timer {
+    font-size: clamp(60px, 20vw, 120px);
+    top: 40%;
+  }
+}
+
+
