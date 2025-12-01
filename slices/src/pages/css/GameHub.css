@@ -298,11 +298,13 @@ html, body {
   }
 
   .game-card {
+    position: relative;
     width: 100vw;
     height: 85vh;
     padding: 16px;
     border-radius: 0;
     box-sizing: border-box;
+    z-index: 100;
   }
 
   .main-content {
@@ -316,5 +318,3 @@ html, body {
     top: 40%;
   }
 }
-
-
