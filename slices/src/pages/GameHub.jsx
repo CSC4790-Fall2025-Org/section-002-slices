@@ -102,7 +102,7 @@ export default function GameHub() {
 
   async function getScore() {
     if (!auth.currentUser) return null;
-    if(!fromDaily) {
+    if (!fromDaily) {
       console.log("Not from daily, score not recorded.");
       return;
     }
@@ -112,7 +112,7 @@ export default function GameHub() {
       Score: gamesCompleted * 10,
     }, { merge: true });
     console.log(user.Score, user.highestScore)
-    if(user.Score > user.highestScore) {
+    if (user.Score > user.highestScore) {
       console.log("New highest score!", user.Score)
       setDoc(doc(db, "UserAccounts", user.uid), {
         highestScore: user.Score,
@@ -137,17 +137,17 @@ export default function GameHub() {
     return (
       <div className="full-end-screen">
         <div className="full-end-screen-inner">
-        <h1>Time's up!</h1>
-        <p>
-          {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
-        </p>
-        {!auth.currentUser && location.state?.from !== "/explore" ? (
-          <>
-        <p> Sign in to save your score!</p>
-        <button onClick={() => navigate("/auth")}>Sign In</button>
-        </>
-        ) : null}
-        <button onClick={() => navigate("/")}>Home</button>
+          <h1>Time's up!</h1>
+          <p>
+            {gamesCompleted} {gamesCompleted === 1 ? "game" : "games"} completed!
+          </p>
+          {!auth.currentUser && location.state?.from !== "/explore" ? (
+            <>
+              <p> Sign in to save your score!</p>
+              <button onClick={() => navigate("/auth")}>Sign In</button>
+            </>
+          ) : null}
+          <button onClick={() => navigate("/")}>Home</button>
         </div>
       </div>
     );
@@ -156,7 +156,10 @@ export default function GameHub() {
   if (penaltyCountdown != null) {
     return (
       <div className="gamehub">
-        <h2 className="penalty-timer">{penaltyCountdown}</h2>
+        <div class="center-wrap">
+          <div class="penalty-timer">{penaltyCountdown}</div>
+        </div>
+
       </div>
     );
   }
@@ -173,13 +176,13 @@ export default function GameHub() {
         ❮
       </button>
       <button className="skip-button" onClick={handleSkip}>
-          SKIP
-        </button>
+        SKIP
+      </button>
 
       <div className="timer-top-right">{timeLeft}</div>
 
       <div className="main-content">
-        
+
 
         <TransitionGroup className="card-stack">
           <CSSTransition
