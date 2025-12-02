@@ -4,6 +4,18 @@
   --vh: 1vh;
 }
 
+/* ADDED: mobile Safari viewport fix */
+html, body {
+  height: 100%;
+}
+body {
+  font-family: "Rubik", sans-serif;
+}
+@supports (-webkit-touch-callout: none) {
+  :root {
+    --vh: calc(1vh * 0.01);
+  }
+}
 
 /* Outer wrapper */
 .profile-screen {
@@ -14,10 +26,15 @@
   width: 100%;
   height: calc(var(--vh) * 100);
   box-sizing: border-box;
+
+  /* ADDED: ensures consistent horizontal centering on iPhone 15 */
+  justify-content: flex-start;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-
-/* Profile card (header area) */
+/* Profile card */
 .profile-card {
   width: 100%;
   max-width: 420px;
@@ -44,7 +61,6 @@
   border: none;
   border-radius: 6px;
   background-color: #006f16;
-
 }
 
 /* Avatar */
@@ -66,7 +82,7 @@ img.profile-avatar {
   background: transparent;
 }
 
-/* Username + edit */
+/* Username */
 .profile-username {
   font-family: 'Blinker', sans-serif;
   font-size: clamp(18px, 2.4vw, 22px);
@@ -79,17 +95,14 @@ img.profile-avatar {
   align-items: center;
   gap: 6px;
 }
+
 .pencil-icon {
   width: 18px;
   height: 18px;
   cursor: pointer;
 }
 
-body {
-  font-family: "Rubik", sans-serif;
-}
-
-/* Streak section */
+/* Streak */
 .profile-streak {
   display: flex;
   flex-direction: column;
@@ -110,7 +123,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Leaderboard placeholder (optional) */
+/* Leaderboard */
 .leaderboard-placeholder {
   width: 100%;
   max-width: 395px;
@@ -119,13 +132,13 @@ body {
   border-radius: 15px;
   margin: 10px auto;
 }
+
 #leaderboard {
   color: black;
   padding: 10px;
   font-size: 30px;
 }
 
-/* Settings */
 .settingsWrapper {
   display: flex;
   flex-direction: column;
@@ -136,13 +149,13 @@ body {
   padding: 0 12px;
   box-sizing: border-box;
 }
+
 #settings {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Inputs and buttons */
 .settingsInput,
 .loginInput {
   width: 100%;
@@ -163,6 +176,7 @@ body {
 .leaderboard {
   text-align:left;
 }
+
 .inputButton,
 button {
   padding: 8px 14px;
@@ -174,6 +188,7 @@ button {
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
+
 .inputButton:hover,
 button:hover {
   opacity: 0.8;
@@ -195,14 +210,14 @@ button:hover {
   filter: blur(6px);
   pointer-events: none;
   user-select: none;
-  height: 175px;  
+  height: 175px;
 }
 
 .leaderboard-overlay {
   position: absolute;
   inset: 0;
   display: flex;
-  flex-direction: column; /* stack lock above text */
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: rgba(240, 240, 240, 0.7);
@@ -253,7 +268,6 @@ button:hover {
   height: 22px;
 }
 
-/* Hide bottom nav on auth screen */
 body.auth-mode .bottom-nav {
   display: none !important;
 }
@@ -293,8 +307,14 @@ body.auth-mode .bottom-nav {
 
 /* Small phones */
 @media (max-width: 480px) {
+
+  /* ADDED: matches your keyboard tightening logic */
   .profile-screen {
     padding: calc(var(--nav-h) * 0.1) 3% 0;
+  }
+
+  .profile-card {
+    max-width: 310px;
   }
 
   .profile-avatar img,
@@ -316,7 +336,7 @@ body.auth-mode .bottom-nav {
   }
 
   .settingsWrapper {
-    max-width: 320px;
+    max-width: 300px;
     gap: 10px;
   }
 
@@ -327,7 +347,8 @@ body.auth-mode .bottom-nav {
   }
 
   .leaderboard-container {
-    max-width: 300px;
+    max-width: 280px;
+    padding: 10px;
   }
 
   .leaderboard-list {
