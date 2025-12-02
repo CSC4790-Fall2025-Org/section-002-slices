@@ -13,6 +13,7 @@ body.change-pic {
   background-color: #d2f78d; /* lime green */
   height: 100dvh;
   overflow: hidden;          /* disable scrollbars */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Wrapper that centers the grid */
