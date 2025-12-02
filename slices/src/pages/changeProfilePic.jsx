@@ -7,8 +7,6 @@ const imageNames = [
   "gamer.png",
   "icon.png",
   "logo.png",
-  "pencil-icon.png",
-  "search.png",
   "gamergirl.png",
   "bunny.png",
   "giraff.png",
@@ -16,45 +14,44 @@ const imageNames = [
   "lion.png",
 ]
 
-async function onImageClick(imgPath, navigate) {
+async function updateProfilePic(path, navigate) {
   const user = auth.currentUser
-  if (user) {
-    try {
-      const userRef = doc(db, "UserAccounts", user.uid)
-      await updateDoc(userRef, { ProfilePic: imgPath })
-      alert("Profile picture updated!")
-      navigate("/profile")
-    } catch (err) {
-      console.error("Error updating profile picture:", err)
-      alert("Something went wrong.")
-    }
-  } else {
-    alert("No user is signed in.")
+  if (!user) {
     navigate("/profile")
+    return
+  }
+  try {
+    const ref = doc(db, "UserAccounts", user.uid)
+    await updateDoc(ref, { ProfilePic: path })
+    navigate("/profile")
+  } catch (err) {
+    console.error(err)
   }
 }
 
 export default function ClickablePngGallery() {
   const navigate = useNavigate()
 
+  const handleClick = name => {
+    const path = `/assets/${name}`
+    updateProfilePic(path, navigate)
+  }
+
   return (
     <div className="gallery-grid">
-      {imageNames.map((name, index) => {
-        const imgPath = `/assets/${name}`
-        return (
-          <div
-            key={index}
-            className="gallery-item"
-            onClick={() => onImageClick(imgPath, navigate)}
-          >
-            <img
-              src={imgPath}
-              alt={`profile-option-${index}`}
-              className="gallery-img"
-            />
-          </div>
-        )
-      })}
+      {imageNames.map(name => (
+        <button
+          key={name}
+          className="gallery-item"
+          onClick={() => handleClick(name)}
+        >
+          <img
+            src={`/assets/${name}`}
+            alt={name}
+            className="gallery-img"
+          />
+        </button>
+      ))}
     </div>
   )
 }
