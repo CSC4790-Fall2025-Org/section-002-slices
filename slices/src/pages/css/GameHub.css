@@ -161,7 +161,6 @@
 .penalty-timer {
   line-height: 1;
   color: #f44336;
-  text-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
   animation: penaltyPulse 1s ease-in-out infinite;
   font-size: 10rem;
   font-weight: 900;
