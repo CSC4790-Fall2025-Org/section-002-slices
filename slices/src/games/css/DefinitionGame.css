@@ -95,3 +95,24 @@
   color: #00440e;
   font-weight: bold;
 }
+
+@media (max-width: 768px) {
+  .letter-pad {
+    gap: 4px;
+  }
+
+  .keyboard-row {
+    gap: 4px;
+  }
+
+  .letter-btn {
+    padding: 6px;
+    font-size: 1rem;
+  }
+
+  .letter-box {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}
