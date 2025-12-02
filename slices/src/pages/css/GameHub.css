@@ -1,34 +1,16 @@
-/* GLOBAL LOCKS */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  background-color: #f3f3f3;
-  min-height: -webkit-fill-available; /* cover iOS safe areas */
-}
-
-#root {
-  height: 100%;
-  overflow-x: hidden;
-}
-
-/* MAIN GAME WRAPPER */
+/* main game container */
 .gamehub {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  overflow-y: auto;
-  background-color: #f3f3f3;
-  z-index: 0;
+  overflow: hidden;
+  background: none;
 }
 
-/* FIXED CORNER BUTTONS */
+/* fixed corner buttons */
 .back-button {
   position: fixed;
   top: 32px;
@@ -88,7 +70,7 @@ html, body {
   z-index: 1000;
 }
 
-/* MAIN CENTERED CONTENT */
+/* main centered content */
 .main-content {
   position: fixed;
   top: 50%;
@@ -100,11 +82,9 @@ html, body {
   gap: 24px;
   width: 100%;
   max-width: 800px;
-  padding: 0 16px;
-  box-sizing: border-box;
 }
 
-/* GAME CONTAINER */
+/* game container */
 .game-container {
   display: flex;
   align-items: center;
@@ -120,10 +100,10 @@ html, body {
   overflow: hidden;
 }
 
-/* STACKED CARD CONTAINER */
+/* stacked card container */
 .card-stack {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
   display: flex;
@@ -131,10 +111,10 @@ html, body {
   justify-content: center;
 }
 
-/* CARD APPEARANCE */
+/* card appearance */
 .game-card {
   position: absolute;
-  width: 90%;
+  width: 90vw;
   max-width: 600px;
   height: 80vh;
   background: #ffffff;
@@ -147,10 +127,9 @@ html, body {
   justify-content: center;
   align-items: center;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  z-index: 100;
 }
 
-/* CARD TRANSITIONS */
+/* transitions */
 .game-card-enter {
   transform: translateY(100%) scale(0.97);
   opacity: 0.6;
@@ -172,10 +151,10 @@ html, body {
   z-index: 1;
 }
 
-/* PENALTY COUNTDOWN */
+/* penalty countdown */
 .penalty-timer {
-  position: fixed;
-  top: 38%;
+  position: absolute;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: clamp(80px, 15vw, 180px);
@@ -184,9 +163,6 @@ html, body {
   text-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
   animation: penaltyPulse 1s ease-in-out infinite;
   user-select: none;
-  background: transparent;
-  z-index: 9999;
-  pointer-events: none;
 }
 
 @keyframes penaltyPulse {
@@ -204,7 +180,7 @@ html, body {
   }
 }
 
-/* END SCREEN */
+/* end screen, fully covering viewport */
 .full-end-screen {
   position: fixed;
   top: 0;
@@ -219,7 +195,6 @@ html, body {
   text-align: center;
   gap: 1rem;
   color: #000;
-  z-index: 1000;
 }
 
 .full-end-screen h1 {
@@ -243,7 +218,7 @@ html, body {
   background: #006b16;
 }
 
-/* OPTIONAL CONTENT WRAPPER */
+/* optional content wrapper */
 .full-end-screen-inner {
   display: flex;
   flex-direction: column;
@@ -255,12 +230,13 @@ html, body {
 .full-end-screen-inner button {
   margin-top: 1rem;
   padding: 10px 20px;
+  width: auto;
+  align-self: center;
   width: 80%;
   max-width: 300px;
-  align-self: center;
 }
 
-/* RESPONSIVE TWEAKS */
+/* responsive tweaks */
 @media (max-width: 768px) {
   .game-container {
     width: 90vw;
@@ -285,84 +261,3 @@ html, body {
     gap: 16px;
   }
 }
-
-/* PHONE UI TWEAKS */
-@media (max-width: 480px) {
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #f3f3f3;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-  }
-
-  #root {
-    height: 100%;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    background-color: #f3f3f3;
-  }
-
-  .gamehub {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    background-color: #f3f3f3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .game-card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    background-color: #ffffff;
-    padding: 16px;
-    z-index: 100;
-  }
-
-  .main-content {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 100%;
-    max-width: 600px;
-    padding: 0 12px;
-    box-sizing: border-box;
-  }
-
-  .penalty-timer {
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    font-size: clamp(60px, 20vw, 120px);
-    font-weight: 900;
-    color: #f44336;
-    text-shadow: 0 0 20px rgba(244, 67, 54, 0.5);
-    animation: penaltyPulse 1s ease-in-out infinite;
-    user-select: none;
-    background: transparent;
-    z-index: 9999;
-    pointer-events: none;
-    text-align: center;
-  }
-}
-
-
-
-
-  
-
-
