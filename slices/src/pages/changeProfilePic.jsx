@@ -12,6 +12,7 @@ const imageNames = [
   "giraff.png",
   "zebra.png",
   "lion.png",
+  "frog.png"
 ]
 
 async function updateProfilePic(path, navigate) {
