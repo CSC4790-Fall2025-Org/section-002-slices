@@ -1,22 +1,26 @@
-/* Fullscreen lime green background */
+/* Global reset */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100dvh; /* iOS-safe full height */
-  background-color: #d2f78d;
-  overflow: hidden;
-  -webkit-overflow-scrolling: touch;
+  font-family: "Rubik", sans-serif;
 }
 
-/* Wrapper to center grid */
+/* Only lock scrolling + lime green background on change profile pic page */
+body.change-pic {
+  background-color: #d2f78d; /* lime green */
+  height: 100vh;
+  overflow: hidden;          /* disable both scrollbars */
+}
+
+/* Wrapper centers the grid */
 .change-pic-screen {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #32cd32;
 }
 
 /* Fixed 3x3 grid */
