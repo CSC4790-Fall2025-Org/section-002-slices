@@ -1,5 +1,10 @@
 /* ========== Profile Page ========== */
 
+:root {
+  --vh: 1vh;
+}
+
+
 /* Outer wrapper */
 .profile-screen {
   display: flex;
@@ -7,9 +12,10 @@
   align-items: center;
   padding: calc(var(--nav-h) * 0.2) 5% 0;
   width: 100%;
-  height: 100%;
+  height: calc(var(--vh) * 100);
   box-sizing: border-box;
 }
+
 
 /* Profile card (header area) */
 .profile-card {

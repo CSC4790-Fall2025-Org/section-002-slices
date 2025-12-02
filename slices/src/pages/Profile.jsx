@@ -35,6 +35,19 @@ export default function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
+  function updateVH() {
+    document.documentElement.style.setProperty(
+      "--vh",
+      `${window.innerHeight * 0.01}px`
+    );
+  }
+  updateVH();
+  window.addEventListener("resize", updateVH);
+  return () => window.removeEventListener("resize", updateVH);
+}, []);
+
+
+  useEffect(() => {
     // Track auth state
     const unsubscribeAuth = onAuthStateChanged(auth, (u) => {
       setUser(u || null);
