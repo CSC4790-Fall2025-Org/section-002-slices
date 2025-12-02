@@ -1,4 +1,4 @@
-/* Global reset */
+/* GLOBAL RESET — safe across all pages */
 html, body {
   margin: 0;
   padding: 0;
@@ -7,14 +7,14 @@ html, body {
   font-family: "Rubik", sans-serif;
 }
 
-/* Only lock scrolling + lime green background on change profile pic page */
+/* Only applies to the change profile pic page */
 body.change-pic {
   background-color: #d2f78d; /* lime green */
-  height: 100vh;
-  overflow: hidden;          /* disable both scrollbars */
+  height: 100dvh;
+  overflow: hidden;          /* disable scrollbars */
 }
 
-/* Wrapper centers the grid */
+/* Wrapper that centers the grid */
 .change-pic-screen {
   display: flex;
   justify-content: center;
@@ -23,7 +23,7 @@ body.change-pic {
   height: 100%;
 }
 
-/* Fixed 3x3 grid */
+/* Fixed 3x3 grid layout */
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -31,7 +31,7 @@ body.change-pic {
   gap: 16px;
   width: 90vw;
   max-width: 400px;
-  aspect-ratio: 1;
+  aspect-ratio: 1; /* keeps grid square */
 }
 
 /* Each tile is square and centered */
@@ -45,9 +45,15 @@ body.change-pic {
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.15s ease;
 }
 
-/* Image scales proportionally */
+.gallery-item:hover {
+  transform: scale(1.05);
+}
+
+/* Image scales proportionally inside tile */
 .gallery-img {
   width: 100%;
   height: 100%;
