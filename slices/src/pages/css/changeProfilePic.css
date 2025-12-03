@@ -5,10 +5,8 @@ html, body {
   width: 100%;
   height: 100dvh; /* iOS-safe full height */
   font-family: "Rubik", sans-serif;
-  overflow: auto;
 }
 
-/* Only applies to the change profile pic page */
 body.change-pic {
   background-color: #d2f78d; /* lime green */
   height: 100dvh;
@@ -34,6 +32,7 @@ body.change-pic {
   width: 90vw;
   max-width: 400px;
   aspect-ratio: 1; /* keeps grid square */
+  margin: 0 auto;  /* ensures horizontal centering */
 }
 
 /* Each tile is square and centered */
@@ -57,9 +56,19 @@ body.change-pic {
 
 /* Image scales proportionally inside tile */
 .gallery-img {
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  display: block;            /* prevents collapse on iOS */
   border-radius: 12px;
   background-color: #f9f9f9;
+}
+
+.explore-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;              /* allow vertical scrolling */
+  overflow-x: hidden;            /* block horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* smooth iOS scroll */
+  padding-bottom: calc(var(--nav-height, 100px) + 12px);
 }
