@@ -64,11 +64,10 @@ body.change-pic {
   background-color: #f9f9f9;
 }
 
-.explore-scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;              /* allow vertical scrolling */
-  overflow-x: hidden;            /* block horizontal scrolling */
-  -webkit-overflow-scrolling: touch; /* smooth iOS scroll */
-  padding-bottom: calc(var(--nav-height, 100px) + 12px);
+.explore-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;            /* gives .explore-scroll real space */
 }
+
+

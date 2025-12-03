@@ -1,3 +1,14 @@
+/* ===== Scroll container ===== */
+.explore-scroll {
+  flex: 1;
+  min-height: 0;
+  height: 100%;                 /* ensure it fills its parent */
+  overflow-y: auto;             /* enable vertical scrolling */
+  overflow-x: hidden;           /* block horizontal scrolling */
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--nav-height, 100px) + 12px);
+}
+
 :root {
   --color-bg-search: #f1f1f1;
   --color-text-main: #000;
@@ -72,14 +83,6 @@
   text-align: left;
   margin: var(--header-margin-top) 0 var(--header-margin-bottom);
   padding: 0 16px;
-}
-
-/* ===== Scroll container ===== */
-.explore-scroll {
-  flex: 1;
-  min-height: 0;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: calc(var(--nav-height, 100px) + 12px);
 }
 
 /* ===== Category grid ===== */
