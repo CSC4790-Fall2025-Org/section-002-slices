@@ -13,9 +13,6 @@ const categories = [
   { name: "GEOGRAPHY", color: "cat-purple", route: "/game/geography" },
   { name: "REACTION", color: "cat-green", route: "/game/reaction" },
   //{ name: "debug", color: "cat-green", route: "/game/debug" },
-  { name: "COMING SOON", color: "cat-yellow"},
-  { name: "COMING SOON", color: "cat-pink" },
-  { name: "COMING SOON", color: "cat-purple",}
 ];
 
 
