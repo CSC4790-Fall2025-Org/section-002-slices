@@ -254,9 +254,13 @@ export default function Profile() {
     <main className="phone phone--white profile-screen">
       <section className="profile-card">
         <div className="profile-avatar">
+          {user ? (
           <Link to="/ProfilePic">
             <img src={profilePic ? profilePic : "assets/icon.png"} alt="User avatar" />
           </Link>
+          ) : (
+            <img src="assets/icon.png" alt="Default avatar" />
+          )}
         </div>
 
         <h1 className="profile-username">
@@ -281,14 +285,15 @@ export default function Profile() {
         <button onClick={handleAuthClick} className="authButton">
           {user ? "Sign Out" : "Sign In"}
         </button>
-      </section>
-
-      <div className="profile-scroll">
-        {highestScore > 0 ? (
-          <p style={{ fontWeight: "bold" }}>High Score: {highestScore}</p>
+          {highestScore > 0 ? (
+          <span style={{ fontWeight: "bold" }}>High Score: {highestScore}</span>
         ) : null}
+        <span style={{ fontWeight: "bold" }}>Daily Leaderboard:</span>
 
-        <p style={{ fontWeight: "bold" }}>Daily Leaderboard:</p>
+      </section>
+          
+      <div className="profile-scroll">
+
 
         <div className={`leaderboard-container ${!user ? "blurred" : ""}`}>
           {!user && (
@@ -311,7 +316,7 @@ export default function Profile() {
             ))}
           </div>
         </div>
-
+   
         {addfriend ? (
           <button
             className="friend-button"
@@ -355,7 +360,7 @@ export default function Profile() {
             </button>
           </>
         )}
-      </div>
+         </div>
     </main>
   );
 }
