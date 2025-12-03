@@ -5,7 +5,7 @@ html, body {
   width: 100%;
   height: 100dvh; /* iOS-safe full height */
   font-family: "Rubik", sans-serif;
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* Only applies to the change profile pic page */
