@@ -40,7 +40,8 @@ function BodyClassController() {
 
 function Layout() {
   const location = useLocation();
-  const hideNav = location.pathname.startsWith("/game");
+  const hideNav = ["/game", "/daily-loading", '/edit-account', '/ForgotPassword'];
+  const shouldHideNav = hideNav.includes(location.pathname)
 
   return (
     <div className="app-container">
@@ -60,7 +61,7 @@ function Layout() {
 </Routes>
 
 
-      {!hideNav && <BottomNav />}
+      {!shouldHideNav && <BottomNav />}
     </div>
   );
 }

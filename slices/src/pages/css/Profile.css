@@ -1,8 +1,5 @@
 /* ========== Profile Page ========== */
 
-:root {
-  --vh: 1vh;
-}
 
 /* ADDED: mobile Safari viewport fix */
 html, body {
@@ -24,9 +21,8 @@ body {
   align-items: center;
   padding: calc(var(--nav-h) * 0.2) 5% 0;
   width: 100%;
-  height: calc(var(--vh) * 100);
-  box-sizing: border-box;
-
+  overflow-y: auto;
+  height: 100vh;
   /* ADDED: ensures consistent horizontal centering on iPhone 15 */
   justify-content: flex-start;
   position: relative;
@@ -116,11 +112,13 @@ img.profile-avatar {
 .profile-scroll {
   flex: 1;
   width: 100%;
-  min-height: 0;
+  height: 50vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 0 12px calc(var(--nav-h) + 14px);
+  padding: 0 12px 12px;
   box-sizing: border-box;
+  max-height: calc(100vh - var(--nav-height, 100px));
+  
 }
 
 /* Leaderboard */
