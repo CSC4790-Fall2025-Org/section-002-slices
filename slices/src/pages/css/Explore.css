@@ -18,13 +18,13 @@
   --grid-card-radius: 12px;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-bg-search: #3c3c3c;
     --color-text-main: #eee;
     --color-card-shadow: rgba(255, 255, 255, 0.05);
   }
-}
+} */
 
 /* ===== Page wrapper ===== */
 .explore-page {
