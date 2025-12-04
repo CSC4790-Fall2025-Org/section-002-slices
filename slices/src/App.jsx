@@ -41,7 +41,9 @@ function BodyClassController() {
 function Layout() {
   const location = useLocation();
   const hideNav = ["/game", "/daily-loading", '/edit-account', '/ForgotPassword'];
-  const shouldHideNav = hideNav.includes(location.pathname)
+  const fromState = location.state?.from;
+  const shouldHideNav = hideNav.includes(location.pathname) || fromState === '/explore';
+  
 
   return (
     <div className="app-container">
