@@ -9,7 +9,7 @@ import TriviaGame from "../games/TriviaGame.jsx";
 import BubbleGame from "../games/BubbleGame.jsx";
 import DifferentEmoji from "../games/DifferentEmoji.jsx";
 import "./css/GameHub.css";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../scripts/firebase.js";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -101,24 +101,30 @@ export default function GameHub() {
   }
 
   async function getScore() {
-    if (!auth.currentUser) return null;
-    if (!fromDaily) {
-      console.log("Not from daily, score not recorded.");
-      return;
-    }
-    const user = auth.currentUser;
-    console.log("Recording score for user:", user.uid);
-    setDoc(doc(db, "UserAccounts", user.uid), {
-      Score: gamesCompleted * 10,
-    }, { merge: true });
-    console.log(user.Score, user.highestScore)
-    if (user.Score > user.highestScore) {
-      console.log("New highest score!", user.Score)
-      setDoc(doc(db, "UserAccounts", user.uid), {
-        highestScore: user.Score,
-      }, { merge: true });
-    }
+  if (!fromDaily) return;
+
+  const score = gamesCompleted * 10;
+  const user = auth.currentUser;
+
+  if (!user) {
+    localStorage.setItem("pendingDailyScore", String(score));
+    return;
   }
+
+  const userRef = doc(db, "UserAccounts", user.uid);
+  const snap = await getDoc(userRef);
+  const existing = snap.exists() ? snap.data() : {};
+
+  const oldHigh = existing.highestScore || 0;
+
+  await setDoc(userRef, { Score: score }, { merge: true });
+
+  if (score > oldHigh) {
+    await setDoc(userRef, { highestScore: score }, { merge: true });
+  }
+}
+
+
 
   function handleGameComplete(data) {
     if (data?.skipped) setPenaltyCountdown(5);

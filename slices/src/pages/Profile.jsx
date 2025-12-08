@@ -78,68 +78,104 @@ export default function Profile() {
   }, []);
 
   /* ----------------------------------------------------- */
+useEffect(() => {
+  const pendingKey = "pendingDailyScore";
+  const playedKey = "dailyPlayedDate";
 
-  useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (u) => {
-      setUser(u || null);
+  async function syncPendingToFirestore(uid) {
+    const pending = localStorage.getItem(pendingKey);
+    if (!pending) return;
 
-      if (u) {
-        const userRef = doc(db, "UserAccounts", u.uid);
-        onSnapshot(userRef, (snap) => {
-          if (snap.exists()) {
-            const data = snap.data();
-
-            if (data.username) setUsername(data.username);
-            if (data.Streak !== undefined) setScore(data.Streak);
-            if (data.ProfilePic !== undefined) setProfilePic(data.ProfilePic);
-            if (data.friends) setFriends(data.friends);
-            if (data.highestScore !== undefined) setHighestScore(data.highestScore);
-
-            if (data.Score > data.highestScore) {
-              setHighestScore(data.Score);
-              setDoc(
-                doc(db, "UserAccounts", u.uid),
-                { highestScore: data.Score },
-                { merge: true }
-              );
-            }
-          }
-        });
-      } else {
-        setUsername(generateRandomUsername);
-        setScore(0);
-      }
-    });
+    const score = Number(pending);
+    const ref = doc(db, "UserAccounts", uid);
+    const snap = await getDoc(ref);
+    const data = snap.exists() ? snap.data() : {};
+    const oldHigh = data.highestScore || 0;
 
     const now = new Date();
-    const startOfToday = new Date(now);
-    startOfToday.setHours(0, 0, 0, 0);
-    const startOfTomorrow = new Date(startOfToday);
-    startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+    const todayStr = now.toISOString().slice(0, 10);
 
-    const q = query(
-      collection(db, "UserAccounts"),
-      where("lastPlayed", ">=", startOfToday),
-      where("lastPlayed", "<", startOfTomorrow),
-      orderBy("Score", "desc")
+    await setDoc(
+      ref,
+      {
+        Score: score,
+        lastPlayed: now,
+        dailyPlayedDate: todayStr
+      },
+      { merge: true }
     );
 
-    const unsubscribeLeaderboard = onSnapshot(q, (snap) => {
-      setLeaderboard(
-        snap.docs.map((d, i) => ({
-          rank: i + 1,
-          username: d.data().username,
-          score: d.data().Score,
-          ProfilePic: d.data().ProfilePic ? d.data().ProfilePic : null
-        }))
-      );
-    });
+    if (score > oldHigh) {
+      await setDoc(ref, { highestScore: score }, { merge: true });
+    }
 
-    return () => {
-      unsubscribeAuth();
-      unsubscribeLeaderboard();
-    };
-  }, []);
+    localStorage.removeItem(pendingKey);
+    localStorage.setItem(playedKey, todayStr);
+  }
+
+  const unsubscribeAuth = onAuthStateChanged(auth, async (u) => {
+    setUser(u || null);
+
+    if (u) {
+      await syncPendingToFirestore(u.uid);
+
+      const userRef = doc(db, "UserAccounts", u.uid);
+      onSnapshot(userRef, (snap) => {
+        if (!snap.exists()) return;
+        const data = snap.data();
+
+        if (data.username) setUsername(data.username);
+        if (data.Streak !== undefined) setScore(data.Streak);
+        if (data.ProfilePic !== undefined) setProfilePic(data.ProfilePic);
+        if (data.friends) setFriends(data.friends);
+        if (data.highestScore !== undefined) setHighestScore(data.highestScore);
+
+        if (data.Score > data.highestScore) {
+          setHighestScore(data.Score);
+          setDoc(userRef, { highestScore: data.Score }, { merge: true });
+        }
+      });
+    } else {
+      setUsername(generateRandomUsername);
+      setScore(0);
+    }
+  });
+
+  const now = new Date();
+  const startOfToday = new Date(now);
+  startOfToday.setHours(0, 0, 0, 0);
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+
+  const q = query(
+    collection(db, "UserAccounts"),
+    where("lastPlayed", ">=", startOfToday),
+    where("lastPlayed", "<", startOfTomorrow),
+    orderBy("Score", "desc")
+  );
+
+  const unsubscribeLeaderboard = onSnapshot(q, (snap) => {
+    setLeaderboard(
+      snap.docs.map((d, i) => ({
+        rank: i + 1,
+        username: d.data().username,
+        score: d.data().Score,
+        ProfilePic: d.data().ProfilePic || null
+      }))
+    );
+  });
+
+  return () => {
+    unsubscribeAuth();
+    unsubscribeLeaderboard();
+
+    if (!auth.currentUser && localStorage.getItem(pendingKey)) {
+      localStorage.removeItem(pendingKey);
+      localStorage.removeItem(playedKey);
+    }
+  };
+}, []);
+
 
   useEffect(() => {
     console.log(username);
